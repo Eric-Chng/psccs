@@ -1374,6 +1374,11 @@ boolean c2t_hccs_preWeapon() {
 	//cast triple size
 	if (available_amount($item[powerful glove]) > 0 && have_effect($effect[triple-sized]) == 0 && !c2t_cast($skill[cheat code: triple size]))
 		abort('Triple size failed');
+	
+	//TODO: Consider ordering it to acquire a punching potion drop
+	//boombox weapon damage passive
+	if (item_amount($item[songboom&trade; boombox]) > 0 && get_property('boomBoxSong') != "These Fists Were Made for Punchin'")
+		cli_execute('boombox damage');
 
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
