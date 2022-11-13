@@ -105,10 +105,12 @@ void main() {
 
 		c2t_hccs_testHandler(TEST_NONCOMBAT);
 		c2t_hccs_testHandler(TEST_HOT_RES);
+		//item before familiar to burn turns of feeling lost
+		c2t_hccs_testHandler(TEST_ITEM);
 		c2t_hccs_testHandler(TEST_FAMILIAR);
 		c2t_hccs_testHandler(TEST_WEAPON);
 		c2t_hccs_testHandler(TEST_SPELL);
-		c2t_hccs_testHandler(TEST_ITEM);
+
 
 
 		//final service here
