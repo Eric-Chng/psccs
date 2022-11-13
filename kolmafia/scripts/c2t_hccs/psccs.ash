@@ -1406,11 +1406,6 @@ boolean c2t_hccs_preWeapon() {
 		adv1($location[the dire warren],-1,"");
 	}*/
 
-	//Cast Favorite Bird from Bird-A-Day. Assumes a weapon damage favorite bird.
-	if (have_skill($skill[Visit your Favorite Bird])) {
-		use_skill(1, $skill[Visit your Favorite Bird]));
-	}
-
 	if (have_effect($effect[in a lather]) == 0) {
 		if (my_inebriety() > inebriety_limit() - 2)
 			abort('Something went wrong. We are too drunk.');
@@ -1483,6 +1478,11 @@ boolean c2t_hccs_preWeapon() {
 	c2t_hccs_getEffect($effect[cowrruption]);
 
 	c2t_hccs_getEffect($effect[engorged weapon]);
+
+	//Cast Favorite Bird from Bird-A-Day. Assumes a weapon damage favorite bird.
+	if (have_skill($skill[Visit your Favorite Bird])) {
+		use_skill(1, $skill[Visit your Favorite Bird]));
+	}
 
 	//tainted seal's blood
 	if (available_amount($item[tainted seal's blood]) > 0)
