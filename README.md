@@ -1,8 +1,10 @@
-# c2t_hccs
+# psccs
+
+**[Forked from Zdrvst's hccs script. Vast majority of code is credited to him.](https://github.com/c2talon/c2t_hccs)**
 
 Kolmafia script to handle a hardcore community service run with my set of skills and IotMs and with any class.
 
-This is a continual work-in-progress. It is not likely to run out-of-the-box for most, but others may be able to glean things from it. To see what is needed to run smoothly without changes, see: https://cheesellc.com/kol/profile.php?u=Zdrvst
+This is a continual work-in-progress. It is not likely to run out-of-the-box for most, but others may be able to glean things from it. To see what is needed to run smoothly without changes, see: http://cheesellc.com/kol/profile.php?u=Prusias#mritems
 
 ## Installation / Uninstallation
 
