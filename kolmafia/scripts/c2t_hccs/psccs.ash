@@ -1400,13 +1400,13 @@ boolean c2t_hccs_preWeapon() {
 		cli_execute('eat mag saus');
 
 	// moved to hot res test
-	/*if (have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]) && (get_property('_snokebombUsed').to_int() < 3 || !get_property('_latteBanishUsed').to_boolean())) {
+	if (have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]) && (get_property('_snokebombUsed').to_int() < 3 || !get_property('_latteBanishUsed').to_boolean())) {
 		equip($item[latte lovers member's mug]);
 		if (my_mp() < 30)
 			cli_execute('rest free');
 		use_familiar($familiar[ghost of crimbo carols]);
 		adv1($location[the dire warren],-1,"");
-	}*/
+	}
 
 	if (have_effect($effect[in a lather]) == 0) {
 		if (my_inebriety() > inebriety_limit() - 2)
