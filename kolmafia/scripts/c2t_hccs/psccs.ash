@@ -1490,7 +1490,7 @@ boolean c2t_hccs_preWeapon() {
 
 	//Cast Favorite Bird from Bird-A-Day. Assumes a weapon damage favorite bird.
 	if (have_skill($skill[Visit your Favorite Bird])) {
-		use_skill(1, $skill[Visit your Favorite Bird]));
+		use_skill(1, $skill[Visit your Favorite Bird]);
 		if (my_class() == $class[pastamancer]) {
 			use_skill(1, $skill[7323]);
 		}
