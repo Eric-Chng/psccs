@@ -1302,6 +1302,13 @@ boolean c2t_hccs_preNoncombat() {
 
 	c2t_hccs_getEffect($effect[the sonata of sneakiness]);
 	c2t_hccs_getEffect($effect[smooth movements]);
+
+	//Bird-a-day
+	if (my_class() == $class[pastamancer]) {
+		use(1, $item[Bird-a-Day calendar]);
+		use_skill(1, $skill[7323]);
+	}
+
 	if (available_amount($item[powerful glove]) > 0 && have_effect($effect[invisible avatar]) == 0 && !c2t_cast($skill[cheat code: invisible avatar]))
 		abort('Invisible avatar failed');
 
@@ -1484,6 +1491,9 @@ boolean c2t_hccs_preWeapon() {
 	//Cast Favorite Bird from Bird-A-Day. Assumes a weapon damage favorite bird.
 	if (have_skill($skill[Visit your Favorite Bird])) {
 		use_skill(1, $skill[Visit your Favorite Bird]));
+		if (my_class() == $class[pastamancer]) {
+			use_skill(1, $skill[7323]);
+		}
 	}
 
 	//tainted seal's blood
