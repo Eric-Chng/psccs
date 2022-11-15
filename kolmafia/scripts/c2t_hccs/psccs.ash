@@ -930,6 +930,10 @@ boolean c2t_hccs_allTheBuffs() {
 	else if (my_primestat() == $stat[mysticality]) {
 		if (!c2t_hccs_sweetSynthesis($effect[synthesis: smart]))
 			print("Failed to synthesize stat buff","red");
+		cli_execute("acquire 1 glittery mascara");
+		cli_execute("use 1 glittery mascara");
+		c2t_hccs_pull($item[Calzone of Legend]);
+		cli_execute("eat 1 calzone of legend");
 	}
 	else if (my_primestat() == $stat[moxie]) {
 		if (!c2t_hccs_sweetSynthesis($effect[synthesis: cool]))
@@ -947,6 +951,11 @@ boolean c2t_hccs_allTheBuffs() {
 		use(item_amount($item[rhinestone]),$item[rhinestone]);
 
 	c2t_hccs_levelingFamiliar(true);
+
+	//cheap fam weight for leveling familiars
+	//TODO: check mp
+	use_skill(1, $skill[Leash of Linguini]);
+	use_skill(1, $skill[Empathy of the Newt]);
 
 	//telescope
 	if (get_property("telescopeUpgrades").to_int() > 0)
@@ -1516,6 +1525,11 @@ boolean c2t_hccs_preWeapon() {
 
 	//briefcase
 	//c2t_hccs_briefcase("weapon");//this is the default, but just in case
+
+	//PM can pull stick knife of loathing with elbow macaroni
+	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Undead Elbow Macaroni])) {
+		use_skill(1, $skill[bind undead elbow macaroni]);
+	}
 
 	//pull stick-knife if able to equip
 	if (my_basestat($stat[muscle]) >= 150)
