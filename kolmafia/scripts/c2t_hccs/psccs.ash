@@ -1415,7 +1415,7 @@ boolean c2t_hccs_preWeapon() {
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
 
-	// moved to hot res test
+	// COMBAT MACRO BROKEN
 	if (have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]) && (get_property('_snokebombUsed').to_int() < 3 || !get_property('_latteBanishUsed').to_boolean())) {
 		equip($item[latte lovers member's mug]);
 		if (my_mp() < 30)
@@ -1526,14 +1526,19 @@ boolean c2t_hccs_preWeapon() {
 	//briefcase
 	//c2t_hccs_briefcase("weapon");//this is the default, but just in case
 
-	//PM can pull stick knife of loathing with elbow macaroni
-	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Undead Elbow Macaroni])) {
-		use_skill(1, $skill[bind undead elbow macaroni]);
-	}
+
 
 	//pull stick-knife if able to equip
-	if (my_basestat($stat[muscle]) >= 150)
+	if (my_basestat($stat[muscle]) >= 150) {
 		c2t_hccs_pull($item[stick-knife of loathing]);
+	} else if (my_class() == $class[pastamancer] && have_skill($skill[Bind Undead Elbow Macaroni])) {
+		//PM can pull stick knife of loathing with elbow macaroni
+		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
+		c2t_hccs_pull($item[stick-knife of loathing]);
+		use_skill(1, $skill[bind undead elbow macaroni]);
+		//what if maximizer removes stick knife? probably won't!
+		cli_execute("outfit CS_PM_stickknife_glitch");
+	}
 
 	//unbreakable umbrella
 	c2t_hccs_unbreakableUmbrella("weapon");
