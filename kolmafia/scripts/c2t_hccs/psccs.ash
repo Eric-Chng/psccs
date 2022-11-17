@@ -1531,19 +1531,23 @@ boolean c2t_hccs_preWeapon() {
 	//pull stick-knife if able to equip
 	if (my_basestat($stat[muscle]) >= 150) {
 		c2t_hccs_pull($item[stick-knife of loathing]);
-	} else if (my_class() == $class[pastamancer] && have_skill($skill[Bind Undead Elbow Macaroni])) {
-		//PM can pull stick knife of loathing with elbow macaroni
-		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
-		c2t_hccs_pull($item[stick-knife of loathing]);
-		use_skill(1, $skill[bind undead elbow macaroni]);
-		//what if maximizer removes stick knife? probably won't!
-		cli_execute("outfit CS_PM_stickknife_glitch");
 	}
 
 	//unbreakable umbrella
 	c2t_hccs_unbreakableUmbrella("weapon");
 
 	maximize('weapon damage,switch left-hand man',false);
+
+	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Undead Elbow Macaroni])) {
+		//PM can pull stick knife of loathing with elbow macaroni
+		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
+		c2t_hccs_pull($item[stick-knife of loathing]);
+		use_skill(1, $skill[bind undead elbow macaroni]);
+		//what if maximizer removes stick knife? probably won't!
+		cli_execute("outfit CS_PM_stickknife_glitch");
+		equip( $slot[off-hand], $item[fish hatchet]);
+
+	}
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
 		return true;
 
@@ -1604,6 +1608,12 @@ boolean c2t_hccs_preSpell() {
 	//pull stick-knife if able to equip
 	if (my_basestat($stat[muscle]) >= 150)
 		c2t_hccs_pull($item[stick-knife of loathing]);
+
+	if (my_class() == $class[pastamancer]) {
+		//PM can pull stick knife of loathing with elbow macaroni
+		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
+		c2t_hccs_pull($item[Staff of Kitchen Royalty]);
+	}
 
 	//get up to 2 obsidian nutcracker
 	int nuts = 2;
@@ -1677,6 +1687,13 @@ boolean c2t_hccs_preSpell() {
 	c2t_hccs_unbreakableUmbrella("spell");
 
 	maximize('spell damage,switch left-hand man',false);
+
+	if (my_class() == $class[pastamancer]) {
+		//PM can pull stick knife of loathing with elbow macaroni
+		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
+		c2t_hccs_pull($item[Staff of Kitchen Royalty]);
+		cli_execute("outfit CS_PM_kitchenroyalty_glitch");
+	}
 
 	return c2t_hccs_thresholdMet(TEST_SPELL);
 }
