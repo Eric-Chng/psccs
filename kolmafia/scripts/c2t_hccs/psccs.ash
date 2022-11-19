@@ -1415,7 +1415,7 @@ boolean c2t_hccs_preWeapon() {
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
 
-	// COMBAT MACRO BROKEN
+	// TODO: COMBAT MACRO BROKEN
 	if (have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]) && (get_property('_snokebombUsed').to_int() < 3 || !get_property('_latteBanishUsed').to_boolean())) {
 		equip($item[latte lovers member's mug]);
 		if (my_mp() < 30)
@@ -1538,7 +1538,7 @@ boolean c2t_hccs_preWeapon() {
 
 	maximize('weapon damage,switch left-hand man',false);
 
-	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Undead Elbow Macaroni])) {
+	if (my_basestat($stat[muscle]) < 150 && my_class() == $class[pastamancer] && have_skill($skill[Bind Undead Elbow Macaroni])) {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
 		c2t_hccs_pull($item[stick-knife of loathing]);
@@ -1647,6 +1647,12 @@ boolean c2t_hccs_preSpell() {
 		if (my_hp() < 800)
 			use_skill(1,$skill[cannelloni cocoon]);
 		c2t_hccs_getEffect($effect[visions of the deep dark deeps]);
+	}
+
+	if (have_skill($skill[Summon Alice's Army Cards])) {
+		use_skill(1, $skill[Summon Alice's Army Cards]);
+		cli_execute("make tobiko marble soda");
+		cli_execute("use tobiko marble soda");
 	}
 
 	//if I ever feel like blowing the resources:
