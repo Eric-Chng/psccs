@@ -1394,9 +1394,11 @@ boolean c2t_hccs_preNoncombat() {
 }
 
 boolean c2t_hccs_preWeapon() {
+	boolean useBoxGhostsInsteadMelodramery = false;
 	if (c2t_hccs_melodramedary() && get_property('camelSpit').to_int() != 100 && have_effect($effect[spit upon]) == 0) {
 		print('Camel spit only at '+get_property('camelSpit')+'%. Going to have to skip spit buff.',"red");
 		set_property("_c2t_hccs_failSpit","true");
+		useBoxGhostsInsteadMelodramery = true;
 	}
 
 	//pizza cube prep since making this takes a turn without free crafts
@@ -1415,14 +1417,14 @@ boolean c2t_hccs_preWeapon() {
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
 
-	// TODO: COMBAT MACRO BROKEN
-	if (have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]) && (get_property('_snokebombUsed').to_int() < 3 || !get_property('_latteBanishUsed').to_boolean())) {
-		equip($item[latte lovers member's mug]);
-		if (my_mp() < 30)
-			cli_execute('rest free');
-		use_familiar($familiar[ghost of crimbo carols]);
-		adv1($location[the dire warren],-1,"");
-	}
+	// // TODO: COMBAT MACRO BROKEN
+	// if (have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]) && (get_property('_snokebombUsed').to_int() < 3 || !get_property('_latteBanishUsed').to_boolean())) {
+	// 	equip($item[latte lovers member's mug]);
+	// 	if (my_mp() < 30)
+	// 		cli_execute('rest free');
+	// 	use_familiar($familiar[ghost of crimbo carols]);
+	// 	adv1($location[the dire warren],-1,"");
+	// }
 
 	if (have_effect($effect[in a lather]) == 0) {
 		if (my_inebriety() > inebriety_limit() - 2)
@@ -1457,8 +1459,8 @@ boolean c2t_hccs_preWeapon() {
 	}
 
 	//beach comb weapon buff
-	if (available_amount($item[beach comb]) > 0)
-		c2t_hccs_getEffect($effect[lack of body-building]);
+	// if (available_amount($item[beach comb]) > 0)
+	// 	c2t_hccs_getEffect($effect[lack of body-building]);
 
 	// Boombox potion
 	if (available_amount($item[punching potion]) > 0)
@@ -1476,10 +1478,31 @@ boolean c2t_hccs_preWeapon() {
 		//only 2 things needed for combat:
 		if (!have_equipped($item[fourth of may cosplay saber]))
 			equip($item[fourth of may cosplay saber]);
-		if (c2t_hccs_melodramedary())
+		if (c2t_hccs_melodramedary()) {
 			use_familiar($familiar[melodramedary]);
-		else
+		} else {
 			c2t_hccs_levelingFamiliar(true);
+		}
+
+		if (useBoxGhostsInsteadMelodramery) {
+			if (have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]) && (get_property('_snokebombUsed').to_int() < 3 || !get_property('_latteBanishUsed').to_boolean())) {
+				if (my_mp() < 30)
+					cli_execute('rest free');
+				use_familiar($familiar[ghost of crimbo carols]);
+			}
+		} else {
+			// TODO: COMBAT MACRO BROKEN
+			if (have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]) && (get_property('_snokebombUsed').to_int() < 3 || !get_property('_latteBanishUsed').to_boolean())) {
+				equip($item[latte lovers member's mug]);
+				if (my_mp() < 30)
+					cli_execute('rest free');
+				use_familiar($familiar[ghost of crimbo carols]);
+				adv1($location[the dire warren],-1,"");
+			}
+			use_familiar($familiar[melodramedary]);
+		}
+
+
 
 		//fight ungulith or not
 		boolean fallback = true;
