@@ -104,10 +104,12 @@ void main() {
 		set_property("_c2t_hccs_earlySpitWarn","true");
 
 		c2t_hccs_testHandler(TEST_NONCOMBAT);
-		c2t_hccs_testHandler(TEST_HOT_RES);
+
 		//item before familiar to burn turns of feeling lost
 		c2t_hccs_testHandler(TEST_ITEM);
 		c2t_hccs_testHandler(TEST_FAMILIAR);
+		//hot before weapon/spell to keep crush what i crush effect
+		c2t_hccs_testHandler(TEST_HOT_RES);
 		c2t_hccs_testHandler(TEST_WEAPON);
 		c2t_hccs_testHandler(TEST_SPELL);
 
@@ -1113,7 +1115,7 @@ boolean c2t_hccs_preHotRes() {
 		equip($slot[weapon],$item[fourth of may cosplay saber]);
 		if (available_amount($item[industrial fire extinguisher]) > 0)
 			equip($slot[off-hand],$item[industrial fire extinguisher]);
-		use_familiar(c2t_priority($familiars[ghost of crimbo carols,exotic parrot]));
+		use_familiar(c2t_priority($familiars[ghost of crimbo carols,exotic parrot])); //TODO: test if parrot should be a priority
 
 		if (my_mp() < 30)
 			c2t_hccs_restoreMp();
@@ -1121,9 +1123,6 @@ boolean c2t_hccs_preHotRes() {
 		run_turn();
 	}
 
-	c2t_hccs_getEffect($effect[blood bond]);
-	c2t_hccs_getEffect($effect[leash of linguini]);
-	c2t_hccs_getEffect($effect[empathy]);
 
 	c2t_hccs_getEffect($effect[elemental saucesphere]);
 	c2t_hccs_getEffect($effect[astral shell]);
@@ -1417,15 +1416,6 @@ boolean c2t_hccs_preWeapon() {
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
 
-	// // TODO: COMBAT MACRO BROKEN
-	// if (have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]) && (get_property('_snokebombUsed').to_int() < 3 || !get_property('_latteBanishUsed').to_boolean())) {
-	// 	equip($item[latte lovers member's mug]);
-	// 	if (my_mp() < 30)
-	// 		cli_execute('rest free');
-	// 	use_familiar($familiar[ghost of crimbo carols]);
-	// 	adv1($location[the dire warren],-1,"");
-	// }
-
 	if (have_effect($effect[in a lather]) == 0) {
 		if (my_inebriety() > inebriety_limit() - 2)
 			abort('Something went wrong. We are too drunk.');
@@ -1459,15 +1449,16 @@ boolean c2t_hccs_preWeapon() {
 	}
 
 	//beach comb weapon buff
-	// if (available_amount($item[beach comb]) > 0)
-	// 	c2t_hccs_getEffect($effect[lack of body-building]);
+	if (available_amount($item[beach comb]) > 0)
+	 	c2t_hccs_getEffect($effect[lack of body-building]);
 
 	// Boombox potion
 	if (available_amount($item[punching potion]) > 0)
 		c2t_hccs_getEffect($effect[feeling punchy]);
 
 	// Pool buff. Should have fallen through from noncom
-	c2t_hccs_getEffect($effect[billiards belligerence]);
+	if (useBoxGhostsInsteadMelodramery)
+		c2t_hccs_getEffect($effect[billiards belligerence]);
 
 	//meteor shower
 	if ((have_skill($skill[meteor lore]) && have_effect($effect[meteor showered]) == 0)
@@ -1491,7 +1482,6 @@ boolean c2t_hccs_preWeapon() {
 				use_familiar($familiar[ghost of crimbo carols]);
 			}
 		} else {
-			// TODO: COMBAT MACRO BROKEN
 			if (have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]) && (get_property('_snokebombUsed').to_int() < 3 || !get_property('_latteBanishUsed').to_boolean())) {
 				equip($item[latte lovers member's mug]);
 				if (my_mp() < 30)
