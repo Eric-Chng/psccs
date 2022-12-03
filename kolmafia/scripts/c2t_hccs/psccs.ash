@@ -1287,6 +1287,11 @@ boolean c2t_hccs_preFamiliar() {
 		use(1, $item[8552]);
 	}
 
+	//Use green candy Heart
+	if (available_amount($item[green candy heart]) > 0) {
+		use(1, $item[green candy heart]);
+	}
+
 	maximize('familiar weight',false);
 	if (c2t_hccs_thresholdMet(TEST_FAMILIAR))
 		return true;
@@ -1327,6 +1332,7 @@ boolean c2t_hccs_preNoncombat() {
 		fam = ",equip dromedary drinking helmet";
 
 	//Imported taffy with a free fight from oliver's den's An Unusually Quiet Barroom Brawl
+	//20% DROP, COULD SAVE FEEL NOSTALGIC AND FEEL ENVY FOR ANOTHER MONSTER
 	if (get_property('lastCopyableMonster').to_monster() != $monster[novelty tropical skeleton] && get_property('ownsSpeakeasy').to_boolean() && available_amount($item[imported taffy]) == 0) {
 		c2t_hccs_levelingFamiliar(true);
 		maximize("mp,-equip garbage shirt,equip latte,100 bonus vampyric cloake,100 bonus lil doctor bag,100 bonus kremlin's greatest briefcase,6 bonus designer sweatpants"+fam,false);
@@ -2134,6 +2140,10 @@ void c2t_hccs_fights() {
 		}
 
 		// -- setup and combat itself --
+		// Summon Candy Heart
+		if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart])) {
+			cli_execute("cast summon candy heart");
+		}
 		//make sure have some mp
 		if (my_mp() < 50)
 			cli_execute('eat magical sausage');
