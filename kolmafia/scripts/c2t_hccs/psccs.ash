@@ -908,9 +908,9 @@ boolean c2t_hccs_allTheBuffs() {
 	if (have_effect($effect[ode to booze]) > 0)
 		cli_execute('shrug ode to booze');
 
-	//fortune buff item
-	if (get_property('_clanFortuneBuffUsed') == 'false')
-		c2t_hccs_getEffect($effect[there's no n in love]);
+	//SKIP fortune buff item
+	// if (get_property('_clanFortuneBuffUsed') == 'false')
+	// 	c2t_hccs_getEffect($effect[there's no n in love]);
 
 	//cast triple size
 	if (available_amount($item[powerful glove]) > 0 && have_effect($effect[triple-sized]) == 0 && !c2t_cast($skill[cheat code: triple size]))
@@ -1322,6 +1322,14 @@ boolean c2t_hccs_preNoncombat() {
 
 	c2t_hccs_getEffect($effect[silent running]);
 
+	//Imported taffy with a free fight from oliver's den's An Unusually Quiet Barroom Brawl
+	if (get_property('ownsSpeakeasy').to_boolean() && available_amount($item[imported taffy]) == 0) {
+		c2t_hccs_levelingFamiliar(true);
+		maximize("mp,-equip garbage shirt,equip latte,100 bonus vampyric cloake,100 bonus lil doctor bag,100 bonus kremlin's greatest briefcase,6 bonus designer sweatpants"+fam,false);
+
+		c2t_hccs_cartography($location[An Unusually Quiet Barroom Brawl],$monster[goblin flapper]);
+	}
+	//works with god lobster
 	if (have_familiar($familiar[god lobster]) && have_effect($effect[silence of the god lobster]) == 0 && get_property('_godLobsterFights').to_int() < 3) {
 		cli_execute('mood apathetic');
 		use_familiar($familiar[god lobster]);
@@ -1398,6 +1406,11 @@ boolean c2t_hccs_preWeapon() {
 		print('Camel spit only at '+get_property('camelSpit')+'%. Going to have to skip spit buff.',"red");
 		set_property("_c2t_hccs_failSpit","true");
 		useBoxGhostsInsteadMelodramery = true;
+	}
+
+	//imported taffy from leveling chain Map to Monsters with cartographic
+	if (available_amount($item[imported taffy]) > 0 && have_effect($effect[Imported Strength]) == 0) {
+		c2t_hccs_getEffect($effect[Imported Strength]);
 	}
 
 	//pizza cube prep since making this takes a turn without free crafts
