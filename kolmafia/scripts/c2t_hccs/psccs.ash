@@ -2141,7 +2141,7 @@ void c2t_hccs_fights() {
 
 		// -- setup and combat itself --
 		// Summon Candy Heart
-		if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart])) {
+		if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart]) == 0) {
 			cli_execute("cast summon candy heart");
 		}
 		//make sure have some mp
