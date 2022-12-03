@@ -83,6 +83,9 @@ void main(int initround, monster foe, string page) {
 			m += c2t_bb($skill[become a cloud of mist]);
 			m += c2t_bb($skill[fire extinguisher: foam yourself]);
 			m.c2t_bbSubmit();
+		} else if (my_location() == $location[thugnderdome]) { // leftover from before i put hot before weapon
+			m = mHead + mSteal.c2t_bb($skill[meteor shower]);
+			m.c2t_bbSubmit();
 		}
 		else {//NEP
 			m += c2t_bb($skill[gulp latte]);
@@ -159,6 +162,10 @@ void main(int initround, monster foe, string page) {
 					.c2t_bb($skill[throw latte on opponent])
 				);
 				return;
+			case $monster[goblin flapper]:
+				c2t_bbSubmit("attack;repeat;");
+				return;
+
 			//faxes -- saber use is elsewhere
 			case $monster[ungulith]:
 			case $monster[factory worker (female)]:
@@ -253,7 +260,8 @@ void main(int initround, monster foe, string page) {
 					m += c2t_bb($skill[feel envy]);
 				}
 				if (get_property('lastCopyableMonster').to_monster() == $monster[novelty tropical skeleton]
-					|| get_property('lastCopyableMonster').to_monster() == $monster[possessed can of tomatoes]) {
+					|| get_property('lastCopyableMonster').to_monster() == $monster[possessed can of tomatoes]
+					|| get_property('lastCopyableMonster').to_monster() == $monster[goblin flapper]) {
 
 					m += c2t_bb($skill[feel nostalgic]);
 					m += c2t_bb($skill[feel envy]);
@@ -318,7 +326,7 @@ void main(int initround, monster foe, string page) {
 				abort("Currently in combat with something not accounted for in the combat script. Aborting.");
 		}
 	}
-}	
+}
 
 string c2t_hccs_bowlSideways() return c2t_hccs_bowlSideways("");
 string c2t_hccs_bowlSideways(string m) {
@@ -388,5 +396,3 @@ string c2t_hccs_bbChargeSkill(skill ski) {
 	}
 	return get_property(prop).to_int() < max ? c2t_bb(ski) : "";
 }
-
-
