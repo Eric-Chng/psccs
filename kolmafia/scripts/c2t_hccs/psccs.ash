@@ -1322,8 +1322,12 @@ boolean c2t_hccs_preNoncombat() {
 
 	c2t_hccs_getEffect($effect[silent running]);
 
+	string fam;
+	if (c2t_hccs_levelingFamiliar(true) == $familiar[melodramedary] && available_amount($item[dromedary drinking helmet]) > 0)
+		fam = ",equip dromedary drinking helmet";
+
 	//Imported taffy with a free fight from oliver's den's An Unusually Quiet Barroom Brawl
-	if (get_property('ownsSpeakeasy').to_boolean() && available_amount($item[imported taffy]) == 0) {
+	if (get_property('lastCopyableMonster').to_monster() != $monster[novelty tropical skeleton] && get_property('ownsSpeakeasy').to_boolean() && available_amount($item[imported taffy]) == 0) {
 		c2t_hccs_levelingFamiliar(true);
 		maximize("mp,-equip garbage shirt,equip latte,100 bonus vampyric cloake,100 bonus lil doctor bag,100 bonus kremlin's greatest briefcase,6 bonus designer sweatpants"+fam,false);
 
@@ -1470,7 +1474,7 @@ boolean c2t_hccs_preWeapon() {
 		c2t_hccs_getEffect($effect[feeling punchy]);
 
 	// Pool buff. Should have fallen through from noncom
-	if (useBoxGhostsInsteadMelodramery)
+	if (have_effect($effect[Imported Strength]) == 0 && useBoxGhostsInsteadMelodramery)
 		c2t_hccs_getEffect($effect[billiards belligerence]);
 
 	//meteor shower
