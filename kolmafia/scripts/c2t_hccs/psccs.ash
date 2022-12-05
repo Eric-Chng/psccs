@@ -137,6 +137,14 @@ void c2t_hccs_mod2log(string str) {
 		logprint(cli_execute_output(str));
 }
 
+//asdonhelp
+void p_sccs_asdonFuel(int x) {
+	while(get_fuel() < x) {
+		cli_execute("make loaf of soda bread");
+		cli_execute("asdonmartin fuel 1 loaf of soda bread");
+	}
+}
+
 
 //limited breakfast to only what might be used
 void c2t_hccs_breakfast() {
@@ -675,6 +683,11 @@ boolean c2t_hccs_preCoil() {
 	// beach access
 	c2t_assert(retrieve_item(1,$item[bitchin' meatcar]),"Couldn't get a bitchin' meatcar");
 
+	if (get_workshed() == $item[Asdon Martin keyfob]) {
+		//fuel for 2 buffs
+		p_sccs_asdonFuel(37*2);
+	}
+
 	// tune moon sign
 	if (!get_property('moonTuned').to_boolean()) {
 		int cog,tank,gogogo;
@@ -1027,6 +1040,9 @@ boolean c2t_hccs_preItem() {
 	//shrug off an AT buff
 	cli_execute("shrug ur-kel");
 
+	//Asdon Martin drive observantly
+	cli_execute("asdonmartin drive observantly");
+
 	//get latte ingredient from fluffy bunny and cloake item buff
 	if (have_effect($effect[feeling lost]) == 0 && (have_effect($effect[bat-adjacent form]) == 0 || !get_property('latteUnlocks').contains_text('carrot'))) {
 		maximize("mainstat,equip latte,1000 bonus lil doctor bag,1000 bonus kremlin's greatest briefcase,1000 bonus vampyric cloake,6 bonus designer sweatpants",false);
@@ -1318,7 +1334,9 @@ boolean c2t_hccs_preNoncombat() {
 	c2t_hccs_getEffect($effect[leash of linguini]);
 	c2t_hccs_getEffect($effect[empathy]);
 
-	// Pool buff. Should fall through to weapon damage.
+	cli_execute("asdonmartin drive stealthily");
+
+	// Pool buff. Will no longer fall through to weapon due to familiar test after NC
 	//not going to use this here, as it doesn't do to the noncombat rate in the moment anyway
 	//c2t_hccs_getEffect($effect[billiards belligerence]);
 
