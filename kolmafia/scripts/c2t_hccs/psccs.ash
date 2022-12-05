@@ -367,6 +367,13 @@ boolean c2t_hccs_thresholdMet(int test) {
 	if (test == TEST_COIL_WIRE || test == 30)
 		return true;
 
+	//modtrace to refresh value
+	switch (test) {
+		case TEST_ITEM:
+			set_location($location[The Sleazy Back Alley]);
+			cli_execute("modtrace item drop;modtrace booze drop");
+			break;
+		}
 	string [int] arr = split_string(get_property('c2t_hccs_thresholds'),",");
 
 	if (count(arr) == 10 && arr[test-1].to_int() > 0 && arr[test-1].to_int() <= 60)
@@ -1630,6 +1637,12 @@ boolean c2t_hccs_preSpell() {
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
 
+	//use crafts
+	if (have_effect($effect[Concentration]) == 0 && get_property('_expertCornerCutterUsed').to_int() < 5) {
+		cli_execute("make Cordial of Concentration");
+		cli_execute("use Cordial of Concentration");
+	}
+
 	// This will use an adventure.
 	// if spit upon == 1, simmering will just waste a turn to do essentially nothing.
 	// probably good idea to add check for similar effects to not just waste a turn
@@ -1673,7 +1686,7 @@ boolean c2t_hccs_preSpell() {
 
 	//get up to 2 obsidian nutcracker
 	int nuts = 2;
-	foreach x in $items[stick-knife of loathing,staff of simmering hatred]//,Abracandalabra]
+	foreach x in $items[stick-knife of loathing,Staff of Kitchen Royalty]//,Abracandalabra]
 		if (available_amount(x) > 0)
 			nuts--;
 	if (!have_familiar($familiar[left-hand man]) && available_amount($item[abracandalabra]) > 0)
@@ -1705,10 +1718,20 @@ boolean c2t_hccs_preSpell() {
 		c2t_hccs_getEffect($effect[visions of the deep dark deeps]);
 	}
 
-	if (have_skill($skill[Summon Alice's Army Cards])) {
+	if (have_effect($effect[Pisces in the Skyces]) == 0 && have_skill($skill[Summon Alice's Army Cards])) {
 		use_skill(1, $skill[Summon Alice's Army Cards]);
 		cli_execute("make tobiko marble soda");
 		cli_execute("use tobiko marble soda");
+	}
+
+
+
+	//pull Staff
+	if (my_class() == $class[pastamancer]) {
+		//PM can pull stick knife of loathing with elbow macaroni
+		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
+		c2t_hccs_pull($item[Staff of Kitchen Royalty]);
+		cli_execute("outfit CS_PM_kitchenroyalty_glitch");
 	}
 
 	//if I ever feel like blowing the resources:
@@ -1748,12 +1771,13 @@ boolean c2t_hccs_preSpell() {
 	//unbreakable umbrella
 	c2t_hccs_unbreakableUmbrella("spell");
 
+	print("maximizing", "red");
 	maximize('spell damage,switch left-hand man',false);
 
 	if (my_class() == $class[pastamancer]) {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
-		c2t_hccs_pull($item[Staff of Kitchen Royalty]);
+		print("2", "red");
 		cli_execute("outfit CS_PM_kitchenroyalty_glitch");
 	}
 
