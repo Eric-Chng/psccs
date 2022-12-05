@@ -103,6 +103,7 @@ void main() {
 			print('Camel spit only at '+get_property('camelSpit')+'%',"red");
 		set_property("_c2t_hccs_earlySpitWarn","true");
 
+		//NC before familiar for the reward to save 4 turns
 		c2t_hccs_testHandler(TEST_NONCOMBAT);
 
 		//item before familiar to burn turns of feeling lost
@@ -1070,7 +1071,7 @@ boolean c2t_hccs_preItem() {
 	if (my_class() == $class[accordion thief] && have_skill($skill[the ballad of richie thingfinder]))
 		ensure_song($effect[the ballad of richie thingfinder]);
 
-	c2t_hccs_getEffect($effect[nearly all-natural]);//bag of grain
+	c2t_hccs_getEffect($effect[nearly all-natural]);//bag of grain CS reward
 	c2t_hccs_getEffect($effect[steely-eyed squint]);
 
 	//unbreakable umbrella
@@ -1119,7 +1120,14 @@ boolean c2t_hccs_preHotRes() {
 
 		if (my_mp() < 30)
 			c2t_hccs_restoreMp();
-		adv1($location[the dire warren],-1,"");
+		//Imported taffy with a free fight from oliver's den's An Unusually Quiet Barroom Brawl
+		//20% DROP, COULD SAVE FEEL NOSTALGIC AND FEEL ENVY FOR ANOTHER MONSTER
+		if (get_property('ownsSpeakeasy').to_boolean() && available_amount($item[imported taffy]) == 0) {
+			//familiar is handled by use_familiar priority
+			c2t_hccs_cartography($location[An Unusually Quiet Barroom Brawl],$monster[goblin flapper]);
+		} else {
+			adv1($location[the dire warren],-1,"");
+		}
 		run_turn();
 	}
 
@@ -1297,6 +1305,7 @@ boolean c2t_hccs_preFamiliar() {
 		return true;
 
 	//should only get 1 per run, if any; would use in NEP combat loop, but no point as sombrero would already be already giving max stats
+	//saves 2 turns. often more valuable in the mall.
 	c2t_hccs_haveUse($item[short stack of pancakes]);
 
 	return c2t_hccs_thresholdMet(TEST_FAMILIAR);
@@ -1331,14 +1340,7 @@ boolean c2t_hccs_preNoncombat() {
 	if (c2t_hccs_levelingFamiliar(true) == $familiar[melodramedary] && available_amount($item[dromedary drinking helmet]) > 0)
 		fam = ",equip dromedary drinking helmet";
 
-	//Imported taffy with a free fight from oliver's den's An Unusually Quiet Barroom Brawl
-	//20% DROP, COULD SAVE FEEL NOSTALGIC AND FEEL ENVY FOR ANOTHER MONSTER
-	if (get_property('lastCopyableMonster').to_monster() != $monster[novelty tropical skeleton] && get_property('ownsSpeakeasy').to_boolean() && available_amount($item[imported taffy]) == 0) {
-		c2t_hccs_levelingFamiliar(true);
-		maximize("mp,-equip garbage shirt,equip latte,100 bonus vampyric cloake,100 bonus lil doctor bag,100 bonus kremlin's greatest briefcase,6 bonus designer sweatpants"+fam,false);
-
-		c2t_hccs_cartography($location[An Unusually Quiet Barroom Brawl],$monster[goblin flapper]);
-	}
+	//Can fit in a cartographic map your monsters here to feel nostalgic/envy with Glob
 	//works with god lobster
 	if (have_familiar($familiar[god lobster]) && have_effect($effect[silence of the god lobster]) == 0 && get_property('_godLobsterFights').to_int() < 3) {
 		cli_execute('mood apathetic');
@@ -1866,6 +1868,7 @@ boolean c2t_hccs_preMox() {
 	return c2t_hccs_thresholdMet(TEST_MOX);
 }
 
+//Leveling fights
 void c2t_hccs_fights() {
 	string fam;
 	//TODO move familiar changes and maximizer calls inside of blocks
@@ -2204,6 +2207,25 @@ void c2t_hccs_fights() {
 			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam+doc,false);
 
 		adv1($location[the neverending party],-1,"");
+	}
+	//Use Oliver's Place speakeasy free fights
+	if (get_property('ownsSpeakeasy').to_boolean()) {
+		while (get_property("_speakeasyFreeFights").to_int() < 3) {
+			// Summon Candy Heart
+			if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart]) == 0) {
+				cli_execute("cast summon candy heart");
+			}
+			//make sure have some mp
+			if (my_mp() < 50)
+				cli_execute('eat magical sausage');
+
+			//make sure camel is equipped
+			c2t_hccs_levelingFamiliar(false);
+
+			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam+doc,false);
+
+			adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
+		}
 	}
 
 	cli_execute('mood apathetic');

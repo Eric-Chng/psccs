@@ -79,7 +79,7 @@ void main(int initround, monster foe, string page) {
 	//run with ghost caroler for buffs at NEP and dire warren at different times
 	if ($familiars[ghost of crimbo carols,exotic parrot] contains my_familiar()) {
 		m = mHead + mSteal;
-		if (foe == $monster[fluffy bunny]) {
+		if (foe == $monster[fluffy bunny] || foe == $monster[goblin flapper]) {
 			m += c2t_bb($skill[become a cloud of mist]);
 			m += c2t_bb($skill[fire extinguisher: foam yourself]);
 			m.c2t_bbSubmit();
@@ -162,9 +162,6 @@ void main(int initround, monster foe, string page) {
 					.c2t_bb($skill[throw latte on opponent])
 				);
 				return;
-			case $monster[goblin flapper]:
-				c2t_bbSubmit("attack;repeat;");
-				return;
 
 			//faxes -- saber use is elsewhere
 			case $monster[ungulith]:
@@ -239,6 +236,12 @@ void main(int initround, monster foe, string page) {
 			case $monster[angry ghost]:
 			case $monster[annoyed snake]:
 			case $monster[slime blob]:
+			//oliver's place speakeasy Monsters
+			case $monster[goblin flapper]:
+			case $monster[gangster's moll]:
+			case $monster[gator-human hybrid]:
+			case $monster[traveling hobo]:
+			case $monster[undercover prohibition agent]:
 				c2t_bbSubmit(mHead + mSteal + mBasic);
 				return;
 
@@ -260,8 +263,7 @@ void main(int initround, monster foe, string page) {
 					m += c2t_bb($skill[feel envy]);
 				}
 				if (get_property('lastCopyableMonster').to_monster() == $monster[novelty tropical skeleton]
-					|| get_property('lastCopyableMonster').to_monster() == $monster[possessed can of tomatoes]
-					|| get_property('lastCopyableMonster').to_monster() == $monster[goblin flapper]) {
+					|| get_property('lastCopyableMonster').to_monster() == $monster[possessed can of tomatoes]) {
 
 					m += c2t_bb($skill[feel nostalgic]);
 					m += c2t_bb($skill[feel envy]);
