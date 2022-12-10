@@ -107,6 +107,7 @@ void main() {
 		c2t_hccs_testHandler(TEST_NONCOMBAT);
 
 		//item before familiar to burn turns of feeling lost
+		//item after NC/before familiar to burn autumn leaf +5% combat chance
 		c2t_hccs_testHandler(TEST_ITEM);
 		c2t_hccs_testHandler(TEST_FAMILIAR);
 		//hot before weapon/spell to keep crush what i crush effect
@@ -136,15 +137,6 @@ void c2t_hccs_mod2log(string str) {
 	if (get_property("c2t_hccs_printModtrace").to_boolean())
 		logprint(cli_execute_output(str));
 }
-
-//asdonhelp
-void p_sccs_asdonFuel(int x) {
-	while(get_fuel() < x) {
-		cli_execute("make loaf of soda bread");
-		cli_execute("asdonmartin fuel 1 loaf of soda bread");
-	}
-}
-
 
 //limited breakfast to only what might be used
 void c2t_hccs_breakfast() {
@@ -488,6 +480,9 @@ boolean c2t_hccs_preCoil() {
 		c2t_assert(available_amount($item[grain of sand]) > 0,"Did not obtain a grain of sand for pizza on muscle class.");
 	}
 
+	//autumn-aton for autumn leaf
+	cli_execute("fallguy send The Sleazy Back Alley");
+
 	//vote
 	c2t_hccs_vote();
 
@@ -690,11 +685,6 @@ boolean c2t_hccs_preCoil() {
 	// beach access
 	c2t_assert(retrieve_item(1,$item[bitchin' meatcar]),"Couldn't get a bitchin' meatcar");
 
-	if (get_workshed() == $item[Asdon Martin keyfob]) {
-		//fuel for 2 buffs
-		p_sccs_asdonFuel(37*2);
-	}
-
 	// tune moon sign
 	if (!get_property('moonTuned').to_boolean()) {
 		int cog,tank,gogogo;
@@ -894,6 +884,11 @@ boolean c2t_hccs_allTheBuffs() {
 	if (item_amount($item[bastille battalion control rig]).to_boolean() && get_property('_bastilleGames').to_int() == 0)
 		cli_execute('bastille mainstat brutalist');
 
+	//boxing day scavenge
+	if (get_property('_daycareGymScavenges').to_int() == 0) {
+		cli_execute("daycare scavenge free");
+	}
+
 	// getaway camp buff //probably causes infinite loop without getaway camp
 	if (get_property('_campAwaySmileBuffs').to_int() == 0)
 		visit_url('place.php?whichplace=campaway&action=campaway_sky');
@@ -1048,7 +1043,28 @@ boolean c2t_hccs_preItem() {
 	cli_execute("shrug ur-kel");
 
 	//Asdon Martin drive observantly
-	cli_execute("asdonmartin drive observantly");
+	if (get_workshed() == $item[Asdon Martin keyfob] && have_effect($effect[driving observantly]) == 0) {
+		while (get_fuel() < 37) {
+			//fuel up
+			if (available_amount($item[20-lb can of rice and beans]) > 0) {
+				cli_execute("asdonmartin fuel 1 20-lb can of rice and beans");
+			} else if (available_amount($item[loaf of soda bread]) > 0) {
+				cli_execute("asdonmartin fuel 1 loaf of soda bread");
+			} else if (available_amount($item[9948]) > 0) {
+				//Middle of the Road Brand Whiskey from NEP
+				cli_execute("asdonmartin fuel 1 Middle of the Road™ brand whiskey");
+			} else if (available_amount($item[PB&J with the crusts cut off]) > 0) {
+				//Middle of the Road Brand Whiskey from NEP
+				cli_execute("asdonmartin fuel 1 PB&J with the crusts cut off");
+			} else {
+				cli_execute("abort");
+				break;
+			}
+		}
+		if (get_fuel() >= 37)
+			cli_execute("asdonmartin drive observantly");
+	}
+
 
 	//get latte ingredient from fluffy bunny and cloake item buff
 	if (have_effect($effect[feeling lost]) == 0 && (have_effect($effect[bat-adjacent form]) == 0 || !get_property('latteUnlocks').contains_text('carrot'))) {
@@ -1100,16 +1116,24 @@ boolean c2t_hccs_preItem() {
 	//unbreakable umbrella
 	c2t_hccs_unbreakableUmbrella("item");
 
+	if (have_effect($effect[Crunching Leaves]) == 0 && available_amount($item[autumn leaf]) > 0) {
+		c2t_hccs_getEffect($effect[Crunching Leaves]);
+	}
+
+	//if familiar test is ever less than 19 turns, feel lost will need to be completely removed or the test order changed
+	c2t_hccs_getEffect($effect[feeling lost]);
+
+	//Libram
+	if (available_amount($item[lavender candy heart]) > 0 && have_effect($effect[Heart of Lavender]) == 0) {
+		use(1, $item[lavender candy heart]);
+	}
+
 	maximize('item,2 booze drop,-equip broken champagne bottle,-equip surprisingly capacious handbag,-equip red-hot sausage fork,switch left-hand man',false);
 	if (c2t_hccs_thresholdMet(TEST_ITEM))
 		return true;
 
 	//THINGS I DON'T ALWAYS WANT TO USE FOR ITEM TEST
 
-	//if familiar test is ever less than 19 turns, feel lost will need to be completely removed or the test order changed
-	c2t_hccs_getEffect($effect[feeling lost]);
-	if (c2t_hccs_thresholdMet(TEST_ITEM))
-		return true;
 
 	retrieve_item(1,$item[oversized sparkler]);
 	//repeat of previous maximize call
@@ -1153,6 +1177,8 @@ boolean c2t_hccs_preHotRes() {
 		}
 		run_turn();
 	}
+	if (have_effect($effect[fireproof foam suit]) == 0)
+		cli_execute("abort");
 
 
 	c2t_hccs_getEffect($effect[elemental saucesphere]);
@@ -1250,6 +1276,21 @@ boolean c2t_hccs_preHotRes() {
 }
 
 boolean c2t_hccs_preFamiliar() {
+	// Hatter buff
+	if (available_amount($item[&quot;drink me&quot; potion]) > 0) {
+		if (!retrieve_item(1,$item[sombrero-mounted sparkler])) {
+			print("Buying limited-quantity items from the fireworks shop seems to still be broken. Feel free to add to the report at the following link saying that the bug is still a thing, but only if your clan actually has a fireworks shop:","red");//having a fully-stocked clan VIP lounge is technically a requirement for this script, so just covering my bases here
+			print_html('<a href="https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/">https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/</a>');
+			print("For now, just going to do it manually:","red");
+			visit_url("clan_viplounge.php?action=fwshop&whichfloor=2",false,true);
+			//visit_url("shop.php?whichshop=fwshop",false,true);
+			visit_url("shop.php?whichshop=fwshop&action=buyitem&quantity=1&whichrow=1249&pwd",true,true);
+		}
+		//double-checking, and what will be used when mafia finally supports it:
+		retrieve_item(1,$item[sombrero-mounted sparkler]);
+		c2t_hccs_getEffect($effect[You Can Really Taste the Dormouse]);
+	}
+
 	//sabering fax for meteor shower
 	//using fax/wish here as feeling lost here is very likely
 	if ((have_skill($skill[meteor lore]) && have_effect($effect[meteor showered]) == 0) ||
@@ -1406,18 +1447,19 @@ boolean c2t_hccs_preNoncombat() {
 	if (c2t_hccs_thresholdMet(TEST_NONCOMBAT))
 		return true;
 
-	//replacing glob buff with this
-	//mafia doesn't seem to support retrieve_item() by itself for this yet, so visit_url() to the rescue:
-	if (!retrieve_item(1,$item[porkpie-mounted popper])) {
-		print("Buying limited-quantity items from the fireworks shop seems to still be broken. Feel free to add to the report at the following link saying that the bug is still a thing, but only if your clan actually has a fireworks shop:","red");//having a fully-stocked clan VIP lounge is technically a requirement for this script, so just covering my bases here
-		print_html('<a href="https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/">https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/</a>');
-		print("For now, just going to do it manually:","red");
-		visit_url("clan_viplounge.php?action=fwshop&whichfloor=2",false,true);
-		//visit_url("shop.php?whichshop=fwshop",false,true);
-		visit_url("shop.php?whichshop=fwshop&action=buyitem&quantity=1&whichrow=1249&pwd",true,true);
-	}
-	//double-checking, and what will be used when mafia finally supports it:
-	retrieve_item(1,$item[porkpie-mounted popper]);
+		//deprecated in favor of using hat for hatter fam weight buff
+	// //replacing glob buff with this
+	// //mafia doesn't seem to support retrieve_item() by itself for this yet, so visit_url() to the rescue:
+	// if (!retrieve_item(1,$item[porkpie-mounted popper])) {
+	// 	print("Buying limited-quantity items from the fireworks shop seems to still be broken. Feel free to add to the report at the following link saying that the bug is still a thing, but only if your clan actually has a fireworks shop:","red");//having a fully-stocked clan VIP lounge is technically a requirement for this script, so just covering my bases here
+	// 	print_html('<a href="https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/">https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/</a>');
+	// 	print("For now, just going to do it manually:","red");
+	// 	visit_url("clan_viplounge.php?action=fwshop&whichfloor=2",false,true);
+	// 	//visit_url("shop.php?whichshop=fwshop",false,true);
+	// 	visit_url("shop.php?whichshop=fwshop&action=buyitem&quantity=1&whichrow=1249&pwd",true,true);
+	// }
+	// //double-checking, and what will be used when mafia finally supports it:
+	// retrieve_item(1,$item[porkpie-mounted popper]);
 
 	maximize('-100combat,familiar weight',false);
 	if (c2t_hccs_thresholdMet(TEST_NONCOMBAT))
@@ -1466,7 +1508,7 @@ boolean c2t_hccs_preWeapon() {
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
 
-	if (have_effect($effect[in a lather]) == 0) {
+	if (useBoxGhostsInsteadMelodramery && have_effect($effect[in a lather]) == 0) {
 		if (my_inebriety() > inebriety_limit() - 2)
 			abort('Something went wrong. We are too drunk.');
 		c2t_assert(my_meat() >= 500,"Need 500 meat for speakeasy booze");
@@ -1491,12 +1533,6 @@ boolean c2t_hccs_preWeapon() {
 
 	if (available_amount($item[vial of hamethyst juice]) > 0)
 		c2t_hccs_getEffect($effect[ham-fisted]);
-
-	// Hatter buff
-	if (available_amount($item[&quot;drink me&quot; potion]) > 0) {
-		retrieve_item(1,$item[goofily-plumed helmet]);
-		c2t_hccs_getEffect($effect[weapon of mass destruction]);
-	}
 
 	//beach comb weapon buff
 	if (available_amount($item[beach comb]) > 0)
