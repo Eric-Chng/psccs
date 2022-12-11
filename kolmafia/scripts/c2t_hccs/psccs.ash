@@ -834,7 +834,9 @@ boolean c2t_hccs_levelup() {
 	//some pulls if not in hard core; moxie would have already pulled up to 2 items so far
 	if (my_primestat() == $stat[moxie] && pulls_remaining() > 3)
 		c2t_hccs_pull($item[crumpled felt fedora]);//200 mox; saves 2 for fam test
-	c2t_hccs_pull($item[great wolf's beastly trousers]);//100 mus; saves 2 for fam test
+	c2t_hccs_pull($item[repaid diaper]);
+	if (available_amount($item[repaid diaper]) == 0)
+		c2t_hccs_pull($item[great wolf's beastly trousers]);//100 mus; saves 2 for fam test
 	c2t_hccs_pull($item[staff of simmering hatred]);//125 mys; saves 4 for spell test
 	//rechecking this sometime after leveling for non-mys since 150 mys is possible
 	if (my_primestat() == $stat[muscle])
@@ -1151,6 +1153,7 @@ boolean c2t_hccs_preItem() {
 boolean c2t_hccs_preHotRes() {
 	string maxstr = "100hot res,familiar weight,switch exotic parrot,switch mu,switch left-hand man";
 
+	//ENCOUNTERING A SAUSAGE GOBLIN BREAKS THIS
 	//cloake buff and fireproof foam suit for +32 hot res total, but also weapon and spell test buffs
 	//weapon/spell buff should last 15 turns, which is enough to get through hot(1), NC(9), and weapon(1) tests to also affect the spell test
 	if ((have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]))
@@ -2173,15 +2176,16 @@ void c2t_hccs_fights() {
 			c2t_hccs_pizzaCube($effect[certainty]);
 
 		//drink hot socks ASAP
-		if (have_effect($effect[1701]) == 0 && my_meat() > 5000) {//1701 is the desired version of $effet[hip to the jive]
-			if (my_mp() < 150)
-				cli_execute('eat mag saus');
-			cli_execute('shrug stevedave');
-			c2t_hccs_getEffect($effect[ode to booze]);
-			cli_execute('drink hot socks');
-			cli_execute('shrug ode to booze');
-			c2t_hccs_getEffect($effect[stevedave's shanty of superiority]);
-		}
+		//DEPRECATING HOT SOCKS
+		// if (have_effect($effect[1701]) == 0 && my_meat() > 5000) {//1701 is the desired version of $effet[hip to the jive]
+		// 	if (my_mp() < 150)
+		// 		cli_execute('eat mag saus');
+		// 	cli_execute('shrug stevedave');
+		// 	c2t_hccs_getEffect($effect[ode to booze]);
+		// 	cli_execute('drink hot socks');
+		// 	cli_execute('shrug ode to booze');
+		// 	c2t_hccs_getEffect($effect[stevedave's shanty of superiority]);
+		// }
 
 		//drink astral pilsners once level 11; saving 1 for use in mime army shotglass post-run
 		if (my_level() >= 11 && item_amount($item[astral pilsner]) == 6) {
