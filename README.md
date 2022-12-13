@@ -26,7 +26,7 @@ Then follow the [installation section](#installation--uninstallation) above
 
 ## Usage
 
-* The main script is `c2t_hccs.ash`, and is the thing that should be run to do a community service run
+* The main script is `psccs.ash`, and is the thing that should be run to do a community service run
 * Not likely to run out-of-the-box for most. Hoping to change this eventually
 * Able to be re-run at any point in a run, hopefully after manually correcting whatever caused it to stop
 * Will abort when a non-coil test does not meet its turn threshold after preparations for it are done, which defaults to 1 turn
