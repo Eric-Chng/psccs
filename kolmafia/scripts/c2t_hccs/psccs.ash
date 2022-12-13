@@ -130,7 +130,7 @@ void main() {
 
 void c2t_hccs_printRunTime(boolean f) {
 	int t = now_to_int() - START_TIME;
-	print(`c2t_hccs {f?"took":"has taken"} {t/60000} minute(s) {(t%60000)/1000.0} second(s) to execute{f?"":" so far"}.`,"blue");
+	print(`psccs {f?"took":"has taken"} {t/60000} minute(s) {(t%60000)/1000.0} second(s) to execute{f?"":" so far"}.`,"blue");
 }
 
 void c2t_hccs_mod2log(string str) {
@@ -1156,35 +1156,42 @@ boolean c2t_hccs_preHotRes() {
 	//ENCOUNTERING A SAUSAGE GOBLIN BREAKS THIS
 	//cloake buff and fireproof foam suit for +32 hot res total, but also weapon and spell test buffs
 	//weapon/spell buff should last 15 turns, which is enough to get through hot(1), NC(9), and weapon(1) tests to also affect the spell test
-	repeat {
-		if ((have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]))
-			|| (have_effect($effect[fireproof foam suit]) == 0 && available_amount($item[industrial fire extinguisher]) > 0 && have_skill($skill[double-fisted skull smashing]))
-			|| (have_effect($effect[misty form]) == 0 && available_amount($item[vampyric cloake]) > 0)
-			) {
-
-			if (available_amount($item[vampyric cloake]) > 0)
-				equip($item[vampyric cloake]);
-			equip($slot[weapon],$item[fourth of may cosplay saber]);
-			if (available_amount($item[industrial fire extinguisher]) > 0)
-				equip($slot[off-hand],$item[industrial fire extinguisher]);
-			use_familiar(c2t_priority($familiars[ghost of crimbo carols,exotic parrot])); //TODO: test if parrot should be a priority
-
-			if (my_mp() < 30)
-				c2t_hccs_restoreMp();
-			//Imported taffy with a free fight from oliver's den's An Unusually Quiet Barroom Brawl
-			//20% DROP, COULD SAVE FEEL NOSTALGIC AND FEEL ENVY FOR ANOTHER MONSTER
-			if (get_property('ownsSpeakeasy').to_boolean() && available_amount($item[imported taffy]) == 0) {
-				//familiar is handled by use_familiar priority
-				c2t_hccs_cartography($location[An Unusually Quiet Barroom Brawl],$monster[goblin flapper]);
-			} else {
-				adv1($location[the dire warren],-1,"");
-			}
-			run_turn();
-		}
-	} until (!((have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]))
+	if ((have_effect($effect[do you crush what i crush?]) == 0 && have_familiar($familiar[ghost of crimbo carols]))
 		|| (have_effect($effect[fireproof foam suit]) == 0 && available_amount($item[industrial fire extinguisher]) > 0 && have_skill($skill[double-fisted skull smashing]))
 		|| (have_effect($effect[misty form]) == 0 && available_amount($item[vampyric cloake]) > 0)
-		) && get_property('lastCopyableMonster').to_monster() != $monster[sausage goblin]);
+		) {
+
+		if (available_amount($item[vampyric cloake]) > 0)
+			equip($item[vampyric cloake]);
+		equip($slot[weapon],$item[fourth of may cosplay saber]);
+		if (available_amount($item[industrial fire extinguisher]) > 0)
+			equip($slot[off-hand],$item[industrial fire extinguisher]);
+		use_familiar(c2t_priority($familiars[ghost of crimbo carols,exotic parrot])); //TODO: test if parrot should be a priority
+
+		if (my_mp() < 30)
+			c2t_hccs_restoreMp();
+		//Imported taffy with a free fight from oliver's den's An Unusually Quiet Barroom Brawl
+		//20% DROP, COULD SAVE FEEL NOSTALGIC AND FEEL ENVY FOR ANOTHER MONSTER
+		if (get_property('ownsSpeakeasy').to_boolean() && available_amount($item[imported taffy]) == 0) {
+			//familiar is handled by use_familiar priority
+			c2t_hccs_cartography($location[An Unusually Quiet Barroom Brawl],$monster[goblin flapper]);
+		} else {
+			adv1($location[the dire warren],-1,"");
+		}
+		run_turn();
+	}
+	if (have_effect($effect[fireproof foam suit]) == 0 && get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin] && get_property('ownsSpeakeasy').to_boolean()) {
+		if (available_amount($item[vampyric cloake]) > 0)
+			equip($item[vampyric cloake]);
+		equip($slot[weapon],$item[fourth of may cosplay saber]);
+		if (available_amount($item[industrial fire extinguisher]) > 0)
+			equip($slot[off-hand],$item[industrial fire extinguisher]);
+		use_familiar(c2t_priority($familiars[ghost of crimbo carols,exotic parrot])); //TODO: test if parrot should be a priority
+
+		if (my_mp() < 30)
+			c2t_hccs_restoreMp();
+		adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
+	}
 	if (have_effect($effect[fireproof foam suit]) == 0)
 		cli_execute("abort");
 
