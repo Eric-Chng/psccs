@@ -899,7 +899,8 @@ boolean c2t_hccs_allTheBuffs() {
 	if (get_property('_lyleFavored') == 'false')
 		c2t_hccs_getEffect($effect[favored by lyle]);
 
-	c2t_hccs_pillkeeper($effect[hulkien]); //stats
+		//stat pillkeeper deprecated to save spleen
+	//c2t_hccs_pillkeeper($effect[hulkien]); //stats
 	c2t_hccs_pillkeeper($effect[fidoxene]);//familiar
 
 	//beach comb leveling buffs
