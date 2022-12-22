@@ -470,7 +470,7 @@ boolean c2t_hccs_preCoil() {
 	item workshed = get_property("c2t_hccs_workshed").to_item();
 	if (workshed != $item[none] && get_workshed() == $item[none]) {
 		//sanity check
-		if ($items[cold medicine cabinet,diabolic pizza cube,model train set] contains workshed)
+		if ($items[cold medicine cabinet,diabolic pizza cube,model train set,Asdon Martin keyfob] contains workshed)
 			use(workshed);
 	}
 
