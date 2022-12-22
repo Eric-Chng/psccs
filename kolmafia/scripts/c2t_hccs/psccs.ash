@@ -466,6 +466,14 @@ boolean c2t_hccs_preCoil() {
 	//numberology first thing to get adventures
 	c2t_hccs_useNumberology();
 
+	//install workshed
+	item workshed = get_property("c2t_hccs_workshed").to_item();
+	if (workshed != $item[none] && get_workshed() == $item[none]) {
+		//sanity check
+		if ($items[cold medicine cabinet,diabolic pizza cube,model train set] contains workshed)
+			use(workshed);
+	}
+
 	//get a grain of sand for pizza if muscle class
 	if (available_amount($item[beach comb]) > 0
 		&& my_primestat() == $stat[muscle]
