@@ -957,11 +957,11 @@ boolean c2t_hccs_allTheBuffs() {
 			print("Failed to synthesize stat buff","red");
 	}
 	else if (my_primestat() == $stat[mysticality]) {
-		if (!c2t_hccs_sweetSynthesis($effect[synthesis: smart]))
-			print("Failed to synthesize stat buff","red");
+		// if (!c2t_hccs_sweetSynthesis($effect[synthesis: smart]))
+		// 	print("Failed to synthesize stat buff","red");
 		cli_execute("acquire 1 glittery mascara");
 		cli_execute("use 1 glittery mascara");
-		c2t_hccs_pull($item[Calzone of Legend]);
+		c2t_hccs_pull($item[Calzone of Legend]); //replace smart synthesis
 		cli_execute("eat 1 calzone of legend");
 	}
 	else if (my_primestat() == $stat[moxie]) {
@@ -1360,11 +1360,11 @@ boolean c2t_hccs_preFamiliar() {
 		//third tome use //box of familiar jacks
 		use_familiar($familiar[Mini-Trainbot]);
 		use(1,$item[box of familiar jacks]);
+		equip( $slot[familiar], $item[overloaded Yule battery]);
 		highest = $familiar[Mini-Trainbot];
 	}
 	else if (have_familiar($familiar[exotic parrot]) && available_amount($item[cracker]) > 0)
 		highest = $familiar[exotic parrot];
-	//grab baby bugbear beanie without spending a turn
 	else if (have_familiar($familiar[Baby Bugged Bugbear])) {
 		cli_execute("familiar Baby Bugged Bugbear");
 		visit_url( "arena.php" );
