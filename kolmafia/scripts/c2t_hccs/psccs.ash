@@ -957,8 +957,8 @@ boolean c2t_hccs_allTheBuffs() {
 			print("Failed to synthesize stat buff","red");
 	}
 	else if (my_primestat() == $stat[mysticality]) {
-		// if (!c2t_hccs_sweetSynthesis($effect[synthesis: smart]))
-		// 	print("Failed to synthesize stat buff","red");
+		if (!c2t_hccs_sweetSynthesis($effect[synthesis: smart]))
+			print("Failed to synthesize stat buff","red");
 		cli_execute("acquire 1 glittery mascara");
 		cli_execute("use 1 glittery mascara");
 		c2t_hccs_pull($item[Calzone of Legend]); //replace smart synthesis
