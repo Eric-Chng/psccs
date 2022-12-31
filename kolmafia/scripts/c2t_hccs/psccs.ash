@@ -1890,6 +1890,13 @@ boolean c2t_hccs_preHp() {
 
 boolean c2t_hccs_preMus() {
 	//TODO if pastamancer, add summon of mus thrall if need? currently using equaliser potion out of laziness
+	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Undead Elbow Macaroni])) {
+		if (my_thrall() != $thrall[Elbow Macaroni]) {
+			if (my_mp() < 100)
+				cli_execute('eat magical sausage');
+			c2t_hccs_haveUse($skill[Bind Elbow Macaroni]);
+		}
+	}
 	if (c2t_hccs_thresholdMet(TEST_MUS))
 		return true;
 
@@ -1946,6 +1953,13 @@ boolean c2t_hccs_preMys() {
 
 boolean c2t_hccs_preMox() {
 	//TODO if pastamancer, add summon of mox thrall if need? currently using equaliser potion out of laziness
+	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Penne Dreadful])) {
+		if (my_thrall() != $thrall[Penne Dreadful]) {
+			if (my_mp() < 150)
+				cli_execute('eat magical sausage');
+			c2t_hccs_haveUse($skill[Bind Penne Dreadful]);
+		}
+	}
 	if (c2t_hccs_thresholdMet(TEST_MOX))
 		return true;
 
