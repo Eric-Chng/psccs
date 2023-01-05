@@ -1572,9 +1572,7 @@ boolean c2t_hccs_preWeapon() {
 	if (available_amount($item[punching potion]) > 0)
 		c2t_hccs_getEffect($effect[feeling punchy]);
 
-	// Pool buff. Should have fallen through from noncom
-	if (have_effect($effect[Imported Strength]) == 0 && useBoxGhostsInsteadMelodramery)
-		c2t_hccs_getEffect($effect[billiards belligerence]);
+
 
 	//meteor shower
 	if ((have_skill($skill[meteor lore]) && have_effect($effect[meteor showered]) == 0)
@@ -1679,6 +1677,10 @@ boolean c2t_hccs_preWeapon() {
 	}
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
 		return true;
+
+	// Pool buff. Should have fallen through from noncom
+	if (have_effect($effect[billiards belligerence]) == 0)
+		c2t_hccs_getEffect($effect[billiards belligerence]);
 
 	//OU pizza if needed
 	if (c2t_hccs_testTurns(TEST_WEAPON) > 3)//TODO ? cost/benifit?
