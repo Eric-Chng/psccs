@@ -501,11 +501,20 @@ boolean c2t_hccs_preCoil() {
 		string fortunes = get_property("c2t_hccs_clanFortunes");
 
 		if (is_online(fortunes))
-			while (get_property('_clanFortuneConsultUses').to_int() < 3)
-				cli_execute(`fortune {fortunes};wait 5`);
+			while (get_property('_clanFortuneConsultUses').to_int() < 3) {
+				if (contains_text(fortunes, " ")) {
+					cli_execute(`fortune {fortunes};wait 5`);
+				}
+				else {
+					//word match for Icawn
+					cli_execute(`fortune {fortunes} Salt d Thick;wait 5`);
+				}
+			}
 		else
 			print(`{fortunes} is not online; skipping fortunes`,"red");
 	}
+	//rejoin Redemption City
+	c2t_hccs_joinClan("2047004929");
 
 	//fax
 	if (!get_property('_photocopyUsed').to_boolean() && item_amount($item[photocopied monster]) == 0) {
@@ -1790,6 +1799,11 @@ boolean c2t_hccs_preSpell() {
 		use_skill(1, $skill[Summon Alice's Army Cards]);
 		cli_execute("make tobiko marble soda");
 		cli_execute("use tobiko marble soda");
+	}
+
+	//Zatara RNG
+	if (available_amount($item[Bettie page]) > 0 && have_effect($effect[Paging Betty]) == 0) {
+		cli_execute("use Bettie page");
 	}
 
 
