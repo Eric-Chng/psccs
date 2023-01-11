@@ -1196,6 +1196,9 @@ boolean c2t_hccs_preHotRes() {
 		} else {
 			adv1($location[the dire warren],-1,"");
 		}
+		if (have_effect($effect[fireproof foam suit]) == 0) {
+			adv1($location[the dire warren],-1,"");
+		}
 		run_turn();
 	}
 	if (have_effect($effect[fireproof foam suit]) == 0)
