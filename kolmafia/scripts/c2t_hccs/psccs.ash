@@ -1198,18 +1198,6 @@ boolean c2t_hccs_preHotRes() {
 		}
 		run_turn();
 	}
-	if (have_effect($effect[fireproof foam suit]) == 0 && get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin] && get_property('ownsSpeakeasy').to_boolean()) {
-		if (available_amount($item[vampyric cloake]) > 0)
-			equip($item[vampyric cloake]);
-		equip($slot[weapon],$item[fourth of may cosplay saber]);
-		if (available_amount($item[industrial fire extinguisher]) > 0)
-			equip($slot[off-hand],$item[industrial fire extinguisher]);
-		use_familiar(c2t_priority($familiars[ghost of crimbo carols,exotic parrot])); //TODO: test if parrot should be a priority
-
-		if (my_mp() < 30)
-			c2t_hccs_restoreMp();
-		adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
-	}
 	if (have_effect($effect[fireproof foam suit]) == 0)
 		cli_execute("abort");
 
