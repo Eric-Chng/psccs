@@ -2380,7 +2380,7 @@ void c2t_hccs_fights() {
 		}
 	}
 	//5 machine elf free fights
-	if (have_familiar($familar[machine elf])) {
+	if (have_familiar($familiar[machine elf])) {
 		use_familiar($familiar[machine elf]);
 		while (get_property("_machineTunnelsAdv").to_int() < 5) {
 			//make sure have some mp
