@@ -90,7 +90,7 @@ void main (int id,string page) {
 		1: fight mother slime
 		2: skip at no adv cost
 		 */
-		cast 326:
+		case 326:
 			run_choice(1);
 			break;
 
