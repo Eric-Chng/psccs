@@ -75,6 +75,7 @@ void c2t_hccs_breakfast();
 void c2t_hccs_printTestData();
 void c2t_hccs_testData(string testType,int testNum,int turnsTaken,int turnsExpected);
 familiar c2t_hccs_levelingFamiliar(boolean safeOnly);
+boolean acquireInnerElf();
 
 
 void main() {
@@ -166,7 +167,21 @@ void c2t_hccs_breakfast() {
 }
 
 
-
+boolean acquireInnerElf() {
+	//inner elf shenanigans
+	if(have_familiar($familiar[machine elf]) && have_effect($effect[Inner Elf]) == 0) {
+		c2t_hccs_joinClan("Restaurant Chill");
+		use_familiar($familiar[machine elf]);
+		equip($slot[acc3], $item[Kremlin's Greatest Briefcase]);
+		adv1($location[Slime Tube],-1,"");
+		//rejoin Redemption City
+		c2t_hccs_joinClan("2047004929");
+	}
+	if (have_effect($effect[Inner Elf]) > 0)
+		return true;
+	else
+		return false; //failed somehow
+}
 
 boolean c2t_hccs_fightGodLobster() {
 	if (!have_familiar($familiar[god lobster]))
@@ -1706,14 +1721,7 @@ boolean c2t_hccs_preSpell() {
 		cli_execute('eat mag saus');
 
 	//inner elf shenanigans
-	if(have_familiar($familiar[machine elf]) && have_effect($effect[Inner Elf]) == 0) {
-		c2t_hccs_joinClan("Restaurant Chill");
-		use_familiar($familiar[machine elf]);
-		equip($slot[acc3], $item[Kremlin's Greatest Briefcase]);
-		adv1($location[Slime Tube],-1,"");
-
-		c2t_hccs_joinClan("2047004929");
-	}
+	acquireInnerElf();
 
 	//use crafts
 	if (have_effect($effect[Concentration]) == 0 && get_property('_expertCornerCutterUsed').to_int() < 5) {
@@ -2254,6 +2262,10 @@ void c2t_hccs_fights() {
 			c2t_hccs_haveUse(1,$skill[stevedave's shanty of superiority]);
 		}
 
+		if (my_level() >= 13 && have_effect($effect[Inner Elf]) == 0) {
+			acquireInnerElf();
+		}
+
 		//explicitly buying and using range as it rarely bugs out
 		if (!(get_campground() contains $item[dramatic&trade; range]) && my_meat() >= (have_skill($skill[five finger discount])?950:1000)) { //five-finger discount
 			retrieve_item($item[dramatic&trade; range]);
@@ -2365,6 +2377,19 @@ void c2t_hccs_fights() {
 			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam+doc,false);
 
 			adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
+		}
+	}
+	//5 machine elf free fights
+	if (have_familiar($familar[machine elf])) {
+		use_familiar($familiar[machine elf]);
+		while (get_property("_machineTunnelsAdv").to_int() < 5) {
+			//make sure have some mp
+			if (my_mp() < 50)
+				cli_execute('eat magical sausage');
+
+			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam+doc,false);
+
+			adv1($location[The Deep Machine Tunnels],-1,"");
 		}
 	}
 

@@ -230,6 +230,12 @@ void main(int initround, monster foe, string page) {
 					c2t_bbSubmit(m + mBasic);
 
 				return;
+			//machine elf free combats
+			case $monster[Perceiver of Sensations]:
+			case $monster[Performer of Actions]:
+			case $monster[Thinker of Thoughts]:
+				c2t_bbSubmit(m + mBasic);
+				return;
 
 			//most basic of combats
 			case $monster[piranha plant]:
