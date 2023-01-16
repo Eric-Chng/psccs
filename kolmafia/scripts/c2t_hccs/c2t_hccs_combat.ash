@@ -332,11 +332,11 @@ void main(int initround, monster foe, string page) {
 				return;
 			//Mother slime for Inner Elf with machine elf
 			case $monster[Mother Slime]:
-				m += c2t_hccs_bbChargeSkill($skill[kgb tranquilizer dart]);
 				if (get_property("_snokebombUsed").to_int() <= get_property("_feelHatredUsed").to_int())
 					m += c2t_hccs_bbChargeSkill($skill[snokebomb]).c2t_hccs_bbChargeSkill($skill[feel hatred]);
 				else
 					m += c2t_hccs_bbChargeSkill($skill[feel hatred]).c2t_hccs_bbChargeSkill($skill[snokebomb]);
+				m += c2t_hccs_bbChargeSkill($skill[kgb tranquilizer dart]);
 				m.c2t_bbSubmit();
 				return;
 

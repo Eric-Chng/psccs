@@ -1438,8 +1438,6 @@ boolean c2t_hccs_preNoncombat() {
 	c2t_hccs_getEffect($effect[leash of linguini]);
 	c2t_hccs_getEffect($effect[empathy]);
 
-	cli_execute("asdonmartin drive stealthily");
-
 	// Pool buff. Will no longer fall through to weapon due to familiar test after NC
 	//not going to use this here, as it doesn't do to the noncombat rate in the moment anyway
 	//c2t_hccs_getEffect($effect[billiards belligerence]);
@@ -1502,6 +1500,29 @@ boolean c2t_hccs_preNoncombat() {
 	maximize('-100combat,familiar weight',false);
 	if (c2t_hccs_thresholdMet(TEST_NONCOMBAT))
 		return true;
+
+	//asdonmartin drive stealthily
+	//Asdon Martin drive observantly
+	if (get_workshed() == $item[Asdon Martin keyfob] && have_effect($effect[driving observantly]) == 0) {
+		while (get_fuel() < 37) {
+			//fuel up
+			if (available_amount($item[20-lb can of rice and beans]) > 0) {
+				cli_execute("asdonmartin fuel 1 20-lb can of rice and beans");
+			} else if (available_amount($item[loaf of soda bread]) > 0) {
+				cli_execute("asdonmartin fuel 1 loaf of soda bread");
+			} else if (available_amount($item[9948]) > 0) {
+				//Middle of the Road Brand Whiskey from NEP
+				cli_execute("asdonmartin fuel 1 Middle of the Road™ brand whiskey");
+			} else if (available_amount($item[PB&J with the crusts cut off]) > 0) {
+				//Middle of the Road Brand Whiskey from NEP
+				cli_execute("asdonmartin fuel 1 PB&J with the crusts cut off");
+			} else {
+				break;
+			}
+		}
+		if (get_fuel() >= 37)
+			cli_execute("asdonmartin drive stealthily");
+	}
 
 		//deprecated in favor of using hat for hatter fam weight buff
 	// //replacing glob buff with this
