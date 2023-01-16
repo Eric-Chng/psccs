@@ -1752,8 +1752,7 @@ boolean c2t_hccs_preSpell() {
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
 
-	//inner elf shenanigans
-	acquireInnerElf();
+
 
 	//use crafts
 	if (have_effect($effect[Concentration]) == 0 && get_property('_expertCornerCutterUsed').to_int() < 5) {
@@ -1764,10 +1763,14 @@ boolean c2t_hccs_preSpell() {
 	// This will use an adventure.
 	// if spit upon == 1, simmering will just waste a turn to do essentially nothing.
 	// probably good idea to add check for similar effects to not just waste a turn
-	if (have_effect($effect[spit upon]) != 1 && have_effect($effect[do you crush what i crush?]) != 1)
+	if (have_effect($effect[spit upon]) != 1 && have_effect($effect[do you crush what i crush?]) != 1 && have_effect($effect[Inner Elf]) != 1)
 		c2t_hccs_getEffect($effect[simmering]);
 
 	while (c2t_hccs_wandererFight()); //check for after using a turn to cast Simmering
+	//ALL ADVENTURE SPENDING STUFF DONE NOW
+
+	//inner elf shenanigans
+	acquireInnerElf();
 
 	//don't have this skill yet. Maybe should add check for all skill uses to make universal?
 	if (have_skill($skill[song of sauce]))

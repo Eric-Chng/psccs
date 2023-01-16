@@ -134,9 +134,9 @@ void main(int initround, monster foe, string page) {
 					.c2t_bb(have_effect($effect[bat-adjacent form]) == 0?c2t_bb($skill[become a bat]):"")
 					.c2t_bb(have_effect($effect[cosmic ball in the air]) == 0?c2t_bb($skill[bowl straight up]):"")
 					.c2t_hccs_bbChargeSkill($skill[reflex hammer])
+					.c2t_hccs_bbChargeSkill($skill[feel hatred])
 					.c2t_hccs_bbChargeSkill($skill[kgb tranquilizer dart])
 					.c2t_hccs_bbChargeSkill($skill[snokebomb])
-					.c2t_hccs_bbChargeSkill($skill[feel hatred])
 				);
 				return;
 
@@ -318,11 +318,8 @@ void main(int initround, monster foe, string page) {
 			case $monster[peripatetic pirate]:
 				m = mHead + mSteal;
 				m += c2t_hccs_bbChargeSkill($skill[reflex hammer]);
+				m += c2t_hccs_bbChargeSkill($skill[feel hatred]).c2t_hccs_bbChargeSkill($skill[snokebomb]);
 				m += c2t_hccs_bbChargeSkill($skill[kgb tranquilizer dart]);
-				if (get_property("_snokebombUsed").to_int() <= get_property("_feelHatredUsed").to_int())
-					m += c2t_hccs_bbChargeSkill($skill[snokebomb]).c2t_hccs_bbChargeSkill($skill[feel hatred]);
-				else
-					m += c2t_hccs_bbChargeSkill($skill[feel hatred]).c2t_hccs_bbChargeSkill($skill[snokebomb]);
 				m.c2t_bbSubmit();
 				//pretty sure most adv1() in the script assume it succeeds in fighting what it's supposed to, which the holiday monster is very much not the right one, so abort to rerun
 				//abort("Aborting for safety after encountering a holiday monster. Should be able to simply rerun to resume.");
@@ -332,10 +329,8 @@ void main(int initround, monster foe, string page) {
 				return;
 			//Mother slime for Inner Elf with machine elf
 			case $monster[Mother Slime]:
-				if (get_property("_snokebombUsed").to_int() <= get_property("_feelHatredUsed").to_int())
-					m += c2t_hccs_bbChargeSkill($skill[snokebomb]).c2t_hccs_bbChargeSkill($skill[feel hatred]);
-				else
-					m += c2t_hccs_bbChargeSkill($skill[feel hatred]).c2t_hccs_bbChargeSkill($skill[snokebomb]);
+				if (get_property("_snokebombUsed").to_int() < 3)
+					m += c2t_hccs_bbChargeSkill($skill[snokebomb]);
 				m += c2t_hccs_bbChargeSkill($skill[kgb tranquilizer dart]);
 				m.c2t_bbSubmit();
 				return;
