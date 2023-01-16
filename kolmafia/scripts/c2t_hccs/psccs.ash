@@ -1705,6 +1705,16 @@ boolean c2t_hccs_preSpell() {
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
 
+	//inner elf shenanigans
+	if(have_familiar($familiar[machine elf]) && have_effect($effect[Inner Elf]) == 0) {
+		c2t_hccs_joinClan("Restaurant Chill");
+		use_familiar($familiar[machine elf]);
+		equip($slot[acc3], $item[Kremlin's Greatest Briefcase]);
+		adv1($location[Slime Tube],-1,"");
+
+		c2t_hccs_joinClan("2047004929");
+	}
+
 	//use crafts
 	if (have_effect($effect[Concentration]) == 0 && get_property('_expertCornerCutterUsed').to_int() < 5) {
 		cli_execute("make Cordial of Concentration");

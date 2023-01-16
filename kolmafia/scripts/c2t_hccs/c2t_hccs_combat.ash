@@ -324,6 +324,15 @@ void main(int initround, monster foe, string page) {
 				adv1(my_location());
 				//abort("Check to see if it adventured in the correct location");
 				return;
+			//Mother slime for Inner Elf with machine elf
+			case $monster[Mother Slime]:
+				m += c2t_hccs_bbChargeSkill($skill[kgb tranquilizer dart]);
+				if (get_property("_snokebombUsed").to_int() <= get_property("_feelHatredUsed").to_int())
+					m += c2t_hccs_bbChargeSkill($skill[snokebomb]).c2t_hccs_bbChargeSkill($skill[feel hatred]);
+				else
+					m += c2t_hccs_bbChargeSkill($skill[feel hatred]).c2t_hccs_bbChargeSkill($skill[snokebomb]);
+				m.c2t_bbSubmit();
+				return;
 
 			default:
 				//this shouldn't happen
