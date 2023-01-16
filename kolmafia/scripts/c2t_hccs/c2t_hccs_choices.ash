@@ -85,6 +85,14 @@ void main (int id,string page) {
 			else
 				run_choice(1);
 			break;
+		/*
+		Mother slime
+		1: fight mother slime
+		2: skip at no adv cost
+		 */
+		cast 326:
+			run_choice(1);
+			break;
 
 		//===================
 		// june cleaver

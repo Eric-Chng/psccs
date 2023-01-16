@@ -166,14 +166,25 @@ void c2t_hccs_breakfast() {
 		cli_execute("garden pick");
 }
 
-
+//assumes owns KGB, eight days a week (prevent hit, many substitutes), and lil doc bag
 boolean acquireInnerElf() {
 	//inner elf shenanigans
 	if(have_familiar($familiar[machine elf]) && have_effect($effect[Inner Elf]) == 0) {
 		c2t_hccs_joinClan("Restaurant Chill");
 		use_familiar($familiar[machine elf]);
+		//items
+		item slotacc1 = equipped_item($slot[acc1]);
+		item slotacc2 = equipped_item($slot[acc2]);
+		item slotacc3 = equipped_item($slot[acc3]);
+		equip($slot[acc1], $item[Eight Days a Week Pill Keeper]);
+		equip($slot[acc2], $item[10166]); //lil doc bag
 		equip($slot[acc3], $item[Kremlin's Greatest Briefcase]);
+		//get inner elf
 		adv1($location[Slime Tube],-1,"");
+		//reequip items
+		equip($slot[acc1], slotacc1);
+		equip($slot[acc2], slotacc2);
+		equip($slot[acc3], slotacc3);
 		//rejoin Redemption City
 		c2t_hccs_joinClan("2047004929");
 	}
