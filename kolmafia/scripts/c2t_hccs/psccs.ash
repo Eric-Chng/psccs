@@ -1326,20 +1326,20 @@ boolean c2t_hccs_preHotRes() {
 }
 
 boolean c2t_hccs_preFamiliar() {
-	// Hatter buff
-	if (available_amount($item[&quot;drink me&quot; potion]) > 0) {
-		if (!retrieve_item(1,$item[sombrero-mounted sparkler])) {
-			print("Buying limited-quantity items from the fireworks shop seems to still be broken. Feel free to add to the report at the following link saying that the bug is still a thing, but only if your clan actually has a fireworks shop:","red");//having a fully-stocked clan VIP lounge is technically a requirement for this script, so just covering my bases here
-			print_html('<a href="https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/">https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/</a>');
-			print("For now, just going to do it manually:","red");
-			visit_url("clan_viplounge.php?action=fwshop&whichfloor=2",false,true);
-			//visit_url("shop.php?whichshop=fwshop",false,true);
-			visit_url("shop.php?whichshop=fwshop&action=buyitem&quantity=1&whichrow=1249&pwd",true,true);
-		}
-		//double-checking, and what will be used when mafia finally supports it:
-		retrieve_item(1,$item[sombrero-mounted sparkler]);
-		c2t_hccs_getEffect($effect[You Can Really Taste the Dormouse]);
-	}
+	// Hatter buff is not worth it
+	// if (available_amount($item[&quot;drink me&quot; potion]) > 0) {
+	// 	if (!retrieve_item(1,$item[sombrero-mounted sparkler])) {
+	// 		print("Buying limited-quantity items from the fireworks shop seems to still be broken. Feel free to add to the report at the following link saying that the bug is still a thing, but only if your clan actually has a fireworks shop:","red");//having a fully-stocked clan VIP lounge is technically a requirement for this script, so just covering my bases here
+	// 		print_html('<a href="https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/">https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/</a>');
+	// 		print("For now, just going to do it manually:","red");
+	// 		visit_url("clan_viplounge.php?action=fwshop&whichfloor=2",false,true);
+	// 		//visit_url("shop.php?whichshop=fwshop",false,true);
+	// 		visit_url("shop.php?whichshop=fwshop&action=buyitem&quantity=1&whichrow=1249&pwd",true,true);
+	// 	}
+	// 	//double-checking, and what will be used when mafia finally supports it:
+	// 	retrieve_item(1,$item[sombrero-mounted sparkler]);
+	// 	c2t_hccs_getEffect($effect[You Can Really Taste the Dormouse]);
+	// }
 
 	//sabering fax for meteor shower
 	//using fax/wish here as feeling lost here is very likely
