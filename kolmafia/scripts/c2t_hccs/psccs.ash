@@ -1585,13 +1585,7 @@ boolean c2t_hccs_preWeapon() {
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
 
-	if (useBoxGhostsInsteadMelodramery && have_effect($effect[in a lather]) == 0) {
-		if (my_inebriety() > inebriety_limit() - 2)
-			abort('Something went wrong. We are too drunk.');
-		c2t_assert(my_meat() >= 500,"Need 500 meat for speakeasy booze");
-		ensure_ode(2);
-		cli_execute('drink Sockdollager');
-	}
+
 
 	if (available_amount($item[twinkly nuggets]) > 0)
 		c2t_hccs_getEffect($effect[twinkly weapon]);
@@ -1725,15 +1719,9 @@ boolean c2t_hccs_preWeapon() {
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
 		return true;
 
-	// Pool buff. Should have fallen through from noncom
-	if (have_effect($effect[billiards belligerence]) == 0)
-		c2t_hccs_getEffect($effect[billiards belligerence]);
 
-	//OU pizza if needed
-	if (c2t_hccs_testTurns(TEST_WEAPON) > 3)//TODO ? cost/benifit?
-		c2t_hccs_pizzaCube($effect[outer wolf&trade;]);
-	if (have_effect($effect[outer wolf&trade;]) == 0)
-		print("OU pizza skipped","blue");
+
+
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
 		return true;
 
