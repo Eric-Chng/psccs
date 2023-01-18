@@ -1102,6 +1102,12 @@ boolean c2t_hccs_preItem() {
 			} else if (available_amount($item[PB&J with the crusts cut off]) > 0) {
 				//Middle of the Road Brand Whiskey from NEP
 				cli_execute("asdonmartin fuel 1 PB&J with the crusts cut off");
+			} else if (available_amount($item[swamp haunch]) > 0) {
+				//Middle of the Road Brand Whiskey from NEP
+				cli_execute("asdonmartin fuel 1 swamp haunch");
+			} else if (available_amount($item[meadeorite]) > 0) {
+				//Middle of the Road Brand Whiskey from NEP
+				cli_execute("asdonmartin fuel 1 meadeorite");
 			} else {
 				cli_execute("abort");
 				break;
@@ -1516,7 +1522,14 @@ boolean c2t_hccs_preNoncombat() {
 			} else if (available_amount($item[PB&J with the crusts cut off]) > 0) {
 				//Middle of the Road Brand Whiskey from NEP
 				cli_execute("asdonmartin fuel 1 PB&J with the crusts cut off");
+			} else if (available_amount($item[swamp haunch]) > 0) {
+				//Middle of the Road Brand Whiskey from NEP
+				cli_execute("asdonmartin fuel 1 swamp haunch");
+			} else if (available_amount($item[meadeorite]) > 0) {
+				//Middle of the Road Brand Whiskey from NEP
+				cli_execute("asdonmartin fuel 1 meadeorite");
 			} else {
+				cli_execute("abort");
 				break;
 			}
 		}
