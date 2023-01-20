@@ -1026,7 +1026,7 @@ boolean c2t_hccs_allTheBuffs() {
 		cli_execute('telescope high');
 
 	//Song of Bravado
-	
+
 
 	cli_execute('mcd 10');
 
@@ -1586,8 +1586,8 @@ boolean c2t_hccs_preWeapon() {
 	}
 
 	//pizza cube prep since making this takes a turn without free crafts
-	if (c2t_hccs_pizzaCube() && c2t_hccs_freeCraftsLeft() == 0)
-		retrieve_item(1,$item[ointment of the occult]);
+	// if (c2t_hccs_pizzaCube() && c2t_hccs_freeCraftsLeft() == 0)
+	// 	retrieve_item(1,$item[ointment of the occult]);
 
 	//cast triple size
 	if (available_amount($item[powerful glove]) > 0 && have_effect($effect[triple-sized]) == 0 && !c2t_cast($skill[cheat code: triple size]))
@@ -1683,9 +1683,9 @@ boolean c2t_hccs_preWeapon() {
 
 	//Cast Favorite Bird from Bird-A-Day. Assumes a weapon damage favorite bird.
 	if (have_skill($skill[Visit your Favorite Bird])) {
-		use_skill(1, $skill[Visit your Favorite Bird]);
+		// use_skill(1, $skill[Visit your Favorite Bird]); //save for later
 		if (my_class() == $class[pastamancer]) {
-			use_skill(1, $skill[7323]);
+			use_skill(1, $skill[7323]); //PM has good daily bird
 		}
 	}
 
@@ -1735,7 +1735,9 @@ boolean c2t_hccs_preWeapon() {
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
 		return true;
 
-
+	if (have_skill($skill[Visit your Favorite Bird])) {
+		use_skill(1, $skill[Visit your Favorite Bird]);
+	}
 
 
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
