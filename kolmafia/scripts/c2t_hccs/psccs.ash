@@ -880,7 +880,7 @@ boolean c2t_hccs_levelup() {
 	c2t_hccs_pull($item[repaid diaper]);
 	if (available_amount($item[repaid diaper]) == 0)
 		c2t_hccs_pull($item[great wolf's beastly trousers]);//100 mus; saves 2 for fam test
-	c2t_hccs_pull($item[staff of simmering hatred]);//125 mys; saves 4 for spell test
+	//c2t_hccs_pull($item[staff of simmering hatred]);//125 mys; saves 4 for spell test
 	//rechecking this sometime after leveling for non-mys since 150 mys is possible
 	if (my_primestat() == $stat[muscle])
 		c2t_hccs_pull($item[stick-knife of loathing]);//150 mus; saves 4 for spell test
@@ -1809,12 +1809,12 @@ boolean c2t_hccs_preSpell() {
 	if (my_class() == $class[pastamancer]) {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
-		c2t_hccs_pull($item[Staff of Kitchen Royalty]);
+		c2t_hccs_pull($item[Staff of the Roaring Hearth]);
 	}
 
 	//get up to 2 obsidian nutcracker
 	int nuts = 2;
-	foreach x in $items[stick-knife of loathing,Staff of Kitchen Royalty]//,Abracandalabra]
+	foreach x in $items[stick-knife of loathing,Staff of the Roaring Hearth]//,Abracandalabra]
 		if (available_amount(x) > 0)
 			nuts--;
 	if (!have_familiar($familiar[left-hand man]) && available_amount($item[abracandalabra]) > 0)
@@ -1863,7 +1863,7 @@ boolean c2t_hccs_preSpell() {
 	if (my_class() == $class[pastamancer]) {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
-		c2t_hccs_pull($item[Staff of Kitchen Royalty]);
+		c2t_hccs_pull($item[Staff of the Roaring Hearth]);
 		cli_execute("outfit CS_PM_kitchenroyalty_glitch");
 	}
 
