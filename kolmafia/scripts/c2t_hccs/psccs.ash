@@ -1026,7 +1026,8 @@ boolean c2t_hccs_allTheBuffs() {
 		cli_execute('telescope high');
 
 	//Song of Bravado
-
+	if (!c2t_hccs_getEffect($effect[song of bravado]))
+		c2t_hccs_getEffect($effect[song of bravado]);
 
 	cli_execute('mcd 10');
 
