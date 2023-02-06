@@ -1864,7 +1864,7 @@ boolean c2t_hccs_preSpell() {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
 		c2t_hccs_pull($item[Staff of the Roaring Hearth]);
-		cli_execute("outfit CS_PM_kitchenroyalty_glitch");
+		cli_execute("outfit CS_PM_roaringhearth_glitch");
 	}
 
 	//if I ever feel like blowing the resources:
@@ -1911,7 +1911,7 @@ boolean c2t_hccs_preSpell() {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
 		print("2", "red");
-		cli_execute("outfit CS_PM_kitchenroyalty_glitch");
+		cli_execute("outfit CS_PM_roaringhearth_glitch");
 	}
 
 	return c2t_hccs_thresholdMet(TEST_SPELL);
