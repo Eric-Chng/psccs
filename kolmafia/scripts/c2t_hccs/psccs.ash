@@ -2204,6 +2204,26 @@ void c2t_hccs_fights() {
 
 	c2t_hccs_levelingFamiliar(false);
 
+	//Use Oliver's Place speakeasy free fights
+	if (get_property('ownsSpeakeasy').to_boolean()) {
+		while (get_property("_speakeasyFreeFights").to_int() < 3) {
+			// Summon Candy Heart
+			if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart]) == 0) {
+				cli_execute("cast summon candy heart");
+			}
+			//make sure have some mp
+			if (my_mp() < 50)
+				cli_execute('eat magical sausage');
+
+			//make sure camel is equipped
+			c2t_hccs_levelingFamiliar(false);
+
+			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam+doc,false);
+
+			adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
+		}
+	}
+
 	//summon tentacle
 	if (have_skill($skill[evoke eldritch horror]) && !get_property('_eldritchHorrorEvoked').to_boolean()) {
 		maximize("mainstat,100exp,-equip garbage shirt,6 bonus designer sweatpants"+fam,false);
@@ -2401,25 +2421,6 @@ void c2t_hccs_fights() {
 			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam+doc,false);
 
 		adv1($location[the neverending party],-1,"");
-	}
-	//Use Oliver's Place speakeasy free fights
-	if (get_property('ownsSpeakeasy').to_boolean()) {
-		while (get_property("_speakeasyFreeFights").to_int() < 3) {
-			// Summon Candy Heart
-			if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart]) == 0) {
-				cli_execute("cast summon candy heart");
-			}
-			//make sure have some mp
-			if (my_mp() < 50)
-				cli_execute('eat magical sausage');
-
-			//make sure camel is equipped
-			c2t_hccs_levelingFamiliar(false);
-
-			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam+doc,false);
-
-			adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
-		}
 	}
 	//5 machine elf free fights
 	if (have_familiar($familiar[machine elf])) {
