@@ -1809,12 +1809,12 @@ boolean c2t_hccs_preSpell() {
 	if (my_class() == $class[pastamancer]) {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
-		c2t_hccs_pull($item[Staff of the Roaring Hearth]);
+		c2t_hccs_pull($item[Staff of Kitchen Royalty]);
 	}
 
 	//get up to 2 obsidian nutcracker
 	int nuts = 2;
-	foreach x in $items[stick-knife of loathing,Staff of the Roaring Hearth]//,Abracandalabra]
+	foreach x in $items[stick-knife of loathing,Staff of Kitchen Royalty]//,Abracandalabra]
 		if (available_amount(x) > 0)
 			nuts--;
 	if (!have_familiar($familiar[left-hand man]) && available_amount($item[abracandalabra]) > 0)
@@ -1863,8 +1863,8 @@ boolean c2t_hccs_preSpell() {
 	if (my_class() == $class[pastamancer]) {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
-		c2t_hccs_pull($item[Staff of the Roaring Hearth]);
-		cli_execute("outfit CS_PM_roaringhearth_glitch");
+		c2t_hccs_pull($item[Staff of Kitchen Royalty]);
+		cli_execute("outfit CS_PM_kitchenroyalty_glitch");
 	}
 
 	//if I ever feel like blowing the resources:
@@ -1911,7 +1911,7 @@ boolean c2t_hccs_preSpell() {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
 		print("2", "red");
-		cli_execute("outfit CS_PM_roaringhearth_glitch");
+		cli_execute("outfit CS_PM_kitchenroyalty_glitch");
 	}
 
 	return c2t_hccs_thresholdMet(TEST_SPELL);
@@ -1988,6 +1988,11 @@ boolean c2t_hccs_preMus() {
 		]
 		c2t_hccs_getEffect(x);
 
+	if (c2t_hccs_freeCraftsLeft() > 0 && have_effect($effect[Phorcefullness]) == 0) {
+		cli_execute("make philter of phorce");
+		cli_execute("use philter of phorce");
+	}
+
 	return c2t_hccs_thresholdMet(TEST_MUS);
 }
 
@@ -2031,6 +2036,11 @@ boolean c2t_hccs_preMox() {
 		return true;
 
 	maximize('mox,switch left-hand man',false);
+	if (c2t_hccs_thresholdMet(TEST_MOX))
+		return true;
+
+	c2t_hccs_getEffect($effect[pomp & circumsands]);
+
 	if (c2t_hccs_thresholdMet(TEST_MOX))
 		return true;
 
@@ -2218,7 +2228,7 @@ void c2t_hccs_fights() {
 			//make sure camel is equipped
 			c2t_hccs_levelingFamiliar(false);
 
-			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam+doc,false);
+			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+fam,false);
 
 			adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
 		}
@@ -2365,43 +2375,43 @@ void c2t_hccs_fights() {
 		if (my_mp() < 50)
 			cli_execute('eat magical sausage');
 
-		//hopefully stop it before a possible break if my logic is off
-		if (c2t_hccs_backupCamera() && get_property('_pocketProfessorLectures').to_int() == 0 && c2t_hccs_backupCameraLeft() <= 1)
-			abort('Pocket professor has not been used yet, while backup camera charges left is '+c2t_hccs_backupCameraLeft());
-
-		//professor chain sausage goblins in NEP first thing if no backup camera
-		if (!c2t_hccs_backupCamera() && get_property('_pocketProfessorLectures').to_int() == 0) {
-			use_familiar($familiar[pocket professor]);
-			maximize("mainstat,equip garbage shirt,equip kramco,100familiar weight,6 bonus designer sweatpants",false);
-		}
-		//9+ professor copies, after getting exp buff from NC and used sauceror potions
-		else if (get_property('_pocketProfessorLectures').to_int() == 0
-			&& c2t_hccs_backupCameraLeft() > 0
-			&& (have_effect($effect[spiced up]) > 0 || have_effect($effect[tomes of opportunity]) > 0 || have_effect($effect[the best hair you've ever had]) > 0)
-			&& have_effect($effect[tomato power]) > 0
-			//target monster for professor copies. using back up camera to bootstrap
-			&& get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin]
-			) {
-
-			use_familiar($familiar[pocket professor]);
-			maximize("mainstat,equip garbage shirt,equip kramco,100familiar weight,6 bonus designer sweatpants,equip backup camera",false);
-		}
-		//fish for latte carrot ingredient with backup fights
-		else if (get_property('_pocketProfessorLectures').to_int() > 0
-			&& !get_property('latteUnlocks').contains_text('carrot')
-			&& c2t_hccs_backupCameraLeft() > 0
-			//target monster
-			&& get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin]
-			) {
-
-			//NEP monsters give twice as much base exp as sausage goblins, so keep at least as many shirt charges as fights remaining in NEP
-			if (get_property('garbageShirtCharge').to_int() < 17)
-				garbage = ",-equip garbage shirt";
-
-			maximize("mainstat,exp,equip latte,equip backup camera,6 bonus designer sweatpants"+garbage+fam,false);
-			adv1($location[the dire warren],-1,"");
-			continue;//don't want to fall into NEP in this state
-		}
+		// //hopefully stop it before a possible break if my logic is off
+		// if (c2t_hccs_backupCamera() && get_property('_pocketProfessorLectures').to_int() == 0 && c2t_hccs_backupCameraLeft() <= 1)
+		// 	abort('Pocket professor has not been used yet, while backup camera charges left is '+c2t_hccs_backupCameraLeft());
+		//
+		// //professor chain sausage goblins in NEP first thing if no backup camera
+		// if (!c2t_hccs_backupCamera() && get_property('_pocketProfessorLectures').to_int() == 0) {
+		// 	use_familiar($familiar[pocket professor]);
+		// 	maximize("mainstat,equip garbage shirt,equip kramco,100familiar weight,6 bonus designer sweatpants",false);
+		// }
+		// //9+ professor copies, after getting exp buff from NC and used sauceror potions
+		// else if (get_property('_pocketProfessorLectures').to_int() == 0
+		// 	&& c2t_hccs_backupCameraLeft() > 0
+		// 	&& (have_effect($effect[spiced up]) > 0 || have_effect($effect[tomes of opportunity]) > 0 || have_effect($effect[the best hair you've ever had]) > 0)
+		// 	&& have_effect($effect[tomato power]) > 0
+		// 	//target monster for professor copies. using back up camera to bootstrap
+		// 	&& get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin]
+		// 	) {
+		//
+		// 	use_familiar($familiar[pocket professor]);
+		// 	maximize("mainstat,equip garbage shirt,equip kramco,100familiar weight,6 bonus designer sweatpants,equip backup camera",false);
+		// }
+		// //fish for latte carrot ingredient with backup fights
+		// else if (get_property('_pocketProfessorLectures').to_int() > 0
+		// 	&& !get_property('latteUnlocks').contains_text('carrot')
+		// 	&& c2t_hccs_backupCameraLeft() > 0
+		// 	//target monster
+		// 	&& get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin]
+		// 	) {
+		//
+		// 	//NEP monsters give twice as much base exp as sausage goblins, so keep at least as many shirt charges as fights remaining in NEP
+		// 	if (get_property('garbageShirtCharge').to_int() < 17)
+		// 		garbage = ",-equip garbage shirt";
+		//
+		// 	maximize("mainstat,exp,equip latte,equip backup camera,6 bonus designer sweatpants"+garbage+fam,false);
+		// 	adv1($location[the dire warren],-1,"");
+		// 	continue;//don't want to fall into NEP in this state
+		// }
 		//inital and post-latte backup fights
 		else if (c2t_hccs_backupCameraLeft() > 0 && get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin]) {
 			//only use kramco offhand if target is sausage goblin to not mess things up
