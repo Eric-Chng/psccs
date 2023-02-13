@@ -790,7 +790,7 @@ boolean c2t_hccs_buffExp() {
 
 	//TODO make synthesize selections smarter so the item one doesn't have to be so early
 	//synthesize item //put this before all other syntheses so the others don't use too many sprouts
-	c2t_hccs_sweetSynthesis($effect[synthesis: collection]);
+	//c2t_hccs_sweetSynthesis($effect[synthesis: collection]);
 
 	if (my_primestat() == $stat[muscle]) {
 		//exp buff via pizza or wish
@@ -944,7 +944,8 @@ boolean c2t_hccs_allTheBuffs() {
 
 		//stat pillkeeper deprecated to save spleen
 	//c2t_hccs_pillkeeper($effect[hulkien]); //stats
-	c2t_hccs_pillkeeper($effect[fidoxene]);//familiar
+	//c2t_hccs_pillkeeper($effect[fidoxene]);//familiar
+	//Fidoxene not profitable
 
 	//beach comb leveling buffs
 	if (available_amount($item[beach comb]) > 0) {
