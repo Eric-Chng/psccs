@@ -927,7 +927,7 @@ boolean c2t_hccs_allTheBuffs() {
 
 	//bastille
 	if (item_amount($item[bastille battalion control rig]).to_boolean() && get_property('_bastilleGames').to_int() == 0)
-		cli_execute('bastille mainstat brutalist');
+		cli_execute('bastille mainstat brutalist gesture');
 
 	//boxing day scavenge
 	if (get_property('_daycareGymScavenges').to_int() == 0) {
