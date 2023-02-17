@@ -543,20 +543,21 @@ boolean c2t_hccs_preCoil() {
 	c2t_hccs_joinClan("2047004929");
 
 	//fax
-	if (!get_property('_photocopyUsed').to_boolean() && item_amount($item[photocopied monster]) == 0) {
-		if (available_amount($item[industrial fire extinguisher]) > 0 && available_amount($item[fourth of may cosplay saber]) > 0) {
-			if (!(get_locket_monsters() contains $monster[ungulith]))
-				c2t_hccs_getFax($monster[ungulith]);
-		}
-		else if (is_online("cheesefax")) {
-			if (!(get_locket_monsters() contains $monster[factory worker (female)]))
-				c2t_hccs_getFax($monster[factory worker (female)]);
-		}
-		else {
-			if (!(get_locket_monsters() contains $monster[ungulith]))
-				c2t_hccs_getFax($monster[ungulith]);
-		}
-	}
+	// Disabled because fax = 1 KGE while combat lover, only 1 fight = KGE
+	// if (!get_property('_photocopyUsed').to_boolean() && item_amount($item[photocopied monster]) == 0) {
+	// 	if (available_amount($item[industrial fire extinguisher]) > 0 && available_amount($item[fourth of may cosplay saber]) > 0) {
+	// 		if (!(get_locket_monsters() contains $monster[ungulith]))
+	// 			c2t_hccs_getFax($monster[ungulith]);
+	// 	}
+	// 	else if (is_online("cheesefax")) {
+	// 		if (!(get_locket_monsters() contains $monster[factory worker (female)]))
+	// 			c2t_hccs_getFax($monster[factory worker (female)]);
+	// 	}
+	// 	else {
+	// 		if (!(get_locket_monsters() contains $monster[ungulith]))
+	// 			c2t_hccs_getFax($monster[ungulith]);
+	// 	}
+	// }
 
 	c2t_hccs_haveUse($skill[spirit of peppermint]);
 
