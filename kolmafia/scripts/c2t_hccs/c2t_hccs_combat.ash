@@ -362,6 +362,8 @@ string c2t_hccs_bowlSideways(string m) {
 		return m;
 	if (nep+free > 1)
 		return out;
+	if (get_property("_speakeasyFreeFights").to_int() < 3 && my_location() == $location[An Unusually Quiet Barroom Brawl])
+		return out;
 	return m;
 }
 
