@@ -252,7 +252,10 @@ void main(int initround, monster foe, string page) {
 			case $monster[undercover prohibition agent]:
 				c2t_bbSubmit(mHead + mSteal + mBasic);
 				return;
-
+			//Witchess Witch
+			case $monster[Witchess Witch]:
+				c2t_bbSubmit(mHead + mSteal + mBasic);
+				return;
 			//chain potential; basic otherwise
 			case $monster[sausage goblin]:
 				c2t_bbSubmit(mHead + mChain);
