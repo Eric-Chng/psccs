@@ -2212,6 +2212,7 @@ void c2t_hccs_fights() {
 	c2t_hccs_levelingFamiliar(false);
 
 	//Use Oliver's Place speakeasy free fights
+	//Bowl sideways is enabled for these. The 2 turns lost of bowl sideways in NEP of stats should be made up by new witchess witch fight
 	if (get_property('ownsSpeakeasy').to_boolean()) {
 		while (get_property("_speakeasyFreeFights").to_int() < 3) {
 			// Summon Candy Heart
@@ -2443,6 +2444,7 @@ void c2t_hccs_fights() {
 		}
 	}
 	//locket 1 Witchess Witch for battle broom
+	//If ever removed, look at oliver's den bowl sideways. Atm, it leaves 2 NEP fights without bowl sideways.
 	if (available_amount($item[Battle broom]) == 0) {
 		//make sure have some mp
 		if (my_mp() < 50)

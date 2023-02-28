@@ -254,7 +254,11 @@ void main(int initround, monster foe, string page) {
 				return;
 			//Witchess Witch
 			case $monster[Witchess Witch]:
-				c2t_bbSubmit(mHead + mSteal + mBasic);
+				c2t_bbSubmit(
+					mHead
+					.c2t_hccs_bowlSideways()
+					.c2t_bbWhile("!pastround 20","attack;")
+				);
 				return;
 			//chain potential; basic otherwise
 			case $monster[sausage goblin]:
