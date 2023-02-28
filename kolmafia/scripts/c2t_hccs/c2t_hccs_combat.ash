@@ -209,7 +209,9 @@ void main(int initround, monster foe, string page) {
 					return;
 				}
 				//feel pride still thinks it can be used after max uses for some reason
-				m += c2t_hccs_bbChargeSkill($skill[feel pride]);
+				// > 4 to burn off bowl sideways from Oliver's den routing
+				if (get_property('_neverendingPartyFreeTurns').to_int() > 4)
+					m += c2t_hccs_bbChargeSkill($skill[feel pride]);
 
 				//free kills after NEP free fights
 				if (get_property('_neverendingPartyFreeTurns').to_int() == 10 && !get_property('_gingerbreadMobHitUsed').to_boolean()) {
