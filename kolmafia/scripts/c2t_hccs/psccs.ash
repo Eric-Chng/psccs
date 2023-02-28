@@ -625,11 +625,6 @@ boolean c2t_hccs_preCoil() {
 		autosell(5,$item[hamethyst]);
 		if (c2t_hccs_pizzaCube())
 			autosell(5,$item[porquoise]);
-		else {
-			int temp = item_amount($item[porquoise]);
-			if (temp > 0)
-				autosell(temp-1,$item[porquoise]);
-		}
 	}
 
 	//buy toy accordion
@@ -1801,7 +1796,7 @@ boolean c2t_hccs_preSpell() {
 	// face
 	c2t_hccs_getEffect($effect[arched eyebrow of the archmage]);
 
-	if (available_amount($item[flask of baconstone juice]) > 0)
+	if (available_amount($item[baconstone]) > 0)
 		c2t_hccs_getEffect($effect[baconstoned]);
 
 	//pull stick-knife if able to equip
@@ -2446,6 +2441,16 @@ void c2t_hccs_fights() {
 
 			adv1($location[The Deep Machine Tunnels],-1,"");
 		}
+	}
+	//locket 1 Witchess Witch for battle broom
+	if (available_amount($item[Battle broom]) == 0) {
+		//make sure have some mp
+		if (my_mp() < 50)
+			cli_execute('eat magical sausage');
+		c2t_hccs_levelingFamiliar(false);
+
+		maximize("mainstat,exp,equip Fourth of May Cosplay Saber,6 bonus designer sweatpants"+garbage+fam,false);
+		c2t_hccs_combatLoversLocket($monster[Witchess Witch])
 	}
 
 	cli_execute('mood apathetic');
