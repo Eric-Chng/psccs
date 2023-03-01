@@ -180,7 +180,7 @@ boolean acquireInnerElf() {
 		equip($slot[acc2], $item[10166]); //lil doc bag
 		equip($slot[acc3], $item[Kremlin's Greatest Briefcase]);
 		//get inner elf
-		adv1($location[Slime Tube],-1,"");
+		adv1($location[The Slime Tube],-1,"");
 		//reequip items
 		equip($slot[acc1], slotacc1);
 		equip($slot[acc2], slotacc2);
@@ -721,46 +721,7 @@ boolean c2t_hccs_preCoil() {
 		use(1,$item[box of familiar jacks]);
 	}
 
-	// beach access
-	c2t_assert(retrieve_item(1,$item[bitchin' meatcar]),"Couldn't get a bitchin' meatcar");
-
-	// tune moon sign
-	if (!get_property('moonTuned').to_boolean()) {
-		int cog,tank,gogogo;
-
-		// unequip spoon
-		cli_execute('unequip hewn moon-rune spoon');
-
-		switch (my_primestat()) {
-			case $stat[muscle]:
-				gogogo = 7;
-				cog = 3;
-				tank = 1;
-				if (c2t_hccs_pizzaCube() && available_amount($item[beach comb]) == 0)
-					c2t_assert(retrieve_item(1,$item[gnollish autoplunger]),"gnollish autoplunger is a critical pizza ingredient without a beach comb");
-				break;
-			case $stat[mysticality]:
-				gogogo = 8;
-				cog = 2;
-				tank = 2;
-				break;
-			case $stat[moxie]:
-				gogogo = 9;
-				cog = 2;
-				tank = 1;
-				break;
-			default:
-				abort('something broke with moon sign changing');
-		}
-		if (c2t_hccs_pizzaCube()) {
-			//CSAs for later pizzas (3 for CER & HGh) //2 for CER & DIF or CER & KNI
-			c2t_assert(retrieve_item(cog,$item[cog and sprocket assembly]),"Didn't get enough cog and sprocket assembly");
-			//empty meat tank for DIF and INFE pizzas
-			c2t_assert(retrieve_item(tank,$item[empty meat tank]),`Need {tank} emtpy meat tank`);
-		}
-		//tune moon sign
-		visit_url('inv_use.php?whichitem=10254&doit=96&whichsign='+gogogo);
-	}
+	
 
 	while (c2t_hccs_wandererFight());
 
@@ -1101,13 +1062,10 @@ boolean c2t_hccs_preItem() {
 				//Middle of the Road Brand Whiskey from NEP
 				cli_execute("asdonmartin fuel 1 Middle of the Road™ brand whiskey");
 			} else if (available_amount($item[PB&J with the crusts cut off]) > 0) {
-				//Middle of the Road Brand Whiskey from NEP
 				cli_execute("asdonmartin fuel 1 PB&J with the crusts cut off");
 			} else if (available_amount($item[swamp haunch]) > 0) {
-				//Middle of the Road Brand Whiskey from NEP
 				cli_execute("asdonmartin fuel 1 swamp haunch");
 			} else if (available_amount($item[meadeorite]) > 0) {
-				//Middle of the Road Brand Whiskey from NEP
 				cli_execute("asdonmartin fuel 1 meadeorite");
 			} else {
 				cli_execute("abort");
@@ -1521,13 +1479,10 @@ boolean c2t_hccs_preNoncombat() {
 				//Middle of the Road Brand Whiskey from NEP
 				cli_execute("asdonmartin fuel 1 Middle of the Road™ brand whiskey");
 			} else if (available_amount($item[PB&J with the crusts cut off]) > 0) {
-				//Middle of the Road Brand Whiskey from NEP
 				cli_execute("asdonmartin fuel 1 PB&J with the crusts cut off");
 			} else if (available_amount($item[swamp haunch]) > 0) {
-				//Middle of the Road Brand Whiskey from NEP
 				cli_execute("asdonmartin fuel 1 swamp haunch");
 			} else if (available_amount($item[meadeorite]) > 0) {
-				//Middle of the Road Brand Whiskey from NEP
 				cli_execute("asdonmartin fuel 1 meadeorite");
 			} else {
 				cli_execute("abort");
@@ -1958,7 +1913,7 @@ boolean c2t_hccs_preMus() {
 		if (my_thrall() != $thrall[Elbow Macaroni]) {
 			if (my_mp() < 100)
 				cli_execute('eat magical sausage');
-			c2t_hccs_haveUse($skill[Bind Elbow Macaroni]);
+			c2t_hccs_haveUse($skill[Bind Undead Elbow Macaroni]);
 		}
 	}
 	if (c2t_hccs_thresholdMet(TEST_MUS))
@@ -2452,7 +2407,74 @@ void c2t_hccs_fights() {
 		c2t_hccs_levelingFamiliar(false);
 
 		maximize("mainstat,exp,equip Fourth of May Cosplay Saber,6 bonus designer sweatpants"+garbage+fam,false);
-		c2t_hccs_combatLoversLocket($monster[Witchess Witch])
+		c2t_hccs_combatLoversLocket($monster[Witchess Witch]);
+	}
+
+	//Asdonfuel
+	if (get_workshed() == $item[Asdon Martin keyfob] && have_effect($effect[driving observantly]) == 0) {
+		int fuelTarget = 37 * 2;
+		while (get_fuel() < fuelTarget) {
+			//fuel up
+			if (available_amount($item[20-lb can of rice and beans]) > 0) {
+				cli_execute("asdonmartin fuel 1 20-lb can of rice and beans");
+			} else if (available_amount($item[loaf of soda bread]) > 0) {
+				cli_execute("asdonmartin fuel 1 loaf of soda bread");
+			} else if (available_amount($item[9948]) > 0) {
+				//Middle of the Road Brand Whiskey from NEP
+				cli_execute("asdonmartin fuel 1 Middle of the Road™ brand whiskey");
+			} else if (available_amount($item[PB&J with the crusts cut off]) > 0) {
+				cli_execute("asdonmartin fuel 1 PB&J with the crusts cut off");
+			} else if (available_amount($item[swamp haunch]) > 0) {
+				cli_execute("asdonmartin fuel 1 swamp haunch");
+			} else if (my_meat() >= 120) {
+				cli_execute("make 1 loaf of soda bread");
+				cli_execute("asdonmartin fuel 1 loaf of soda bread");
+			} else {
+				cli_execute("abort");
+				break;
+			}
+		}
+	}
+
+	// beach access
+	c2t_assert(retrieve_item(1,$item[bitchin' meatcar]),"Couldn't get a bitchin' meatcar");
+
+	// tune moon sign
+	if (!get_property('moonTuned').to_boolean()) {
+		int cog,tank,gogogo;
+
+		// unequip spoon
+		cli_execute('unequip hewn moon-rune spoon');
+
+		switch (my_primestat()) {
+			case $stat[muscle]:
+				gogogo = 7;
+				cog = 3;
+				tank = 1;
+				if (c2t_hccs_pizzaCube() && available_amount($item[beach comb]) == 0)
+					c2t_assert(retrieve_item(1,$item[gnollish autoplunger]),"gnollish autoplunger is a critical pizza ingredient without a beach comb");
+				break;
+			case $stat[mysticality]:
+				gogogo = 8;
+				cog = 2;
+				tank = 2;
+				break;
+			case $stat[moxie]:
+				gogogo = 9;
+				cog = 2;
+				tank = 1;
+				break;
+			default:
+				abort('something broke with moon sign changing');
+		}
+		if (c2t_hccs_pizzaCube()) {
+			//CSAs for later pizzas (3 for CER & HGh) //2 for CER & DIF or CER & KNI
+			c2t_assert(retrieve_item(cog,$item[cog and sprocket assembly]),"Didn't get enough cog and sprocket assembly");
+			//empty meat tank for DIF and INFE pizzas
+			c2t_assert(retrieve_item(tank,$item[empty meat tank]),`Need {tank} emtpy meat tank`);
+		}
+		//tune moon sign
+		visit_url('inv_use.php?whichitem=10254&doit=96&whichsign='+gogogo);
 	}
 
 	cli_execute('mood apathetic');
