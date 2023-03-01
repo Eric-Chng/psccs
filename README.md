@@ -12,17 +12,34 @@ To install, run the following on the gCLI:
 
 `git checkout https://github.com/Eric-Chng/psccs/c2t_hccs.git master`
 
-To uninstall, run the following on the gCLI:
+## PSCCS Loadout
+* I run this exclusively with asdon in run. May not hit 1 turn thresholds without asdon
+* I own kitchen royalty and stick knife and use them as pulls. Roaring hearth is supported if you can hit the myst threshold
+* Run the relay script (named c2t_hccs) to set preferences. My preferences are as follows: 
+    - c2t_hccs_clanFortunes = Icawn (leave empty to disable zatara consults)
+    - c2t_hccs_joinClan = 2046991423 (u may not have whitelist)
+    - c2t_hccs_haltBeforeTest = false (useful for debugging)
+    - c2t_hccs_printModtrace = true
+    - c2t_hccs_skipFinalService = false
+    - c2t_hccs_workshed = Asdon martin keyfob
+    - threshold caps, fam = 32, spell = 20, rest = 1
+    - Disabled resources: backup cam, pantogram, pillkeeper
+* There's some flexibility in the tests if you're missing my iotms due to multiple levels of checks to see if you hit the thresholds, but works best (and may miss some thresholds due to resource removal if you dont have my iotms) with my iotms: https://api.aventuristo.net/av-snapshot?u=Prusias#a4
 
-`git delete C2Talon-c2t_hccs-master`
+## PSCCS Specific Requirements
+* Only works as Pastamancer with CS relevant perms (thralls mandatory)
+* Outfit named `CS_PM_stickknife_glitch` that has stickknife in mainhand
+* If you have kitchen royalty staff, outfit named `CS_PM_kitchenroyalty_glitch` with cheffstaff in mainhand and stickknife in offhand
+* If you have machine elf, modify `acquireInnerElf()` to support your clan with slime tube primed or ask Prusias for a whitelist to his clan.
+* Must create a calzone of legend before starting run
+* Must have `ungulith` and `Witchess Witch` in combat lover locket
+* a source of free crafts. One of the skills that give 5 is enough.
+* Likely requires oliver's place + machine elf to hit leveling targets. 
+* Whitelisted to Redemption City. All hardcoded clan swaps (for machine elf and clan consults) are commented. Cmd f to replace
 
-## Migrating from SVN to GIT
-
-First, remove the SVN repository via the gCLI:
-
-`svn delete c2t_hccs`
-
-Then follow the [installation section](#installation--uninstallation) above
+## Non-exhaustive PSCCS optional elements
+* supports repaid diaper or great wolf beastly trousers as pull
+* Cmd f for a comment named `//CLAN VIP CONSULT HANDLING` and modify `//word match for Icawn` to support whatever bot you desire. Won't matter if you disable consults 
 
 ## Usage
 
