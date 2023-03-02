@@ -128,7 +128,7 @@ While these are not strictly required, not having enough that either save turns 
 * [MayDay&trade; contract](https://kol.coldfront.net/thekolwiki/index.php/MayDay%E2%84%A2_contract) &mdash; can save up to 1.7 turns on item test on some classes
 
 ## Bugs?
-Report bugs here: hhttps://github.com/Eric-Chng/psccs/issues
+Report bugs here: https://github.com/Eric-Chng/psccs/issues
 
 ## TODO (eventually)
 
