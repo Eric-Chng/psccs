@@ -13,6 +13,7 @@ To install, run the following on the gCLI:
 `git checkout https://github.com/Eric-Chng/psccs/c2t_hccs.git master`
 
 ## PSCCS Loadout
+* I run as a PM with Wallaby, astral 6-pack, and astral chapeau in SC CS.
 * I run this exclusively with asdon in run. May not hit 1 turn thresholds without asdon
 * I own kitchen royalty and stick knife and use them as pulls. Roaring hearth is supported if you can hit the myst threshold
 * Run the relay script (named c2t_hccs) to set preferences. My preferences are as follows: 
@@ -40,6 +41,7 @@ To install, run the following on the gCLI:
 ## Non-exhaustive PSCCS optional elements
 * supports repaid diaper or great wolf beastly trousers as pull
 * Cmd f for a comment named `//CLAN VIP CONSULT HANDLING` and modify `//word match for Icawn` to support whatever bot you desire. Won't matter if you disable consults 
+* If you own Staff of the Roaring Hearth, create an outfit named `CS_PM_roaringhearth_glitch` with cheffstaff in mainhand and stickknife in offhand
 
 ## Usage
 
