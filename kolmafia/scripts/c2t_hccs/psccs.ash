@@ -520,6 +520,7 @@ boolean c2t_hccs_preCoil() {
 	//vote
 	c2t_hccs_vote();
 
+	//CLAN VIP CONSULT HANDLING
 	//probably should make a property handler, because this looks like it may get unwieldly
 	if (get_property('_clanFortuneConsultUses').to_int() < 3) {
 		c2t_hccs_joinClan(get_property("c2t_hccs_joinClan"));
@@ -1467,8 +1468,7 @@ boolean c2t_hccs_preNoncombat() {
 		return true;
 
 	//asdonmartin drive stealthily
-	//Asdon Martin drive observantly
-	if (get_workshed() == $item[Asdon Martin keyfob] && have_effect($effect[driving observantly]) == 0) {
+	if (get_workshed() == $item[Asdon Martin keyfob] && have_effect($effect[driving stealthily]) == 0) {
 		while (get_fuel() < 37) {
 			//fuel up
 			if (available_amount($item[20-lb can of rice and beans]) > 0) {
@@ -2446,27 +2446,31 @@ void c2t_hccs_fights() {
 		// unequip spoon
 		cli_execute('unequip hewn moon-rune spoon');
 
-		switch (my_primestat()) {
-			case $stat[muscle]:
-				gogogo = 7;
-				cog = 3;
-				tank = 1;
-				if (c2t_hccs_pizzaCube() && available_amount($item[beach comb]) == 0)
-					c2t_assert(retrieve_item(1,$item[gnollish autoplunger]),"gnollish autoplunger is a critical pizza ingredient without a beach comb");
-				break;
-			case $stat[mysticality]:
-				gogogo = 8;
-				cog = 2;
-				tank = 2;
-				break;
-			case $stat[moxie]:
-				gogogo = 9;
-				cog = 2;
-				tank = 1;
-				break;
-			default:
-				abort('something broke with moon sign changing');
-		}
+		// switch (my_primestat()) {
+		// 	case $stat[muscle]:
+		// 		gogogo = 7;
+		// 		cog = 3;
+		// 		tank = 1;
+		// 		if (c2t_hccs_pizzaCube() && available_amount($item[beach comb]) == 0)
+		// 			c2t_assert(retrieve_item(1,$item[gnollish autoplunger]),"gnollish autoplunger is a critical pizza ingredient without a beach comb");
+		// 		break;
+		// 	case $stat[mysticality]:
+		// 		gogogo = 8;
+		// 		cog = 2;
+		// 		tank = 2;
+		// 		break;
+		// 	case $stat[moxie]:
+		// 		gogogo = 9;
+		// 		cog = 2;
+		// 		tank = 1;
+		// 		break;
+		// 	default:
+		// 		abort('something broke with moon sign changing');
+		// }
+		//for 20% meat
+		gogogo = 7;
+		cog = 2;
+		tank = 2;
 		if (c2t_hccs_pizzaCube()) {
 			//CSAs for later pizzas (3 for CER & HGh) //2 for CER & DIF or CER & KNI
 			c2t_assert(retrieve_item(cog,$item[cog and sprocket assembly]),"Didn't get enough cog and sprocket assembly");
