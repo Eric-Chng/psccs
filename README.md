@@ -2,7 +2,7 @@
 
 **[Forked from Zdrvst's hccs script. Vast majority of code is credited to him.](https://github.com/c2talon/c2t_hccs)**
 
-Kolmafia script to handle a hardcore community service run with my set of skills and IotMs and as a Pastamancer.
+Kolmafia script to handle a softcore community service run with my set of skills and IotMs and as a Pastamancer.
 
 This is a continual work-in-progress. It is not likely to run out-of-the-box for most, but others may be able to glean things from it. To see what is needed to run smoothly without changes, see: https://api.aventuristo.net/av-snapshot?u=Prusias#a4
 
@@ -13,6 +13,7 @@ To install, run the following on the gCLI:
 `git checkout https://github.com/Eric-Chng/psccs.git master`
 
 ## PSCCS Loadout
+* I run as a PM with Wallaby, astral 6-pack, and astral chapeau in SC CS.
 * I run this exclusively with asdon in run. May not hit 1 turn thresholds without asdon
 * I own kitchen royalty and stick knife and use them as pulls. Roaring hearth is supported if you can hit the myst threshold
 * Run the relay script (named c2t_hccs) to set preferences. My preferences are as follows: 
@@ -40,7 +41,8 @@ To install, run the following on the gCLI:
 
 ## Non-exhaustive PSCCS optional elements
 * supports repaid diaper or great wolf beastly trousers as pull
-* Cmd f for a comment named `//CLAN VIP CONSULT HANDLING` and modify `//word match for Icawn` to support whatever bot you desire. Cheesefax is added here too. Un/Comment what needed. Won't matter if you disable consults.
+* Cmd f for a comment named `//CLAN VIP CONSULT HANDLING` and modify `//word match for Icawn` to support whatever bot you desire. Won't matter if you disable consults 
+* If you own Staff of the Roaring Hearth, create an outfit named `CS_PM_roaringhearth_glitch` with cheffstaff in mainhand and stickknife in offhand
 
 ## Usage
 
@@ -85,6 +87,10 @@ Some of the required IotM are only required for now because they're explicitly u
 * [packaged Pocket Professor](https://kol.coldfront.net/thekolwiki/index.php/Packaged_Pocket_Professor)
 * [Comprehensive Cartographic Compendium](https://kol.coldfront.net/thekolwiki/index.php/Comprehensive_Cartographic_Compendium)
 * [emotion chip](https://kol.coldfront.net/thekolwiki/index.php/Emotion_chip)
+PSCCS Requirements added:  
+* Machine Elf (many leveling resources were removed)
+* Combat Lover's Locket (Technically mostly optional but saves many turns and resources)
+* Asdon (technically optional, saves many turns)
 
 ### Supported IotM (ordered by release date)
 
