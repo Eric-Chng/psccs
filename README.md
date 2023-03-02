@@ -2,22 +2,22 @@
 
 **[Forked from Zdrvst's hccs script. Vast majority of code is credited to him.](https://github.com/c2talon/c2t_hccs)**
 
-Kolmafia script to handle a hardcore community service run with my set of skills and IotMs and with any class.
+Kolmafia script to handle a hardcore community service run with my set of skills and IotMs and as a Pastamancer.
 
-This is a continual work-in-progress. It is not likely to run out-of-the-box for most, but others may be able to glean things from it. To see what is needed to run smoothly without changes, see: http://cheesellc.com/kol/profile.php?u=Prusias#mritems
+This is a continual work-in-progress. It is not likely to run out-of-the-box for most, but others may be able to glean things from it. To see what is needed to run smoothly without changes, see: https://api.aventuristo.net/av-snapshot?u=Prusias#a4
 
 ## Installation / Uninstallation
 
 To install, run the following on the gCLI:
 
-`git checkout https://github.com/Eric-Chng/psccs/c2t_hccs.git master`
+`git checkout https://github.com/Eric-Chng/psccs.git master`
 
 ## PSCCS Loadout
 * I run this exclusively with asdon in run. May not hit 1 turn thresholds without asdon
 * I own kitchen royalty and stick knife and use them as pulls. Roaring hearth is supported if you can hit the myst threshold
 * Run the relay script (named c2t_hccs) to set preferences. My preferences are as follows: 
-    - c2t_hccs_clanFortunes = Icawn (leave empty to disable zatara consults)
-    - c2t_hccs_joinClan = 2046991423 (u may not have whitelist)
+    - c2t_hccs_clanFortunes = Icawn (MT) or Cheesefax (BAFH) - leave empty to disable zatara consults
+    - c2t_hccs_joinClan = 2046991423 (Margaretting Tyre) or 90485 (BAFH)
     - c2t_hccs_haltBeforeTest = false (useful for debugging)
     - c2t_hccs_printModtrace = true
     - c2t_hccs_skipFinalService = false
@@ -27,10 +27,11 @@ To install, run the following on the gCLI:
 * There's some flexibility in the tests if you're missing my iotms due to multiple levels of checks to see if you hit the thresholds, but works best (and may miss some thresholds due to resource removal if you dont have my iotms) with my iotms: https://api.aventuristo.net/av-snapshot?u=Prusias#a4
 
 ## PSCCS Specific Requirements
-* Only works as Pastamancer with CS relevant perms (thralls mandatory)
+* Only works as Pastamancer with CS relevant perms (Thralls mandatory)
 * Outfit named `CS_PM_stickknife_glitch` that has stickknife in mainhand
 * If you have kitchen royalty staff, outfit named `CS_PM_kitchenroyalty_glitch` with cheffstaff in mainhand and stickknife in offhand
-* If you have machine elf, modify `acquireInnerElf()` to support your clan with slime tube primed or ask Prusias for a whitelist to his clan.
+* If you have the roaring hearth, outfit named `CS_PM_roaringhearth_glitch` with the staff in mainhand and stickknife in offhand
+* If you have machine elf, modify `acquireInnerElf()` to support your clan with slime tube primed or ask Prusias for a whitelist to his clan (Restaurant Chill).
 * Must create a calzone of legend before starting run
 * Must have `ungulith` and `Witchess Witch` in combat lover locket
 * a source of free crafts. One of the skills that give 5 is enough.
@@ -39,7 +40,7 @@ To install, run the following on the gCLI:
 
 ## Non-exhaustive PSCCS optional elements
 * supports repaid diaper or great wolf beastly trousers as pull
-* Cmd f for a comment named `//CLAN VIP CONSULT HANDLING` and modify `//word match for Icawn` to support whatever bot you desire. Won't matter if you disable consults 
+* Cmd f for a comment named `//CLAN VIP CONSULT HANDLING` and modify `//word match for Icawn` to support whatever bot you desire. Cheesefax is added here too. Un/Comment what needed. Won't matter if you disable consults.
 
 ## Usage
 
@@ -47,11 +48,11 @@ To install, run the following on the gCLI:
 * Not likely to run out-of-the-box for most. Hoping to change this eventually
 * Able to be re-run at any point in a run, hopefully after manually correcting whatever caused it to stop
 * Will abort when a non-coil test does not meet its turn threshold after preparations for it are done, which defaults to 1 turn
-* Pre-Valhalla: put diabolic pizza cube in the workshed. Pizza cube can be optional _if_ you have most of the IotM in the lists below
+* Pre-Valhalla: have at least one Calzone of Legends
 * In Valhalla:
-    - Choose any class
-    - Choose the corresponding "knoll" moonsign
-    - Optimal astral stuff is astral six-pack and astral pet sweater, though neither is strictly required
+    - Choose Pastamancer
+    - Choose the Wallaby moonsign (knoll, myst)
+    - Optimal astral stuff is astral six-pack and astral chapeau, though neither is strictly required
 * The script uses moods `hccs-mus`, `hccs-mys`, and `hccs-mox` for leveling purposes on muscle, mysticality, and moxie classes, respectively. So set your own to what you want for what skills you have, otherwise you won't have many buffs while levelling.
     - Exception: the script will cast and handle stevedave's shanty of superiority and ur-kel's aria of annoyance, so either put them in the mood as well or leave 2 song slots open for them
     - The moods I use can be seen in [mood examples.txt](https://github.com/c2talon/c2t_hccs/blob/master/mood%20examples.txt) to use as a starting point.
@@ -127,7 +128,7 @@ While these are not strictly required, not having enough that either save turns 
 * [MayDay&trade; contract](https://kol.coldfront.net/thekolwiki/index.php/MayDay%E2%84%A2_contract) &mdash; can save up to 1.7 turns on item test on some classes
 
 ## Bugs?
-Report bugs here: https://github.com/C2Talon/c2t_hccs/issues
+Report bugs here: hhttps://github.com/Eric-Chng/psccs/issues
 
 ## TODO (eventually)
 
