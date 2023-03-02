@@ -1762,12 +1762,10 @@ boolean c2t_hccs_preSpell() {
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
 		if (my_basestat($stat[mysticality]) >= 250) {
 			c2t_hccs_pull($item[Staff of the Roaring Hearth]);
-		} else if (my_basestat($stat[mysticality]) >= 125) {
-			c2t_hccs_pull($item[Staff of Kitchen Royalty]);
+		} else if (my_basestat($stat[mysticality]) >= 200) {
 			c2t_hccs_pull($item[Staff of Kitchen Royalty]);
 		}
-	} else if (my_basestat($stat[mysticality]) >= 125)
-		c2t_hccs_pull($item[staff of simmering hatred]);//125 mys; saves 4 for spell test
+	} 
 
 	//get up to 2 obsidian nutcracker
 	int nuts = 2;
