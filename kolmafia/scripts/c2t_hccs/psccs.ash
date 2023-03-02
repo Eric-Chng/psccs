@@ -1818,9 +1818,9 @@ boolean c2t_hccs_preSpell() {
 	if (my_class() == $class[pastamancer]) {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
-		if (available_amount($item[Staff of the Roaring Hearth])) {
+		if (available_amount($item[Staff of the Roaring Hearth])>0) {
 			cli_execute("outfit CS_PM_roaringhearth_glitch");
-		} else if(available_amount($item[Staff of Kitchen Royalty])) {
+		} else if(available_amount($item[Staff of Kitchen Royalty])>0) {
 			cli_execute("outfit CS_PM_kitchenroyalty_glitch");
 		}
 	}
