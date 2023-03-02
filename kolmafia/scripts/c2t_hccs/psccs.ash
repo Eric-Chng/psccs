@@ -533,8 +533,10 @@ boolean c2t_hccs_preCoil() {
 					cli_execute(`fortune {fortunes};wait 5`);
 				}
 				else {
+					//word match for Cheesefax
+					cli_execute(`fortune {fortunes} pizza batman thick;wait 5`);
 					//word match for Icawn
-					cli_execute(`fortune {fortunes} Salt d Thick;wait 5`);
+					//cli_execute(`fortune {fortunes} Salt d Thick;wait 5`);
 				}
 			}
 		else
