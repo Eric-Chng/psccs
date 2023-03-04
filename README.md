@@ -43,6 +43,7 @@ To install, run the following on the gCLI:
 * supports repaid diaper or great wolf beastly trousers as pull
 * Cmd f for a comment named `//CLAN VIP CONSULT HANDLING` and modify `//word match for Icawn` to support whatever bot you desire. Won't matter if you disable consults 
 * If you own Staff of the Roaring Hearth, create an outfit named `CS_PM_roaringhearth_glitch` with cheffstaff in mainhand and stickknife in offhand
+* If you don't own sorceror of the shore grimoire. You can prestock a tobiko marble soda before ascending and it will pull and use. Will not fail if you don't prestock.
 
 ## Usage
 
