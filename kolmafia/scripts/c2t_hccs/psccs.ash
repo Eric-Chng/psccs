@@ -1811,6 +1811,9 @@ boolean c2t_hccs_preSpell() {
 		use_skill(1, $skill[Summon Alice's Army Cards]);
 		cli_execute("make tobiko marble soda");
 		cli_execute("use tobiko marble soda");
+	} else if (have_effect($effect[Pisces in the Skyces]) == 0 && !have_skill($skill[Summon Alice's Army Cards]) && pulls_remaining() > 0) {
+		c2t_hccs_pull($item[Tobiko Marble Soda]);
+		cli_execute("use tobiko marble soda");
 	}
 
 	//Zatara RNG
