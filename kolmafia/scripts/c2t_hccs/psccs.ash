@@ -521,7 +521,8 @@ boolean c2t_hccs_preCoil() {
 	c2t_hccs_vote();
 
 	//CLAN VIP CONSULT HANDLING
-	//probably should make a property handler, because this looks like it may get unwieldly
+	int originalClanId = get_clan_id();
+	boolean consulted = false;
 	if (get_property('_clanFortuneConsultUses').to_int() < 3) {
 		c2t_hccs_joinClan(get_property("c2t_hccs_joinClan"));
 
@@ -534,16 +535,14 @@ boolean c2t_hccs_preCoil() {
 				}
 				else {
 					//word match for Cheesefax
-					//cli_execute(`fortune {fortunes} pizza b thick;wait 5`);
-					//word match for Icawn
-					cli_execute(`fortune {fortunes} Salt d Thick;wait 5`);
+					cli_execute(`fortune {fortunes} pizza b thick;wait 10`);
 				}
 			}
 		else
 			print(`{fortunes} is not online; skipping fortunes`,"red");
 	}
 	//rejoin Redemption City
-	c2t_hccs_joinClan("2047004929");
+	if (consulted) c2t_hccs_joinClan("" + originalClanId);
 
 	//fax
 	// Disabled because fax = 1 KGE while combat lover, only 1 fight = KGE
