@@ -562,10 +562,10 @@ boolean c2t_hccs_preCoil() {
 
 	c2t_hccs_haveUse($skill[spirit of peppermint]);
 
-	//fish hatchet
-	if (c2t_hccs_vipFloundry())
-		if (!get_property('_floundryItemCreated').to_boolean() && !retrieve_item(1,$item[fish hatchet]))
-			print('Failed to get a fish hatchet',"red");
+	// //fish hatchet
+	// if (c2t_hccs_vipFloundry())
+	// 	if (!get_property('_floundryItemCreated').to_boolean() && !retrieve_item(1,$item[fish hatchet]))
+	// 		print('Failed to get a fish hatchet',"red");
 
 	//cod piece steps
 	/*if (!retrieve_item(1,$item[fish hatchet])) {
@@ -1404,7 +1404,7 @@ boolean c2t_hccs_preNoncombat() {
 	c2t_hccs_getEffect($effect[empathy]);
 
 	// Pool buff. Will no longer fall through to weapon due to familiar test after NC
-	//not going to use this here, as it doesn't do to the noncombat rate in the moment anyway
+	//not going to use this here, as it doesn't do to the noncombat rate in the moment anyway. Disgeist > 75 lb
 	//c2t_hccs_getEffect($effect[billiards belligerence]);
 
 	c2t_hccs_getEffect($effect[the sonata of sneakiness]);
@@ -1684,6 +1684,9 @@ boolean c2t_hccs_preWeapon() {
 		equip( $slot[off-hand], $item[fish hatchet]);
 
 	}
+
+	maximize('weapon damage,switch left-hand man,-weapon',false);
+
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
 		return true;
 
@@ -1694,6 +1697,8 @@ boolean c2t_hccs_preWeapon() {
 
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
 		return true;
+	
+	//can do fish hatchet here if needed
 
 	//cargo shorts as backup
 	if (available_amount($item[cargo cultist shorts]) > 0
@@ -1946,7 +1951,7 @@ boolean c2t_hccs_preMus() {
 		]
 		c2t_hccs_getEffect(x);
 	
-	return c2t_hccs_thresholdMet(TEST_MUS);
+	if (c2t_hccs_thresholdMet(TEST_MUS)) return true;
 
 	if (c2t_hccs_freeCraftsLeft() > 0 && have_effect($effect[Phorcefullness]) == 0) {
 		cli_execute("make philter of phorce");
