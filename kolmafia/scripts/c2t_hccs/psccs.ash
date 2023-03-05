@@ -1104,14 +1104,8 @@ boolean c2t_hccs_preItem() {
 
 	//spice ghost
 	if (have_skill($skill[bind spice ghost])) {
-		if (my_class() == $class[pastamancer]) {
-			if (my_thrall() != $thrall[spice ghost]) {
-				if (my_mp() < 250)
-					cli_execute('eat magical sausage');
-				c2t_hccs_haveUse($skill[bind spice ghost]);
-			}
-		}
-		else {
+		//thralls dont count
+		if (my_class() != $class[pastamancer]) {
 			if (my_mp() < 250)
 				cli_execute('eat magical sausage');
 			c2t_hccs_getEffect($effect[spice haze]);
@@ -1407,6 +1401,8 @@ boolean c2t_hccs_preNoncombat() {
 	// Pool buff. Will no longer fall through to weapon due to familiar test after NC
 	//not going to use this here, as it doesn't do to the noncombat rate in the moment anyway. Disgeist > 75 lb
 	//c2t_hccs_getEffect($effect[billiards belligerence]);
+	cli_execute("shrug Stevedave's Shanty of Superiority");
+	cli_execute("shrug Ur-Kel's Aria of Annoyance");
 
 	c2t_hccs_getEffect($effect[the sonata of sneakiness]);
 	c2t_hccs_getEffect($effect[smooth movements]);
@@ -1493,17 +1489,16 @@ boolean c2t_hccs_preNoncombat() {
 			cli_execute("asdonmartin drive stealthily");
 	}
 
-		//deprecated in favor of using hat for hatter fam weight buff
-	// //replacing glob buff with this
-	// //mafia doesn't seem to support retrieve_item() by itself for this yet, so visit_url() to the rescue:
-	// if (!retrieve_item(1,$item[porkpie-mounted popper])) {
-	// 	print("Buying limited-quantity items from the fireworks shop seems to still be broken. Feel free to add to the report at the following link saying that the bug is still a thing, but only if your clan actually has a fireworks shop:","red");//having a fully-stocked clan VIP lounge is technically a requirement for this script, so just covering my bases here
-	// 	print_html('<a href="https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/">https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/</a>');
-	// 	print("For now, just going to do it manually:","red");
-	// 	visit_url("clan_viplounge.php?action=fwshop&whichfloor=2",false,true);
-	// 	//visit_url("shop.php?whichshop=fwshop",false,true);
-	// 	visit_url("shop.php?whichshop=fwshop&action=buyitem&quantity=1&whichrow=1249&pwd",true,true);
-	// }
+	//replacing glob buff with this
+	//mafia doesn't seem to support retrieve_item() by itself for this yet, so visit_url() to the rescue:
+	if (!retrieve_item(1,$item[porkpie-mounted popper])) {
+		print("Buying limited-quantity items from the fireworks shop seems to still be broken. Feel free to add to the report at the following link saying that the bug is still a thing, but only if your clan actually has a fireworks shop:","red");//having a fully-stocked clan VIP lounge is technically a requirement for this script, so just covering my bases here
+		print_html('<a href="https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/">https://kolmafia.us/threads/sometimes-unable-to-buy-limited-items-from-underground-fireworks-shop.27277/</a>');
+		print("For now, just going to do it manually:","red");
+		visit_url("clan_viplounge.php?action=fwshop&whichfloor=2",false,true);
+		//visit_url("shop.php?whichshop=fwshop",false,true);
+		visit_url("shop.php?whichshop=fwshop&action=buyitem&quantity=1&whichrow=1249&pwd",true,true);
+	}
 	// //double-checking, and what will be used when mafia finally supports it:
 	// retrieve_item(1,$item[porkpie-mounted popper]);
 
@@ -2407,6 +2402,9 @@ void c2t_hccs_fights() {
 		use_familiar($familiar[machine elf]);
 		while (get_property("_machineTunnelsAdv").to_int() < 5) {
 			//make sure have some mp
+			if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart]) == 0 && my_mp() >= mp_cost($skill[Summon Candy Heart])) {
+				cli_execute("cast summon candy heart");
+			}
 			if (my_mp() < 50)
 				cli_execute('eat magical sausage');
 
