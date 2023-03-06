@@ -1677,7 +1677,7 @@ boolean c2t_hccs_preWeapon() {
 		use_skill(1, $skill[bind undead elbow macaroni]);
 		//what if maximizer removes stick knife? probably won't!
 		cli_execute("outfit CS_PM_stickknife_glitch");
-		equip( $slot[off-hand], $item[fish hatchet]);
+		//equip( $slot[off-hand], $item[fish hatchet]);
 
 	}
 
