@@ -381,6 +381,22 @@ int c2t_hccs_testTurns(int test) {
 	}
 }
 
+// from https://github.com/Malurth/Auto-2-day-HCCS/blob/master/scripts/AutoHCCS.ash
+int webScrapeAdvCost(int whichtest) {
+  buffer page = visit_url("council.php");
+  string teststr = "name=option value="+ whichtest +">";
+  if (contains_text(page, teststr)) {
+    int chars = 140; //chars to look ahead
+    string pagestr = substring(page, page.index_of(teststr)+length(teststr), page.index_of(teststr)+length(teststr)+chars);
+    string advstr = substring(pagestr, pagestr.index_of("(")+1, pagestr.index_of("(")+3);
+    advstr = replace_string(advstr, " ", ""); //removes whitespace, if the test is < 10 adv
+    return to_int(advstr);
+  } else {
+    print("[ERROR] Didn't find specified test on the council page. Already done?");
+    return 99999;
+  }
+}
+
 boolean c2t_hccs_thresholdMet(int test) {
 	if (test == TEST_COIL_WIRE || test == 30)
 		return true;
@@ -395,7 +411,7 @@ boolean c2t_hccs_thresholdMet(int test) {
 	string [int] arr = split_string(get_property('c2t_hccs_thresholds'),",");
 
 	if (count(arr) == 10 && arr[test-1].to_int() > 0 && arr[test-1].to_int() <= 60)
-		return (c2t_hccs_testTurns(test) <= arr[test-1].to_int());
+		return (webScrapeAdvCost(test) <= arr[test-1].to_int());
 	else {
 		print("Warning: the c2t_hccs_thresholds property is broken for this test; defaulting to a 1-turn threshold.","red");
 		return (c2t_hccs_testTurns(test) <= 1);
@@ -715,13 +731,13 @@ boolean c2t_hccs_preCoil() {
 
 	// second tome use // box of familiar jacks
 	// going to get camel equipment straight away
-	if (c2t_hccs_melodramedary()
-		&& available_amount($item[dromedary drinking helmet]) == 0
-		&& c2t_hccs_tomeClipArt($item[box of familiar jacks])) {
+	// if (c2t_hccs_melodramedary()
+	// 	&& available_amount($item[dromedary drinking helmet]) == 0
+	// 	&& c2t_hccs_tomeClipArt($item[box of familiar jacks])) {
 
-		use_familiar($familiar[melodramedary]);
-		use(1,$item[box of familiar jacks]);
-	}
+	// 	use_familiar($familiar[melodramedary]);
+	// 	use(1,$item[box of familiar jacks]);
+	// }
 
 	
 
@@ -966,8 +982,8 @@ boolean c2t_hccs_allTheBuffs() {
 	//third tome use //no longer using bee's knees for stat boost on non-moxie, but still need same strength buff?
 	if (my_mp() < 11)
 		cli_execute('rest free');
-	// if (have_effect($effect[purity of spirit]) == 0 && c2t_hccs_tomeClipArt($item[cold-filtered water]))
-	// 	use(1,$item[cold-filtered water]);
+	if (my_primestat() != $stat[mysticality] && have_effect($effect[purity of spirit]) == 0 && c2t_hccs_tomeClipArt($item[cold-filtered water]))
+		use(1,$item[cold-filtered water]);
 
 	//rhinestones to help moxie leveling
 	if (my_primestat() == $stat[moxie])
@@ -1541,11 +1557,6 @@ boolean c2t_hccs_preWeapon() {
 	if (available_amount($item[powerful glove]) > 0 && have_effect($effect[triple-sized]) == 0 && !c2t_cast($skill[cheat code: triple size]))
 		abort('Triple size failed');
 
-	//TODO: Consider ordering it to acquire a punching potion drop
-	//boombox weapon damage passive
-	if (item_amount($item[songboom&trade; boombox]) > 0 && get_property('boomBoxSong') != "These Fists Were Made for Punchin'")
-		cli_execute('boombox damage');
-
 	if (my_mp() < 500 && my_mp() != my_maxmp())
 		cli_execute('eat mag saus');
 
@@ -1996,6 +2007,10 @@ boolean c2t_hccs_preMox() {
 			c2t_hccs_haveUse($skill[Bind Penne Dreadful]);
 		}
 	}
+	if (my_class() == $class[seal clubber]) {
+		use(1, $item[Bird-a-Day calendar]);
+		use_skill(1, $skill[7323]);
+	}
 	if (c2t_hccs_thresholdMet(TEST_MOX))
 		return true;
 
@@ -2419,9 +2434,14 @@ void c2t_hccs_fights() {
 		//make sure have some mp
 		if (my_mp() < 50)
 			cli_execute('eat magical sausage');
+		while (my_maxhp() - my_hp() > 200) {
+			cli_execute("cast cannelloni cocoon");
+		}
 		c2t_hccs_levelingFamiliar(false);
-
-		maximize("mainstat,exp,equip Fourth of May Cosplay Saber,6 bonus designer sweatpants"+garbage+fam,false);
+		if (my_primestat() == $stat[mysticality])
+			maximize("mainstat,exp,equip Fourth of May Cosplay Saber,6 bonus designer sweatpants"+garbage+fam,false);
+		else
+			maximize("mainstat,exp,equip June Cleaver,6 bonus designer sweatpants"+garbage+fam,false);
 		c2t_hccs_combatLoversLocket($monster[Witchess Witch]);
 	}
 
