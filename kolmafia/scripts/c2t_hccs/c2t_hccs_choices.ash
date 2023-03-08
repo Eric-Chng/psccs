@@ -222,5 +222,9 @@ void main (int id,string page) {
 			else
 				run_choice(1);//mom's necklace
 			break;
+		//SIT
+		case 1494:
+			run_choice(2);
+			break;
 	}
 }

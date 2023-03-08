@@ -545,6 +545,13 @@ boolean c2t_hccs_preCoil() {
 	//vote
 	c2t_hccs_vote();
 
+	//SIT
+	if (available_amount($item[s.i.t. course completion certificate]) > 0
+		&& !get_property("_sitCourseCompleted").to_boolean())
+	{
+		use($item[s.i.t. course completion certificate]);
+	}
+
 	//CLAN VIP CONSULT HANDLING
 	int originalClanId = get_clan_id();
 	boolean consulted = false;
