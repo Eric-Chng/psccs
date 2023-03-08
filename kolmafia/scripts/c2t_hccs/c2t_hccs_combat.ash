@@ -16,6 +16,10 @@ string c2t_hccs_bowlSideways(string m);
 string c2t_hccs_bbChargeSkill(string m,skill ski);
 string c2t_hccs_bbChargeSkill(skill ski);
 
+//portscan logic
+string c2t_hccs_portscan();
+string c2t_hccs_portscan(string m);
+
 
 void main(int initround, monster foe, string page) {
 	//saber force
@@ -27,37 +31,35 @@ void main(int initround, monster foe, string page) {
 	string mHead = "scrollwhendone;";
 	string mSteal = "pickpocket;";
 
-	//basic macro/what to run when nothing special needs be done or after the special thing is done
-	string mBasic =	c2t_bb($skill[disarming thrust])
+	//top of basic macro, where all the weakening stuff is
+	string mBasicTop =
+		c2t_bb($skill[curse of weaksauce])
+		.c2t_bb($skill[disarming thrust])
 		.c2t_bb($skill[detect weakness])
 		.c2t_bb($skill[micrometeorite])
-		.c2t_hccs_bowlSideways()
+		.c2t_hccs_bowlSideways();
+	//bottom of basic combat macro
+	string mBasicBot
 		.c2t_bbIf("sealclubber || turtletamer || discobandit || accordionthief",
-			c2t_bb($skill[curse of weaksauce])
 			.c2t_bb($skill[sing along])
 			.c2t_bbWhile("!pastround 20",c2t_bb("attack;"))
 		)
 		.c2t_bbIf("pastamancer",
-			c2t_bb($skill[curse of weaksauce])
 			.c2t_bb($skill[stuffed mortar shell])
 			.c2t_bb($skill[sing along])
 			.c2t_bb($skill[saucegeyser])
 		)
 		.c2t_bbIf("sauceror",
-			c2t_bb($skill[curse of weaksauce])
 			.c2t_bb($skill[stuffed mortar shell])
 			.c2t_bb($skill[sing along])
 			.c2t_bb($skill[saucegeyser])
 		);
+	string mBasic = mBasicTop + mBasicBot;
 
 	//mostly mBasic with relativity sprinkled in and small heal to help moxie survive chaining
-	string mChain =	c2t_bb($skill[disarming thrust])
-		.c2t_bb($skill[detect weakness])
-		.c2t_bb($skill[micrometeorite])
-		.c2t_hccs_bowlSideways()
+	string mChain =	mBasicTop
 		.c2t_bbIf("sealclubber || turtletamer || discobandit || accordionthief",
-			c2t_bb($skill[curse of weaksauce])
-			.c2t_bbIf("discobandit || accordionthief",c2t_bb($skill[saucy salve]))
+			c2t_bbIf("discobandit || accordionthief",c2t_bb($skill[saucy salve]))
 			.c2t_bb($skill[sing along])
 			.c2t_bb($skill[lecture on relativity])
 			.c2t_bbWhile("!pastround 20",c2t_bb("attack;"))
@@ -264,6 +266,13 @@ void main(int initround, monster foe, string page) {
 					.c2t_bbWhile("!pastround 20","attack;")
 				);
 				return;
+			//portscan
+			case $monster[government agent]:
+				m = mHead + mSteal + mBasicTop;
+				m += c2t_hccs_portscan();
+				m += mBasicBot;
+				m.c2t_bbSubmit();
+				return;
 			//chain potential; basic otherwise
 			case $monster[sausage goblin]:
 				c2t_bbSubmit(mHead + mChain);
@@ -271,7 +280,7 @@ void main(int initround, monster foe, string page) {
 
 			//nostalgia goes here
 			case $monster[god lobster]:
-				m = mHead;
+				m = mHead + mBasicTop;
 				//grabbing moxie buff item
 				if (my_primestat() == $stat[moxie]
 					&& have_effect($effect[unrunnable face]) == 0
@@ -288,16 +297,13 @@ void main(int initround, monster foe, string page) {
 					m += c2t_bb($skill[feel envy]);
 				}
 
-				m += mBasic;
+				m += mBasicBot;
 				m.c2t_bbSubmit();
 				return;
 
 			case $monster[eldritch tentacle]:
 				c2t_bbSubmit(
-					mHead + mSteal
-					.c2t_bb($skill[micrometeorite])
-					.c2t_bb($skill[detect weakness])
-					.c2t_bb($skill[curse of weaksauce])
+					mHead + mSteal + mBasicTop
 					.c2t_bb($skill[sing along])
 					.c2t_bbIf("sealclubber || turtletamer || discobandit || accordionthief",
 						c2t_bbWhile("!pastround 20","attack;")
@@ -422,4 +428,15 @@ string c2t_hccs_bbChargeSkill(skill ski) {
 			break;
 	}
 	return get_property(prop).to_int() < max ? c2t_bb(ski) : "";
+}
+
+//portscan logic
+string c2t_hccs_portscan() return c2t_hccs_portscan("");
+string c2t_hccs_portscan(string m) {
+	if (!get_property("ownsSpeakeasy").to_boolean()
+		|| get_property("_speakeasyFreeFights").to_int() > 2)
+
+		return m;
+
+	return m + c2t_bb($skill[portscan]);
 }

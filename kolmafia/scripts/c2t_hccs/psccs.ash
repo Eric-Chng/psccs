@@ -545,6 +545,9 @@ boolean c2t_hccs_preCoil() {
 	//vote
 	c2t_hccs_vote();
 
+	//source terminal
+	c2t_hccs_sourceTerminalInit();
+
 	//SIT
 	if (available_amount($item[s.i.t. course completion certificate]) > 0
 		&& !get_property("_sitCourseCompleted").to_boolean())
@@ -1080,6 +1083,7 @@ boolean c2t_hccs_lovePotion(boolean useit,boolean dumpit) {
 }
 
 boolean c2t_hccs_preItem() {
+	string maxstr = 'item,2 booze drop,-equip broken champagne bottle,-equip surprisingly capacious handbag,-equip red-hot sausage fork,switch left-hand man';
 	//shrug off an AT buff
 	cli_execute("shrug ur-kel");
 
@@ -1208,7 +1212,7 @@ boolean c2t_hccs_preItem() {
 		use(1, $item[lavender candy heart]);
 	}
 
-	maximize('item,2 booze drop,-equip broken champagne bottle,-equip surprisingly capacious handbag,-equip red-hot sausage fork,switch left-hand man',false);
+	maximize(maxstr,false);
 	if (c2t_hccs_thresholdMet(TEST_ITEM))
 		return true;
 
@@ -1219,6 +1223,12 @@ boolean c2t_hccs_preItem() {
 	//repeat of previous maximize call
 	maximize('item,2 booze drop,-equip broken champagne bottle,-equip surprisingly capacious handbag,-equip red-hot sausage fork,switch left-hand man',false);
 	if (c2t_hccs_thresholdMet(TEST_ITEM))
+		return true;
+	
+	//source terminal enhance. opportunity cost of roughly 16,500 meat
+	if (c2t_hccs_haveSourceTerminal()
+		&& c2t_hccs_getEffect($effect[items.enh])
+		&& c2t_hccs_thresholdMet(TEST_ITEM))
 		return true;
 
 	//power plant; last to save batteries if not needed
@@ -2266,8 +2276,10 @@ void c2t_hccs_fights() {
 			//make sure camel is equipped
 			c2t_hccs_levelingFamiliar(false);
 
-			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+fam,false);
-
+			if (get_property("_sourceTerminalPortscanUses").to_int() > 0)
+				maximize("mainstat,exp,-equip garbage shirt,-equip kramco,-equip i voted,6 bonus designer sweatpants"+fam,false);
+			else
+				maximize("mainstat,100exp,-equip garbage shirt,-equip kramco,-equip i voted,6000 bonus designer sweatpants"+fam,false);
 			adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
 		}
 	}
