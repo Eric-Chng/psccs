@@ -1104,7 +1104,12 @@ boolean c2t_hccs_preItem() {
 
 
 	//get latte ingredient from fluffy bunny and cloake item buff
-	if (have_effect($effect[feeling lost]) == 0 && (have_effect($effect[bat-adjacent form]) == 0 || !get_property('latteUnlocks').contains_text('carrot'))) {
+	if (have_effect($effect[feeling lost]) == 0
+		&& ((available_amount($item[vampyric cloake]) > 0
+				&& have_effect($effect[bat-adjacent form]) == 0)
+			|| (!get_property('latteUnlocks').contains_text('carrot')
+				&& !get_property("c2t_hccs_disable.latteFishing").to_boolean())))
+	{
 		maximize("mainstat,equip latte,1000 bonus lil doctor bag,1000 bonus kremlin's greatest briefcase,1000 bonus vampyric cloake,6 bonus designer sweatpants",false);
 		c2t_hccs_levelingFamiliar(true);
 
