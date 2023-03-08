@@ -35,29 +35,32 @@ void main(int initround, monster foe, string page) {
 	string mBasicTop =
 		c2t_bb($skill[curse of weaksauce])
 		.c2t_bb($skill[disarming thrust])
-		.c2t_bb($skill[detect weakness])
 		.c2t_bb($skill[micrometeorite])
+		.c2t_bb($skill[detect weakness])
 		.c2t_hccs_bowlSideways();
-	//bottom of basic combat macro
-	string mBasicBot
-		.c2t_bbIf("sealclubber || turtletamer || discobandit || accordionthief",
-			.c2t_bb($skill[sing along])
+
+	//bottom of basic macro, where all the damaging stuff is
+	string mBasicBot =
+		c2t_bbIf("sealclubber || turtletamer || discobandit || accordionthief",
+			c2t_bb($skill[sing along])
 			.c2t_bbWhile("!pastround 20",c2t_bb("attack;"))
 		)
 		.c2t_bbIf("pastamancer",
-			.c2t_bb($skill[stuffed mortar shell])
+			c2t_bb($skill[stuffed mortar shell])
 			.c2t_bb($skill[sing along])
-			.c2t_bb($skill[saucegeyser])
 		)
 		.c2t_bbIf("sauceror",
-			.c2t_bb($skill[stuffed mortar shell])
+			c2t_bb($skill[stuffed mortar shell])
 			.c2t_bb($skill[sing along])
 			.c2t_bb($skill[saucegeyser])
 		);
-	string mBasic = mBasicTop + mBasicBot;
+
+	//basic macro/what to run when nothing special needs be done
+	string mBasic =	mBasicTop + mBasicBot;
 
 	//mostly mBasic with relativity sprinkled in and small heal to help moxie survive chaining
-	string mChain =	mBasicTop
+	string mChain =
+		mBasicTop
 		.c2t_bbIf("sealclubber || turtletamer || discobandit || accordionthief",
 			c2t_bbIf("discobandit || accordionthief",c2t_bb($skill[saucy salve]))
 			.c2t_bb($skill[sing along])

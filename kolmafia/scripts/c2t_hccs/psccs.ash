@@ -1122,7 +1122,7 @@ boolean c2t_hccs_preItem() {
 				&& !get_property("c2t_hccs_disable.latteFishing").to_boolean())))
 	{
 		maximize("mainstat,equip latte,1000 bonus lil doctor bag,1000 bonus kremlin's greatest briefcase,1000 bonus vampyric cloake,6 bonus designer sweatpants",false);
-		c2t_hccs_levelingFamiliar(true);
+		familiar fam = c2t_hccs_levelingFamiliar(true);
 
 		int start = my_turncount();
 		//get buffs with combat skills
@@ -1951,9 +1951,11 @@ boolean c2t_hccs_preSpell() {
 	if (my_class() == $class[pastamancer]) {
 		//PM can pull stick knife of loathing with elbow macaroni
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
-		print("2", "red");
-		cli_execute("outfit CS_PM_kitchenroyalty_glitch");
-	}
+		if (available_amount($item[Staff of the Roaring Hearth])>0) {
+			cli_execute("outfit CS_PM_roaringhearth_glitch");
+		} else if(available_amount($item[Staff of Kitchen Royalty])>0) {
+			cli_execute("outfit CS_PM_kitchenroyalty_glitch");
+		}	}
 
 	return c2t_hccs_thresholdMet(TEST_SPELL);
 }
