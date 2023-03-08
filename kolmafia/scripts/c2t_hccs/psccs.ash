@@ -337,7 +337,16 @@ void c2t_hccs_testData(string testType,int testNum,int turnsTaken,int turnsExpec
 //print results of tests
 void c2t_hccs_printTestData() {
 	string [int] d;
-	print("Summary of tests:", "blue");
+	string pulls = get_property("_roninStoragePulls");
+
+	print("");
+	if (pulls != "") {
+		print("Pulls used this run:", "teal");
+		foreach i,x in split_string(pulls,",")
+			print(x.to_item());
+		print("");
+	}
+	print("Summary of tests:", "teal");
 	foreach i,x in split_string(get_property("_c2t_hccs_testData"),";") {
 		d = split_string(x,",");
 		print(`{d[0]} test took {d[2]} turn(s){to_int(d[1]) > 4 && to_int(d[3]) < 1?"; it's being overcapped by "+(1-to_int(d[3]))+" turn(s) of resources":""}`);
