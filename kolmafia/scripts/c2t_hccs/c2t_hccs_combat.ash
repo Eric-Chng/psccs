@@ -22,6 +22,7 @@ string c2t_hccs_portscan(string m);
 
 
 void main(int initround, monster foe, string page) {
+	print("Turncount is " + my_adventures());
 	//saber force
 	if (have_effect($effect[meteor showered]) > 0 || have_effect($effect[fireproof foam suit]) > 0) {
 		c2t_bb($skill[use the force]).c2t_bbSubmit();
@@ -36,8 +37,7 @@ void main(int initround, monster foe, string page) {
 		c2t_bb($skill[curse of weaksauce])
 		.c2t_bb($skill[disarming thrust])
 		.c2t_bb($skill[micrometeorite])
-		.c2t_bb($skill[detect weakness])
-		.c2t_hccs_bowlSideways();
+		.c2t_bb($skill[detect weakness]);
 
 	//bottom of basic macro, where all the damaging stuff is
 	string mBasicBot =
@@ -48,6 +48,7 @@ void main(int initround, monster foe, string page) {
 		.c2t_bbIf("pastamancer",
 			c2t_bb($skill[stuffed mortar shell])
 			.c2t_bb($skill[sing along])
+			.c2t_bb($skill[saucegeyser])
 		)
 		.c2t_bbIf("sauceror",
 			c2t_bb($skill[stuffed mortar shell])
@@ -210,6 +211,16 @@ void main(int initround, monster foe, string page) {
 			case $monster[party girl]:
 			case $monster["plain" girl]:
 				m = mHead + mSteal;
+				//Asdon
+				int nep = 10-get_property("_neverendingPartyFreeTurns").to_int();
+				int free = c2t_hccs_freeKillsLeft();
+				if (!get_property("_missileLauncherUsed").to_boolean() 
+				&& nep + free == 0
+				&& get_fuel() >= 174) { //runs last, should not bowl sideways
+					m += c2t_bb($skill[Asdon Martin: Missile Launcher]);
+					m.c2t_bbSubmit();
+					return;
+				}
 				if (have_equipped($item[backup camera]) && c2t_hccs_backupCameraLeft() > 0) {
 					m += c2t_bb($skill[back-up to your last enemy]).c2t_bb("twiddle;");
 					m.c2t_bbSubmit();
@@ -236,14 +247,14 @@ void main(int initround, monster foe, string page) {
 				}
 				//free combats at NEP
 				else
-					c2t_bbSubmit(m + mBasic);
+					c2t_bbSubmit(m.c2t_hccs_bowlSideways() + mBasic);
 
 				return;
 			//machine elf free combats
 			case $monster[Perceiver of Sensations]:
 			case $monster[Performer of Actions]:
 			case $monster[Thinker of Thoughts]:
-				c2t_bbSubmit(m + mBasic);
+				c2t_bbSubmit(mHead.c2t_hccs_bowlSideways().c2t_hccs_portscan() + mBasic);
 				return;
 
 			//most basic of combats
@@ -259,7 +270,9 @@ void main(int initround, monster foe, string page) {
 			case $monster[gator-human hybrid]:
 			case $monster[traveling hobo]:
 			case $monster[undercover prohibition agent]:
+				print("Encountered a regular fight with: " + foe,"red");
 				c2t_bbSubmit(mHead + mSteal + mBasic);
+				//prob dont need to portscan cuz should never encounter
 				return;
 			//Witchess Witch
 			case $monster[Witchess Witch]:
@@ -269,6 +282,37 @@ void main(int initround, monster foe, string page) {
 					.c2t_bbWhile("!pastround 20","attack;")
 				);
 				return;
+			//Shadow Rift
+			case $monster[shadow hexagon]:
+			case $monster[shadow orb]:
+			case $monster[shadow prism]:
+			case $monster[shadow bat]:
+			case $monster[shadow slab]:
+			case $monster[shadow snake]:
+			case $monster[shadow stalk]:
+			case $monster[shadow guy]:
+			case $monster[shadow devil]:
+			case $monster[shadow tree]:
+			case $monster[shadow spider]:
+			case $monster[shadow cow]:
+				c2t_bbSubmit(mHead + mBasic.c2t_bb($skill[saucegeyser]));
+				return;
+			//Shadow Rift Boss
+			case $monster[shadow matrix]:
+				c2t_bbSubmit(mHead + mBasic.c2t_bb($skill[saucegeyser]).c2t_bb($skill[saucegeyser]));
+				return;
+			case $monster[shadow orrery]:
+				c2t_bbSubmit(mHead + mBasicTop.c2t_bb($skill[northern explosion]).c2t_bb($skill[northern explosion]).c2t_bb($skill[northern explosion]).c2t_bb($skill[northern explosion]));
+				return;
+			case $monster[shadow scythe]:
+				c2t_bbSubmit(mHead + mBasicTop.c2t_bb($skill[saucegeyser]).c2t_bb($skill[saucegeyser]));
+				return;
+			//Passive dmg
+			case $monster[shadow cauldron]:
+			case $monster[shadow tongue]:
+			//Can't be staggered
+			case $monster[shadow spire]:
+				c2t_bbSubmit(c2t_bb($skill[saucegeyser]).c2t_bb($skill[saucegeyser]));
 			//portscan
 			case $monster[government agent]:
 				m = mHead + mSteal + mBasicTop;
@@ -280,7 +324,6 @@ void main(int initround, monster foe, string page) {
 			case $monster[sausage goblin]:
 				c2t_bbSubmit(mHead + mChain);
 				return;
-
 			//nostalgia goes here
 			case $monster[god lobster]:
 				m = mHead + mBasicTop;
@@ -374,15 +417,16 @@ string c2t_hccs_bowlSideways(string m) {
 		return m;
 	if (my_familiar() == $familiar[ghost of crimbo carols])
 		return m;
-	if (my_location() != $location[the neverending party])
-		return m;
 	if (my_familiar() == $familiar[pocket professor])//professor copies should be in the zone
 		return out;
 	if (backup > 0 && backup < 11)//backups unaffected, so skip while doing them
 		return m;
-	if (nep+free > 1)
+	// if (get_property("_speakeasyFreeFights").to_int() < 3 && my_location() == $location[An Unusually Quiet Barroom Brawl])
+	// 	return out;
+	if (my_location() == $location[The Deep Machine Tunnels]
+		&& get_property("_machineTunnelsAdv").to_int() < 4) //make sure it doesn't bowl sideways at the end
 		return out;
-	if (get_property("_speakeasyFreeFights").to_int() < 3 && my_location() == $location[An Unusually Quiet Barroom Brawl])
+	if (nep+free > 1 && my_location() == $location[The Neverending Party])
 		return out;
 	return m;
 }
@@ -436,10 +480,13 @@ string c2t_hccs_bbChargeSkill(skill ski) {
 //portscan logic
 string c2t_hccs_portscan() return c2t_hccs_portscan("");
 string c2t_hccs_portscan(string m) {
-	if (!get_property("ownsSpeakeasy").to_boolean()
-		|| get_property("_speakeasyFreeFights").to_int() > 2)
+	if (get_property("ownsSpeakeasy").to_boolean()
+		&& get_property("_speakeasyFreeFights").to_int() < 3
+		&& my_location() == $location[An Unusually Quiet Barroom Brawl])
+		return m + c2t_bb($skill[portscan]);
+	else if (my_location() == $location[The Deep Machine Tunnels]
+		&& get_property("_machineTunnelsAdv").to_int() == 4) //pref updated after fight
+		return m + c2t_bb($skill[portscan]);
 
-		return m;
-
-	return m + c2t_bb($skill[portscan]);
+	return m;
 }

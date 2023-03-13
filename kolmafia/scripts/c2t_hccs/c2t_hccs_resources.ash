@@ -393,6 +393,8 @@ boolean c2t_hccs_genie(effect eff) {
 		return false;
 
 	cli_execute(`genie effect {eff}`);
+	
+	set_property("_psccs_wishes_used",get_property("_psccs_wishes_used")+ `,Wished for {eff}`);
 
 	return have_effect(eff) > 0;
 }
@@ -406,6 +408,7 @@ boolean c2t_hccs_genie(monster mon) {
 
 	if (get_property("lastEncounter") != mon && get_property("lastEncounter") != "Using the Force")
 		return false;
+	set_property("_psccs_wishes_used",get_property("_psccs_wishes_used")+ `,Fought {mon}`);
 	return true;
 }
 
@@ -895,6 +898,7 @@ boolean c2t_hccs_tomeClipArt(item it) {
 		return false;
 	if (get_property("tomeSummons").to_int() >= 3)
 		return false;
+	set_property("_psccs_clipArts_used",get_property("_psccs_clipArts_used")+ `,Summoned {it}`);
 	return retrieve_item(it);
 }
 

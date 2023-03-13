@@ -14,21 +14,21 @@ void main (int id,string page) {
 		// 2: decline quest
 		// 6: leave
 		case 1322:
+			print("Handling NEP quest", "red");
 			switch (get_property("_questPartyFairQuest")) {
+				print(get_property("_questPartyFairQuest"));
 				case "food":
 				case "booze":
 					run_choice(1);
+					print("Accepting NEP quest", "red");
 					break;
 				case "dj":
 				case "trash":
-					if (get_property("kingLiberated").to_boolean()) {
-						run_choice(1);
-						break;
-					}
 				case "partiers":
 				case "woots":
 				default:
 					run_choice(2);
+					print("Rejecting NEP quest", "red");
 					break;
 			}
 			break;
@@ -224,7 +224,55 @@ void main (int id,string page) {
 			break;
 		//SIT
 		case 1494:
+			run_choice(2);//insectology
+			break;
+		//labyrinth of shadows
+		/*
+		Calling Rufus
+		1: boss quest (not free)
+		2: artifact quest
+		3: item quest
+		4: hang up
+		*/
+		case 1497:
 			run_choice(2);
+			break;
+		case 1498:
+			run_choice(1);//finish quest
+			break;
+		case 1499:
+			string str;
+			switch (get_property("rufusQuestTarget")) {
+				default:
+				case "shadow heptahedron":
+					str = "Mysticality";
+					break;
+				case "shadow snowflake":
+					str = "Shadow's Chill";
+					break;
+				case "shadow heart":
+					str = "Shadow's Heart";
+					break;
+				case "shadow wave":
+					str = "Shadow's Thickness";
+					break;
+				case "shadow lighter":
+					str = "Muscle";
+					break;
+				case "shadow bucket":
+					str = "Moxie";
+					break;
+			}
+			for tries from 1 to 50 {
+				string[int] choices = available_choice_options(true);
+				print("Attempt " + tries + " with " + choices[2]);
+				for i from 2 to 4 if (choices[i].contains_text(str)) {
+					run_choice(i);
+					return;
+				}
+				run_choice(1);
+			}
+			abort("labyrinth of shadows broke or just super unlucky?");
 			break;
 	}
 }

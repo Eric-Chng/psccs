@@ -338,15 +338,31 @@ void c2t_hccs_testData(string testType,int testNum,int turnsTaken,int turnsExpec
 void c2t_hccs_printTestData() {
 	string [int] d;
 	string pulls = get_property("_roninStoragePulls");
+	string wishes = get_property("_psccs_wishes_used");
+	string synths = get_property("_psccs_synths_used");
+	string clipArts = get_property("_psccs_clipArts_used");
 
 	print("");
+	if (clipArts != "") {
+		print("Clip Arts used this run:", "teal");
+		foreach i,x in split_string(clipArts,",")
+			print(x);
+		print("");
+	}
 	if (pulls != "") {
 		print("Pulls used this run:", "teal");
 		foreach i,x in split_string(pulls,",")
 			print(x.to_item());
 		print("");
 	}
+	if (wishes != "") {
+		print("Wishes used this run:", "teal");
+		foreach i,x in split_string(wishes,",")
+			print(x);
+		print("");
+	}
 	print("Summary of tests:", "teal");
+	print("Casting simmering took 1 turn.");
 	foreach i,x in split_string(get_property("_c2t_hccs_testData"),";") {
 		d = split_string(x,",");
 		print(`{d[0]} test took {d[2]} turn(s){to_int(d[1]) > 4 && to_int(d[3]) < 1?"; it's being overcapped by "+(1-to_int(d[3]))+" turn(s) of resources":""}`);
@@ -540,7 +556,8 @@ boolean c2t_hccs_preCoil() {
 	}
 
 	//autumn-aton for autumn leaf
-	cli_execute("fallguy send The Sleazy Back Alley");
+	if (available_amount($item[autumn-aton]) == 1 && available_amount($item[autumn leaf]) == 0)
+		cli_execute("fallguy send The Sleazy Back Alley");
 
 	//vote
 	c2t_hccs_vote();
@@ -577,7 +594,7 @@ boolean c2t_hccs_preCoil() {
 			print(`{fortunes} is not online; skipping fortunes`,"red");
 	}
 	//rejoin Redemption City
-	if (consulted) c2t_hccs_joinClan("" + originalClanId);
+	cli_execute("/whitelist Redemption City");
 
 	//fax
 	// Disabled because fax = 1 KGE while combat lover, only 1 fight = KGE
@@ -748,8 +765,8 @@ boolean c2t_hccs_preCoil() {
 	if (!get_property('_borrowedTimeUsed').to_boolean() && c2t_hccs_tomeClipArt($item[borrowed time]))
 		use(1,$item[borrowed time]);
 
-	// second tome use // box of familiar jacks
-	// going to get camel equipment straight away
+	// // second tome use // box of familiar jacks
+	// // going to get camel equipment straight away
 	// if (c2t_hccs_melodramedary()
 	// 	&& available_amount($item[dromedary drinking helmet]) == 0
 	// 	&& c2t_hccs_tomeClipArt($item[box of familiar jacks])) {
@@ -757,6 +774,10 @@ boolean c2t_hccs_preCoil() {
 	// 	use_familiar($familiar[melodramedary]);
 	// 	use(1,$item[box of familiar jacks]);
 	// }
+	if (available_amount($item[cold-filtered water]) == 0 && have_effect($effect[Purity of Spirit]) == 0
+	&& c2t_hccs_tomeClipArt($item[cold-filtered water])) {
+		use(1,$item[cold-filtered water]);
+	}
 
 	
 
@@ -806,13 +827,13 @@ boolean c2t_hccs_buffExp() {
 			c2t_hccs_genie($effect[different way of seeing things]);
 
 		// mys exp synthesis
-		if (!c2t_hccs_sweetSynthesis($effect[synthesis: learning]))
-			print('Failed to synthesize exp buff','red');
+		// if (!c2t_hccs_sweetSynthesis($effect[synthesis: learning]))
+		// 	print('Failed to synthesize exp buff','red');
 
 		//face
 		c2t_hccs_getEffect($effect[inscrutable gaze]);
 
-		if (numeric_modifier('mysticality experience percent') < 99.999) {
+		if (numeric_modifier('mysticality experience percent') < 59.999) {
 			abort('Insufficient +exp%');
 			return false;
 		}
@@ -1036,7 +1057,7 @@ boolean c2t_hccs_lovePotion(boolean useit,boolean dumpit) {
 	if (!have_skill($skill[love mixology]))
 		return false;
 
-	item love_potion = $item[love potion #0];
+	item love_potion = $item[love potion #XYZ];
 	effect love_effect = $effect[tainted love potion];
 
 	if (have_effect(love_effect) == 0) {
@@ -1502,10 +1523,6 @@ boolean c2t_hccs_preNoncombat() {
 
 	c2t_hccs_getEffect($effect[silent running]);
 
-	string fam;
-	if (c2t_hccs_levelingFamiliar(true) == $familiar[melodramedary] && available_amount($item[dromedary drinking helmet]) > 0)
-		fam = ",equip dromedary drinking helmet";
-
 	//Can fit in a cartographic map your monsters here to feel nostalgic/envy with Glob
 	//works with god lobster
 	if (have_familiar($familiar[god lobster]) && have_effect($effect[silence of the god lobster]) == 0 && get_property('_godLobsterFights').to_int() < 3) {
@@ -1842,7 +1859,8 @@ boolean c2t_hccs_preSpell() {
 		//USES OUTFIT GLITCH WITH AN OUTFIT NAMED CS_PM_stickknife_glitch
 		if (my_basestat($stat[mysticality]) >= 250) {
 			c2t_hccs_pull($item[Staff of the Roaring Hearth]);
-		} else if (my_basestat($stat[mysticality]) >= 200) {
+		} 
+		if (my_basestat($stat[mysticality]) >= 200 && available_amount($item[Staff of the Roaring Hearth]) == 0) {
 			c2t_hccs_pull($item[Staff of Kitchen Royalty]);
 		}
 	} 
@@ -2207,14 +2225,8 @@ void c2t_hccs_fights() {
 	else if (my_primestat() == $stat[moxie])
 		cli_execute('mood hccs-mox');
 
-	//spice ghost
-	if (my_class() == $class[pastamancer] && have_skill($skill[bind spice ghost])) {
-		if (my_thrall() != $thrall[spice ghost]) {
-			if (my_mp() < 250)
-				cli_execute('eat magical sausage');
-			c2t_hccs_haveUse($skill[bind spice ghost]);
-		}
-	}
+	if (c2t_hccs_backupCamera() && get_property('backupCameraMode') != 'ml')
+		cli_execute('backupcamera ml');
 
 	//turtle tamer blessing
 	if (my_class() == $class[turtle tamer]) {
@@ -2263,26 +2275,12 @@ void c2t_hccs_fights() {
 
 	c2t_hccs_levelingFamiliar(false);
 
-	//Use Oliver's Place speakeasy free fights
-	//Bowl sideways is enabled for these. The 2 turns lost of bowl sideways in NEP of stats should be made up by new witchess witch fight
-	if (get_property('ownsSpeakeasy').to_boolean()) {
-		while (get_property("_speakeasyFreeFights").to_int() < 3) {
-			// Summon Candy Heart
-			if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart]) == 0) {
-				cli_execute("cast summon candy heart");
-			}
-			//make sure have some mp
-			if (my_mp() < 50)
+	//Lasagmbie
+	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Lasagmbie])) {
+		if (my_thrall() != $thrall[Lasagmbie]) {
+			if (my_mp() < 250)
 				cli_execute('eat magical sausage');
-
-			//make sure camel is equipped
-			c2t_hccs_levelingFamiliar(false);
-
-			if (get_property("_sourceTerminalPortscanUses").to_int() > 0)
-				maximize("mainstat,exp,-equip garbage shirt,-equip kramco,-equip i voted,6 bonus designer sweatpants"+fam,false);
-			else
-				maximize("mainstat,100exp,-equip garbage shirt,-equip kramco,-equip i voted,6000 bonus designer sweatpants"+fam,false);
-			adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
+			c2t_hccs_haveUse($skill[Bind Lasagmbie]);
 		}
 	}
 
@@ -2307,11 +2305,141 @@ void c2t_hccs_fights() {
 
 	c2t_hccs_wandererFight();//shouldn't do kramco
 
-	//setup for NEP and backup fights
+	//setup for Scaler Fights
 	string doc,garbage,kramco;
+	if (c2t_hccs_levelingFamiliar(false) == $familiar[melodramedary] && available_amount($item[dromedary drinking helmet]) > 0)
+		fam = ",equip dromedary drinking helmet";
+	else if (available_amount($item[tiny stillsuit]) > 0)
+		fam = ",equip tiny stillsuit";
+
+	//backup fights will turns this off after a point, so keep turning it on
+	if (get_property('garbageShirtCharge').to_int() > 0)
+		garbage = ",equip garbage shirt";
+	else
+		garbage = "";
+
+	//SHADOW RIFT NOT SCALAR BUT ENOUGH GARBAGE SHIRT SCRAPS
+	//use closed-circuit pay phone
+	if (get_property("_psccs_shadowRiftBossAttempted") == "" && have_effect($effect[shadow affinity]) == 0)
+		use(1,$item[closed-circuit pay phone]);
+	//Shadow Rift Free Fights
+	while(have_effect($effect[shadow affinity]) > 0) {
+		if (my_mp() < 50)
+			cli_execute('eat magical sausage');
+		while (my_maxhp() - my_hp() > 200) {
+			cli_execute("cast cannelloni cocoon");
+		}
+		c2t_hccs_levelingFamiliar(false);
+		if (my_primestat() == $stat[mysticality])
+			maximize("mainstat,exp,equip Fourth of May Cosplay Saber,6 bonus designer sweatpants"+garbage+fam,false);
+		else
+			maximize("mainstat,exp,-equip kramco,-equip i voted,equip June Cleaver,6 bonus designer sweatpants"+garbage+fam,false);
+		adv1($location[Shadow Rift (The Right Side of the Tracks)],-1,"");
+	}
+	//Shadow Boss. Deprecated since it takes a turn (shadow affinity runs out by 12th combat)
+	if (get_property("_psccs_shadowRiftBossAttempted") == "" && get_property("rufusQuestType") == "entity") {
+		if (my_mp() < 50)
+			cli_execute('eat magical sausage');
+		while (my_maxhp() - my_hp() > 50) {
+			cli_execute("cast cannelloni cocoon");
+		}
+		c2t_hccs_levelingFamiliar(false);
+		//Never want fourth of may over cleaver in case it fails. Might need cleaver elemental dmg
+		maximize("mainstat,exp,equip June Cleaver,6 bonus designer sweatpants"+garbage+fam,false);
+		if (get_property("rufusQuestTarget") == "shadow scythe") //scythe always wins init, block 90%
+			equip($slot[shirt],$item[Jurassic Parka]);
+		else if (get_property("rufusQuestTarget") == "shadow orrery") {
+			if (my_class() == $class[pastamancer] && have_skill($skill[Bind Undead Elbow Macaroni])) {
+				if (my_thrall() != $thrall[Elbow Macaroni]) {
+					if (my_mp() < 100)
+						cli_execute('eat magical sausage');
+					c2t_hccs_haveUse($skill[Bind Undead Elbow Macaroni]);
+				}
+			}
+		}
+		
+		set_property("_psccs_shadowRiftBossAttempted","entityFought");
+		adv1($location[Shadow Rift (The Right Side of the Tracks)],-1,"");
+		//Finish quest cuz might as well
+		use(1,$item[closed-circuit pay phone]);
+	}
+	//Lasagmbie
+	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Lasagmbie])) {
+		if (my_thrall() != $thrall[Lasagmbie]) {
+			if (my_mp() < 250)
+				cli_execute('eat magical sausage');
+			c2t_hccs_haveUse($skill[Bind Lasagmbie]);
+		}
+	}
+	//locket 1 Witchess Witch for battle broom
+	//If ever removed, look at oliver's den bowl sideways. Atm, it leaves 2 NEP fights without bowl sideways.
+	if (available_amount($item[Battle broom]) == 0) {
+		//make sure have some mp
+		if (my_mp() < 50)
+			cli_execute('eat magical sausage');
+		while (my_maxhp() - my_hp() > 20) {
+			cli_execute("cast cannelloni cocoon");
+		}
+		c2t_hccs_levelingFamiliar(false);
+		if (my_primestat() == $stat[mysticality])
+			maximize("mainstat,exp,equip Fourth of May Cosplay Saber,6 bonus designer sweatpants"+garbage+fam,false);
+		else
+			maximize("mainstat,exp,equip June Cleaver,6 bonus designer sweatpants"+garbage+fam,false);
+		//Weapon dmg buffs, Witchess witch is hard. Don't use AT songs!
+		c2t_hccs_getEffect($effect[carol of the bulls]);
+		c2t_hccs_getEffect($effect[rage of the reindeer]);
+		c2t_hccs_getEffect($effect[frenzied, bloody]);
+		c2t_hccs_getEffect($effect[scowl of the auk]);
+		c2t_hccs_getEffect($effect[tenacity of the snapper]);
+		if (have_skill($skill[song of the north]))
+			c2t_hccs_getEffect($effect[song of the north]);
+		c2t_hccs_combatLoversLocket($monster[Witchess Witch]);
+	}
 
 	if (c2t_hccs_backupCamera() && get_property('backupCameraMode') != 'ml')
 		cli_execute('backupcamera ml');
+
+	//5 machine elf free fights
+	if (have_familiar($familiar[machine elf])) {
+		use_familiar($familiar[machine elf]);
+		while (get_property("_machineTunnelsAdv").to_int() < 5) {
+			//make sure have some mp
+			if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart]) == 0 && my_mp() >= mp_cost($skill[Summon Candy Heart])) {
+				cli_execute("cast summon candy heart");
+			}
+			if (my_mp() < 50)
+				cli_execute('eat magical sausage');
+			if (my_primestat() == $stat[mysticality])
+				maximize("mainstat,exp,equip Fourth of May Cosplay Saber,6 bonus designer sweatpants"+garbage,false);
+			else
+				maximize("mainstat,exp,equip June Cleaver,6 bonus designer sweatpants"+garbage,false);
+			adv1($location[The Deep Machine Tunnels],-1,"");
+		}
+	}
+
+	//Use Oliver's Place speakeasy free fights
+	if (get_property('ownsSpeakeasy').to_boolean()) {
+		while (get_property("_speakeasyFreeFights").to_int() < 3) {
+			// Summon Candy Heart
+			if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart]) == 0) {
+				cli_execute("cast summon candy heart");
+			}
+			//make sure have some mp
+			if (my_mp() < 50)
+				cli_execute('eat magical sausage');
+
+			//make sure camel is equipped
+			c2t_hccs_levelingFamiliar(false);
+
+			if (get_property("_sourceTerminalPortscanUses").to_int() > 0)
+				maximize("mainstat,exp,equip garbage shirt,-equip kramco,-equip i voted,6 bonus designer sweatpants"+fam,false);
+			else
+				maximize("mainstat,100exp,-equip garbage shirt,-equip kramco,equip i voted,6000 bonus designer sweatpants"+fam,false);
+			adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
+		}
+	}
+
+	//NEP Prep
 
 	if (!get_property('_gingerbreadMobHitUsed').to_boolean())
 		print("Running backup camera and Neverending Party fights","blue");
@@ -2365,17 +2493,7 @@ void c2t_hccs_fights() {
 
 			c2t_hccs_pizzaCube($effect[certainty]);
 
-		//drink hot socks ASAP
-		//DEPRECATING HOT SOCKS
-		// if (have_effect($effect[1701]) == 0 && my_meat() > 5000) {//1701 is the desired version of $effet[hip to the jive]
-		// 	if (my_mp() < 150)
-		// 		cli_execute('eat mag saus');
-		// 	cli_execute('shrug stevedave');
-		// 	c2t_hccs_getEffect($effect[ode to booze]);
-		// 	cli_execute('drink hot socks');
-		// 	cli_execute('shrug ode to booze');
-		// 	c2t_hccs_getEffect($effect[stevedave's shanty of superiority]);
-		// }
+		
 
 		//drink astral pilsners once level 11; saving 1 for use in mime army shotglass post-run
 		if (my_level() >= 11 && item_amount($item[astral pilsner]) == 6) {
@@ -2464,8 +2582,15 @@ void c2t_hccs_fights() {
 		// 	adv1($location[the dire warren],-1,"");
 		// 	continue;//don't want to fall into NEP in this state
 		// }
+		//sombrero Feel pride fights for max exp
+		if (get_property("_feelPrideUsed").to_int() < 3 && get_property('_neverendingPartyFreeTurns').to_int() > 4) {
+			if (available_amount($item[tiny stillsuit]) > 0)
+				fam = ",equip tiny stillsuit";
+			use_familiar(c2t_priority($familiars[galloping grill,hovering sombrero]));
+		}
+
 		//inital and post-latte backup fights
-		else if (c2t_hccs_backupCameraLeft() > 0 && get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin]) {
+		if (c2t_hccs_backupCameraLeft() > 0 && get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin]) {
 			//only use kramco offhand if target is sausage goblin to not mess things up
 			if (get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin])
 				kramco = ",equip kramco";
@@ -2484,38 +2609,7 @@ void c2t_hccs_fights() {
 
 		adv1($location[the neverending party],-1,"");
 	}
-	//5 machine elf free fights
-	if (have_familiar($familiar[machine elf])) {
-		use_familiar($familiar[machine elf]);
-		while (get_property("_machineTunnelsAdv").to_int() < 5) {
-			//make sure have some mp
-			if (have_skill($skill[Summon Candy Heart]) && available_amount($item[green candy heart]) == 0 && my_mp() >= mp_cost($skill[Summon Candy Heart])) {
-				cli_execute("cast summon candy heart");
-			}
-			if (my_mp() < 50)
-				cli_execute('eat magical sausage');
-
-			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam+doc,false);
-
-			adv1($location[The Deep Machine Tunnels],-1,"");
-		}
-	}
-	//locket 1 Witchess Witch for battle broom
-	//If ever removed, look at oliver's den bowl sideways. Atm, it leaves 2 NEP fights without bowl sideways.
-	if (available_amount($item[Battle broom]) == 0) {
-		//make sure have some mp
-		if (my_mp() < 50)
-			cli_execute('eat magical sausage');
-		while (my_maxhp() - my_hp() > 200) {
-			cli_execute("cast cannelloni cocoon");
-		}
-		c2t_hccs_levelingFamiliar(false);
-		if (my_primestat() == $stat[mysticality])
-			maximize("mainstat,exp,equip Fourth of May Cosplay Saber,6 bonus designer sweatpants"+garbage+fam,false);
-		else
-			maximize("mainstat,exp,equip June Cleaver,6 bonus designer sweatpants"+garbage+fam,false);
-		c2t_hccs_combatLoversLocket($monster[Witchess Witch]);
-	}
+	
 
 	//Asdonfuel
 	if (get_workshed() == $item[Asdon Martin keyfob] && have_effect($effect[driving observantly]) == 0) {
@@ -2537,9 +2631,49 @@ void c2t_hccs_fights() {
 				cli_execute("make 1 loaf of soda bread");
 				cli_execute("asdonmartin fuel 1 loaf of soda bread");
 			} else {
-				cli_execute("abort");
+				abort();
 				break;
 			}
+		}
+		boolean asdonBeanbagFreeKill = true;
+		fuelTarget = fuelTarget + 100;
+		//pref for asdonbean
+		while (!get_property("_missileLauncherUsed").to_boolean() && get_fuel() < fuelTarget) {
+			//fuel up
+			if (available_amount($item[20-lb can of rice and beans]) > 0) {
+				cli_execute("asdonmartin fuel 1 20-lb can of rice and beans");
+			} else if (available_amount($item[loaf of soda bread]) > 0) {
+				cli_execute("asdonmartin fuel 1 loaf of soda bread");
+			} else if (available_amount($item[9948]) > 0) {
+				//Middle of the Road Brand Whiskey from NEP
+				cli_execute("asdonmartin fuel 1 Middle of the Road™ brand whiskey");
+			} else if (available_amount($item[PB&J with the crusts cut off]) > 0) {
+				cli_execute("asdonmartin fuel 1 PB&J with the crusts cut off");
+			} else if (available_amount($item[swamp haunch]) > 0) {
+				cli_execute("asdonmartin fuel 1 swamp haunch");
+			} else if (my_meat() >= 120) {
+				cli_execute("make 1 loaf of soda bread");
+				cli_execute("asdonmartin fuel 1 loaf of soda bread");
+			} else {
+				asdonBeanbagFreeKill = false;
+				break;
+			}
+		}
+		if (!get_property("_missileLauncherUsed").to_boolean() && asdonBeanbagFreeKill) {
+			//NEP free kill handle
+			if (c2t_hccs_levelingFamiliar(false) == $familiar[melodramedary] && available_amount($item[dromedary drinking helmet]) > 0)
+				fam = "";
+			else if (available_amount($item[tiny stillsuit]) > 0)
+				fam = ",equip tiny stillsuit";
+
+			//backup fights will turns this off after a point, so keep turning it on
+			if (get_property('garbageShirtCharge').to_int() > 0)
+				garbage = ",equip garbage shirt";
+			else
+				garbage = "";
+
+			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam,false);
+			adv1($location[the neverending party],-1,"");
 		}
 	}
 
@@ -2592,6 +2726,7 @@ void c2t_hccs_fights() {
 }
 
 boolean c2t_hccs_wandererFight() {
+	print("Testing wanderer", "teal");
 	//don't want to be doing wanderer whilst feeling lost
 	if (have_effect($effect[feeling lost]) > 0) {
 		print("Currently feeling lost, so skipping wanderer(s).","blue");
@@ -2599,13 +2734,19 @@ boolean c2t_hccs_wandererFight() {
 	}
 
 	string append = ",-equip garbage shirt,exp";
-	if (c2t_isVoterNow())
+	if (c2t_isVoterNow()) {
 		append += ",equip i voted";
+		print("Vote wanderer", "teal");
+	}
 	//kramco should not be done here when only the coil wire test is done, otherwise the professor chain will fail
-	else if (c2t_isSausageGoblinNow() && get_property('csServicesPerformed') != TEST_NAME[TEST_COIL_WIRE])
+	else if (c2t_isSausageGoblinNow() && get_property('csServicesPerformed') != TEST_NAME[TEST_COIL_WIRE]) {
 		append += ",equip kramco";
-	else
+		print("Sausage wanderer", "teal");
+	}
+	else {
+		print("No wanderers found", "teal");
 		return false;
+	}
 
 	if (turns_played() == 0)
 		c2t_hccs_getEffect($effect[feeling excited]);
@@ -2620,9 +2761,10 @@ boolean c2t_hccs_wandererFight() {
 	familiar nowFam = my_familiar();
 	item nowEquip = equipped_item($slot[familiar]);
 
-	if (c2t_hccs_levelingFamiliar(false) == $familiar[melodramedary])
+	if (c2t_hccs_levelingFamiliar(false) == $familiar[melodramedary] && available_amount($item[dromedary drinking helmet]) > 0)
 		append += ",equip dromedary drinking helmet";
-
+	else if (available_amount($item[tiny stillsuit]) > 0)
+		append += ",equip tiny stillsuit";
 	set_location($location[the neverending party]);
 	maximize("mainstat,exp,6 bonus designer sweatpants"+append,false);
 	adv1($location[the neverending party],-1,"");
