@@ -823,8 +823,9 @@ boolean c2t_hccs_buffExp() {
 	}
 	else if (my_primestat() == $stat[mysticality]) {
 		//exp buff via pizza or wish
-		if (!c2t_hccs_pizzaCube($effect[different way of seeing things]))
-			c2t_hccs_genie($effect[different way of seeing things]);
+		if (my_class() != $class[pastamancer])
+			if (!c2t_hccs_pizzaCube($effect[different way of seeing things]))
+				c2t_hccs_genie($effect[different way of seeing things]);
 
 		// mys exp synthesis
 		// if (!c2t_hccs_sweetSynthesis($effect[synthesis: learning]))
@@ -833,7 +834,7 @@ boolean c2t_hccs_buffExp() {
 		//face
 		c2t_hccs_getEffect($effect[inscrutable gaze]);
 
-		if (numeric_modifier('mysticality experience percent') < 59.999) {
+		if (numeric_modifier('mysticality experience percent') < 9.999) {
 			abort('Insufficient +exp%');
 			return false;
 		}
