@@ -2364,6 +2364,14 @@ void c2t_hccs_fights() {
 		//Finish quest cuz might as well
 		use(1,$item[closed-circuit pay phone]);
 	}
+	//Lasagmbie
+	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Lasagmbie])) {
+		if (my_thrall() != $thrall[Lasagmbie]) {
+			if (my_mp() < 250)
+				cli_execute('eat magical sausage');
+			c2t_hccs_haveUse($skill[Bind Lasagmbie]);
+		}
+	}
 	//locket 1 Witchess Witch for battle broom
 	//If ever removed, look at oliver's den bowl sideways. Atm, it leaves 2 NEP fights without bowl sideways.
 	if (available_amount($item[Battle broom]) == 0) {
@@ -2386,24 +2394,9 @@ void c2t_hccs_fights() {
 		c2t_hccs_getEffect($effect[tenacity of the snapper]);
 		if (have_skill($skill[song of the north])) //(dread song, not AT song)
 			c2t_hccs_getEffect($effect[song of the north]);
-		//moxie thrall - Penne Dreadful
-		if (my_class() == $class[pastamancer] && have_skill($skill[Bind Penne Dreadful])) {
-			if (my_thrall() != $thrall[Penne Dreadful]) {
-				if (my_mp() < 150)
-					cli_execute('eat magical sausage');
-				c2t_hccs_haveUse($skill[Bind Penne Dreadful]);
-			}
-		}
+
 		
 		c2t_hccs_combatLoversLocket($monster[Witchess Witch]);
-	}
-	//Lasagmbie
-	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Lasagmbie])) {
-		if (my_thrall() != $thrall[Lasagmbie]) {
-			if (my_mp() < 250)
-				cli_execute('eat magical sausage');
-			c2t_hccs_haveUse($skill[Bind Lasagmbie]);
-		}
 	}
 
 	if (c2t_hccs_backupCamera() && get_property('backupCameraMode') != 'ml')

@@ -277,8 +277,7 @@ void main(int initround, monster foe, string page) {
 			//Witchess Witch
 			case $monster[Witchess Witch]:
 				c2t_bbSubmit(
-					mHead
-					.c2t_hccs_bowlSideways()
+					mHead + mBasicTop
 					.c2t_bbWhile("!pastround 20","attack;")
 				);
 				return;
