@@ -229,13 +229,13 @@ void main (int id,string page) {
 		//labyrinth of shadows
 		/*
 		Calling Rufus
-		1: boss quest (not free)
+		1: boss quest (free)
 		2: artifact quest
 		3: item quest
 		4: hang up
 		*/
 		case 1497:
-			run_choice(2);
+			run_choice(1);
 			break;
 		case 1498:
 			run_choice(1);//finish quest

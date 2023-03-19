@@ -823,7 +823,7 @@ boolean c2t_hccs_buffExp() {
 	}
 	else if (my_primestat() == $stat[mysticality]) {
 		//exp buff via pizza or wish
-		if (my_class() != $class[pastamancer])
+		//if (my_class() != $class[pastamancer])
 			if (!c2t_hccs_pizzaCube($effect[different way of seeing things]))
 				c2t_hccs_genie($effect[different way of seeing things]);
 
