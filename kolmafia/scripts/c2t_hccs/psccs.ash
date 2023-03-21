@@ -1943,11 +1943,16 @@ boolean c2t_hccs_preSpell() {
 	//need to figure out pulls
 	if (!in_hardcore() && pulls_remaining() > 0) {
 		//lazy way for now
+		/*
+		$item[Staff of the Roaring Hearth])>0) {
+			cli_execute("outfit CS_PM_roaringhearth_glitch");
+		} else if(available_amount($item[Staff of Kitchen Royalty])>0) {
+		*/
 		boolean [item] derp;
-		if (available_amount($item[astral statuette]) == 0)
-			derp = $items[cold stone of hatred,fuzzy slippers of hatred,lens of hatred,witch's bra];
+		if (available_amount($item[astral statuette]) == 0 && available_amount($item[Staff of the Roaring Hearth]) ==0 && available_amount($item[Staff of Kitchen Royalty]) == 0)
+			derp = $items[cold stone of hatred,witch's bra,lens of hatred,fuzzy slippers of hatred];
 		else
-			derp = $items[fuzzy slippers of hatred,lens of hatred,witch's bra];
+			derp = $items[witch's bra,lens of hatred,fuzzy slippers of hatred];
 
 		foreach x in derp {
 			if (pulls_remaining() == 0)
