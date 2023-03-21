@@ -274,10 +274,10 @@ void main(int initround, monster foe, string page) {
 				c2t_bbSubmit(mHead + mSteal + mBasic);
 				//prob dont need to portscan cuz should never encounter
 				return;
-			//Witchess Witch
+			//Witchess Witch - delevelers lose more dmg than they save
 			case $monster[Witchess Witch]:
 				c2t_bbSubmit(
-					mHead + mBasicTop
+					mHead
 					.c2t_bbWhile("!pastround 20","attack;")
 				);
 				return;

@@ -2401,8 +2401,17 @@ void c2t_hccs_fights() {
 		if (have_skill($skill[song of the north])) //(dread song, not AT song)
 			c2t_hccs_getEffect($effect[song of the north]);
 
-		
+		//30% physical dmg reduction
+		c2t_hccs_getEffect($effect[Shield of the Pastalord]);
+
+		//DA buffs
+		c2t_hccs_getEffect($effect[Astral Shell]);
+		c2t_hccs_getEffect($effect[Ghostly Shell]);
+
 		c2t_hccs_combatLoversLocket($monster[Witchess Witch]);
+
+		if (have_skill($skill[song of the north])) //bravado gets replaced by song of the north
+			c2t_hccs_getEffect($effect[song of bravado]);
 	}
 
 	if (c2t_hccs_backupCamera() && get_property('backupCameraMode') != 'ml')
