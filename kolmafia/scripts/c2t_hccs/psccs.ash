@@ -1949,7 +1949,8 @@ boolean c2t_hccs_preSpell() {
 		} else if(available_amount($item[Staff of Kitchen Royalty])>0) {
 		*/
 		boolean [item] derp;
-		if (available_amount($item[astral statuette]) == 0 && available_amount($item[Staff of the Roaring Hearth]) ==0 && available_amount($item[Staff of Kitchen Royalty]) == 0)
+		if (available_amount($item[astral statuette]) == 0 && (available_amount($item[Staff of the Roaring Hearth]) == 0 && equipped_amount($item[Staff of the Roaring Hearth]) == 0)
+		 && (available_amount($item[Staff of Kitchen Royalty]) == 0 && equipped_amount($item[Staff of Kitchen Royalty]) == 0))
 			derp = $items[cold stone of hatred,witch's bra,lens of hatred,fuzzy slippers of hatred];
 		else
 			derp = $items[witch's bra,lens of hatred,fuzzy slippers of hatred];
