@@ -38,12 +38,14 @@ To install, run the following on the gCLI:
 * a source of free crafts. One of the skills that give 5 is enough.
 * Likely requires oliver's place + machine elf to hit leveling targets. 
 * Whitelisted to Redemption City. All hardcoded clan swaps (for machine elf and clan consults) are commented. Cmd f to replace
+* Leveling has been made extremely tight. Likely requires NEP, closed-circuit pay phone, machine elf, source terminal (less so), oliver's place.
 
 ## Non-exhaustive PSCCS optional elements
 * supports repaid diaper or great wolf beastly trousers as pull
 * Cmd f for a comment named `//CLAN VIP CONSULT HANDLING` and modify `//word match for Icawn` to support whatever bot you desire. Won't matter if you disable consults 
 * If you own Staff of the Roaring Hearth, create an outfit named `CS_PM_roaringhearth_glitch` with cheffstaff in mainhand and stickknife in offhand
 * If you don't own sorceror of the shore grimoire. You can prestock a tobiko marble soda before ascending and it will pull and use. Will not fail if you don't prestock.
+* Witch's Bra will save 1 turn
 
 ## Usage
 
