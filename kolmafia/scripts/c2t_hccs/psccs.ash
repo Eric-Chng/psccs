@@ -1038,7 +1038,7 @@ boolean c2t_hccs_allTheBuffs() {
 	use_skill(1, $skill[Empathy of the Newt]);
 
 	//telescope
-	if (get_property("telescopeUpgrades").to_int() > 0)
+	if (get_property("telescopeUpgrades").to_int() > 0 && !get_property("telescopeLookedHigh").to_boolean())
 		cli_execute('telescope high');
 
 	//Song of Bravado
