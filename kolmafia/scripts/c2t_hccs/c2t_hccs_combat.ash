@@ -91,7 +91,7 @@ void main(int initround, monster foe, string page) {
 			m += c2t_bb($skill[become a cloud of mist]);
 			m += c2t_bb($skill[fire extinguisher: foam yourself]);
 			m.c2t_bbSubmit();
-		} else if (my_location() == $location[thugnderdome]) { // leftover from before i put hot before weapon
+		} else if (my_location() == $location[Shadow Rift (The Right Side of the Tracks)]) { // leftover from before i put hot before weapon
 			m = mHead + mSteal.c2t_bb($skill[meteor shower]);
 			m.c2t_bbSubmit();
 		}
@@ -104,7 +104,7 @@ void main(int initround, monster foe, string page) {
 		return;
 	}
 	//saber random thing at this location for meteor shower buff -- saber happens elsewhere
-	else if (my_location() == $location[thugnderdome]) {
+	else if (my_location() == $location[Shadow Rift (The Right Side of the Tracks)]) {
 		m = mHead + mSteal.c2t_bb($skill[meteor shower]);
 
 		//camel spit for weapon test, which is directly after combat test

@@ -1,7 +1,6 @@
-//c2t hccs
-//c2t
+//psccs
 
-since r26624;//tiny stillsuit
+since r27280;//closed-circuit pay phone
 
 import <c2t_hccs_lib.ash>
 import <c2t_hccs_resources.ash>
@@ -13,6 +12,11 @@ import <c2t_cast.ash>
 
 int START_TIME = now_to_int();
 
+//these are hardcoded into combat.ash as well
+//Shadow rift leveling spot. Drops slightly more valuable
+location shadowLevelingLoc = $location[Shadow Rift (The Nearby Plains)];
+//Shadow rift 100% combat (for our purposes since boss replaces NC) zone so we aren't hardbound to thugndergnome
+location shadow100Zone = $location[Shadow Rift (The Right Side of the Tracks)];
 
 //wtb enum
 int TEST_HP = 1;
@@ -1040,7 +1044,7 @@ boolean c2t_hccs_allTheBuffs() {
 	use_skill(1, $skill[Empathy of the Newt]);
 
 	//telescope
-	if (get_property("telescopeUpgrades").to_int() > 0)
+	if (get_property("telescopeUpgrades").to_int() > 0 && !get_property("telescopeLookedHigh").to_boolean())
 		cli_execute('telescope high');
 
 	//Song of Bravado
@@ -1721,7 +1725,7 @@ boolean c2t_hccs_preWeapon() {
 				print("Couldn't fight ungulith to get corrupted marrow","red");
 		}
 		if (fallback)
-			adv1($location[thugnderdome],-1,"");//everything is saberable and no crazy NCs
+			adv1(shadow100Zone,-1,"");//everything is saberable and no crazy NCs
 	}
 
 	c2t_hccs_getEffect($effect[cowrruption]);
@@ -1890,7 +1894,7 @@ boolean c2t_hccs_preSpell() {
 	if (have_skill($skill[meteor lore]) && have_effect($effect[meteor showered]) == 0 && get_property('_saberForceUses').to_int() < 5) {
 		c2t_hccs_levelingFamiliar(true);
 		maximize("mainstat,equip fourth of may cosplay saber",false);
-		adv1($location[thugnderdome],-1,"");//everything is saberable and no crazy NCs
+		adv1(shadow100Zone,-1,"");//everything is saberable and no crazy NCs
 	}
 
 	if (have_skill($skill[deep dark visions]) && have_effect($effect[visions of the deep dark deeps]) == 0) {
@@ -2108,6 +2112,7 @@ boolean c2t_hccs_preMox() {
 		use(1, $item[Bird-a-Day calendar]);
 		use_skill(1, $skill[7323]);
 	}
+	c2t_hccs_getEffect($effect[Disco Fever]);
 	if (c2t_hccs_thresholdMet(TEST_MOX))
 		return true;
 
@@ -2343,7 +2348,7 @@ void c2t_hccs_fights() {
 			maximize("mainstat,exp,equip Fourth of May Cosplay Saber,6 bonus designer sweatpants"+garbage+fam,false);
 		else
 			maximize("mainstat,exp,-equip kramco,-equip i voted,equip June Cleaver,6 bonus designer sweatpants"+garbage+fam,false);
-		adv1($location[Shadow Rift (The Right Side of the Tracks)],-1,"");
+		adv1(shadowLevelingLoc,-1,"");
 	}
 	//Shadow Boss. Deprecated since it takes a turn (shadow affinity runs out by 12th combat)
 	if (get_property("_psccs_shadowRiftBossAttempted") == "" && get_property("rufusQuestType") == "entity") {
@@ -2368,9 +2373,8 @@ void c2t_hccs_fights() {
 		}
 		
 		set_property("_psccs_shadowRiftBossAttempted","entityFought");
-		adv1($location[Shadow Rift (The Right Side of the Tracks)],-1,"");
-		//Finish quest cuz might as well
-		use(1,$item[closed-circuit pay phone]);
+		adv1(shadowLevelingLoc,-1,"");
+		//Save finishing quest for after script (to prevent having to deal with quest rewards)
 	}
 	//Lasagmbie
 	if (my_class() == $class[pastamancer] && have_skill($skill[Bind Lasagmbie])) {
@@ -2728,7 +2732,8 @@ void c2t_hccs_fights() {
 		// 	default:
 		// 		abort('something broke with moon sign changing');
 		// }
-		//for 20% meat
+		//gogogo = 7 - wombat for 20% meat
+		//			4 - platypus for 5 fam weight (not gnome)
 		gogogo = 7;
 		cog = 2;
 		tank = 2;
