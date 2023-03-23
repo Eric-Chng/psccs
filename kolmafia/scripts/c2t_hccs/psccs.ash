@@ -680,6 +680,8 @@ boolean c2t_hccs_preCoil() {
 		if (c2t_hccs_pizzaCube())
 			autosell(5,$item[porquoise]);
 	}
+	if (my_meat() < 1000)
+		autosell(1,$item[porquoise]);
 
 	//buy toy accordion
 	if (my_class() != $class[accordion thief])
@@ -1038,7 +1040,7 @@ boolean c2t_hccs_allTheBuffs() {
 	use_skill(1, $skill[Empathy of the Newt]);
 
 	//telescope
-	if (get_property("telescopeUpgrades").to_int() > 0 && !get_property("telescopeLookedHigh").to_boolean())
+	if (get_property("telescopeUpgrades").to_int() > 0)
 		cli_execute('telescope high');
 
 	//Song of Bravado
