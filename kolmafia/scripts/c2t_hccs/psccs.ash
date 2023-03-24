@@ -1732,7 +1732,7 @@ boolean c2t_hccs_preWeapon() {
 
 	c2t_hccs_getEffect($effect[engorged weapon]);
 
-	//Cast Favorite Bird from Bird-A-Day. Assumes a weapon damage favorite bird.
+	//Cast Seek Bird from Bird-A-Day. Assumes a weapon damage favorite bird.
 	if (have_skill($skill[Visit your Favorite Bird])) {
 		// use_skill(1, $skill[Visit your Favorite Bird]); //save for later
 		if (my_class() == $class[pastamancer]) {
@@ -1785,6 +1785,11 @@ boolean c2t_hccs_preWeapon() {
 	}
 
 	maximize('weapon damage,switch left-hand man,-weapon',false);
+
+	if (c2t_hccs_thresholdMet(TEST_WEAPON))
+		return true;
+
+	acquireInnerElf();
 
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
 		return true;
@@ -2734,7 +2739,7 @@ void c2t_hccs_fights() {
 		// }
 		//gogogo = 7 - wombat for 20% meat
 		//			4 - platypus for 5 fam weight (not gnome)
-		gogogo = 7;
+		gogogo = 4;
 		cog = 2;
 		tank = 2;
 		if (c2t_hccs_pizzaCube()) {
