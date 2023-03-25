@@ -1680,7 +1680,8 @@ boolean c2t_hccs_preWeapon() {
 	if (available_amount($item[punching potion]) > 0)
 		c2t_hccs_getEffect($effect[feeling punchy]);
 
-
+	//inner elf must be before meteor shower due to combat macro setup
+	acquireInnerElf();
 
 	//meteor shower
 	if ((have_skill($skill[meteor lore]) && have_effect($effect[meteor showered]) == 0)
@@ -1786,10 +1787,7 @@ boolean c2t_hccs_preWeapon() {
 
 	maximize('weapon damage,switch left-hand man,-weapon',false);
 
-	if (c2t_hccs_thresholdMet(TEST_WEAPON))
-		return true;
-
-	acquireInnerElf();
+	
 
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
 		return true;
