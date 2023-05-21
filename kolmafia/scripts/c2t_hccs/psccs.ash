@@ -692,7 +692,7 @@ boolean c2t_hccs_preCoil() {
 		retrieve_item(1,$item[toy accordion]);
 
 	// equip mp stuff
-	maximize("mp,-equip kramco,-equip i voted",false);
+	maximize("mp,-equip kramco sausage-o-matic&trade;,-equip i voted",false);
 
 	// should have enough MP for this much; just being lazy here for now
 	c2t_hccs_getEffect($effect[the magical mojomuscular melody]);
@@ -919,7 +919,7 @@ boolean c2t_hccs_allTheBuffs() {
 
 	print('Getting pre-fight buffs','blue');
 	// equip mp stuff
-	maximize("mp,-equip kramco",false);
+	maximize("mp,-equip kramco sausage-o-matic&trade;",false);
 
 	if (have_effect($effect[one very clear eye]) == 0) {
 		while (c2t_hccs_wandererFight());//do vote monster if ready before spending turn
@@ -2350,7 +2350,7 @@ void c2t_hccs_fights() {
 		if (my_primestat() == $stat[mysticality])
 			maximize("mainstat,exp,equip Fourth of May Cosplay Saber,6 bonus designer sweatpants"+garbage+fam,false);
 		else
-			maximize("mainstat,exp,-equip kramco,-equip i voted,equip June Cleaver,6 bonus designer sweatpants"+garbage+fam,false);
+			maximize("mainstat,exp,-equip kramco sausage-o-matic&trade;,-equip i voted,equip June Cleaver,6 bonus designer sweatpants"+garbage+fam,false);
 		adv1(shadowLevelingLoc,-1,"");
 	}
 	//Shadow Boss. Deprecated since it takes a turn (shadow affinity runs out by 12th combat)
@@ -2459,9 +2459,9 @@ void c2t_hccs_fights() {
 			c2t_hccs_levelingFamiliar(false);
 
 			if (get_property("_sourceTerminalPortscanUses").to_int() > 0)
-				maximize("mainstat,exp,equip garbage shirt,-equip kramco,-equip i voted,6 bonus designer sweatpants"+fam,false);
+				maximize("mainstat,exp,equip garbage shirt,-equip kramco sausage-o-matic&trade;,-equip i voted,6 bonus designer sweatpants"+fam,false);
 			else
-				maximize("mainstat,100exp,-equip garbage shirt,-equip kramco,equip i voted,6000 bonus designer sweatpants"+fam,false);
+				maximize("mainstat,100exp,-equip garbage shirt,-equip kramco sausage-o-matic&trade;,equip i voted,6000 bonus designer sweatpants"+fam,false);
 			adv1($location[An Unusually Quiet Barroom Brawl],-1,"");
 		}
 	}
@@ -2579,7 +2579,7 @@ void c2t_hccs_fights() {
 		// //professor chain sausage goblins in NEP first thing if no backup camera
 		// if (!c2t_hccs_backupCamera() && get_property('_pocketProfessorLectures').to_int() == 0) {
 		// 	use_familiar($familiar[pocket professor]);
-		// 	maximize("mainstat,equip garbage shirt,equip kramco,100familiar weight,6 bonus designer sweatpants",false);
+		// 	maximize("mainstat,equip garbage shirt,equip kramco sausage-o-matic&trade;,100familiar weight,6 bonus designer sweatpants",false);
 		// }
 		// //9+ professor copies, after getting exp buff from NC and used sauceror potions
 		// else if (get_property('_pocketProfessorLectures').to_int() == 0
@@ -2591,7 +2591,7 @@ void c2t_hccs_fights() {
 		// 	) {
 		//
 		// 	use_familiar($familiar[pocket professor]);
-		// 	maximize("mainstat,equip garbage shirt,equip kramco,100familiar weight,6 bonus designer sweatpants,equip backup camera",false);
+		// 	maximize("mainstat,equip garbage shirt,equip kramco sausage-o-matic&trade;,100familiar weight,6 bonus designer sweatpants,equip backup camera",false);
 		// }
 		// //fish for latte carrot ingredient with backup fights
 		// else if (get_property('_pocketProfessorLectures').to_int() > 0
@@ -2620,7 +2620,7 @@ void c2t_hccs_fights() {
 		if (c2t_hccs_backupCameraLeft() > 0 && get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin]) {
 			//only use kramco offhand if target is sausage goblin to not mess things up
 			if (get_property('lastCopyableMonster').to_monster() == $monster[sausage goblin])
-				kramco = ",equip kramco";
+				kramco = ",equip kramco sausage-o-matic&trade;";
 			else
 				kramco = "";
 
@@ -2632,7 +2632,7 @@ void c2t_hccs_fights() {
 		}
 		//rest of the free NEP fights
 		else
-			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam+doc,false);
+			maximize("mainstat,exp,equip kramco sausage-o-matic&trade;,6 bonus designer sweatpants"+garbage+fam+doc,false);
 
 		adv1($location[the neverending party],-1,"");
 	}
@@ -2699,7 +2699,7 @@ void c2t_hccs_fights() {
 			else
 				garbage = "";
 
-			maximize("mainstat,exp,equip kramco,6 bonus designer sweatpants"+garbage+fam,false);
+			maximize("mainstat,exp,equip kramco sausage-o-matic&trade;,6 bonus designer sweatpants"+garbage+fam,false);
 			adv1($location[the neverending party],-1,"");
 		}
 	}
@@ -2768,7 +2768,7 @@ boolean c2t_hccs_wandererFight() {
 	}
 	//kramco should not be done here when only the coil wire test is done, otherwise the professor chain will fail
 	else if (c2t_isSausageGoblinNow() && get_property('csServicesPerformed') != TEST_NAME[TEST_COIL_WIRE]) {
-		append += ",equip kramco";
+		append += ",equip kramco sausage-o-matic&trade;";
 		print("Sausage wanderer", "teal");
 	}
 	else {
