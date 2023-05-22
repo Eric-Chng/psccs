@@ -919,7 +919,7 @@ boolean c2t_hccs_allTheBuffs() {
 
 	print('Getting pre-fight buffs','blue');
 	// equip mp stuff
-	maximize("mp,-equip kramco sausage-o-matic&trade;",false);
+	maximize("-equip kramco sausage-o-matic&trade;,mp",false);
 
 	if (have_effect($effect[one very clear eye]) == 0) {
 		while (c2t_hccs_wandererFight());//do vote monster if ready before spending turn
