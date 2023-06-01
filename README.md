@@ -39,6 +39,7 @@ To install, run the following on the gCLI:
 * Likely requires oliver's place + machine elf to hit leveling targets. 
 * Whitelisted to Redemption City. All hardcoded clan swaps (for machine elf and clan consults) are commented. Cmd f to replace
 * Leveling has been made extremely tight. Likely requires NEP, closed-circuit pay phone, machine elf, source terminal (less so), oliver's place.
+* If you own comma chameleon, make sure you config homemade robot familiar to have + 100 fam weight
 
 ## Non-exhaustive PSCCS optional elements
 * supports repaid diaper or great wolf beastly trousers as pull
