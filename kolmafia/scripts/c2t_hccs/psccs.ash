@@ -2526,7 +2526,7 @@ void c2t_hccs_fights() {
 		if (my_level() >= 11 && item_amount($item[astral pilsner]) == 6) {
 			cli_execute('shrug Shanty of Superiority');
 			c2t_hccs_haveUse(1,$skill[the ode to booze]);
-			drink(5,$item[astral pilsner]);
+			drink(4,$item[astral pilsner]);
 			cli_execute('shrug Ode to Booze');
 			c2t_hccs_haveUse(1,$skill[stevedave's shanty of superiority]);
 		}
