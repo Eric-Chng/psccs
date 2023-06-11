@@ -1232,8 +1232,8 @@ boolean c2t_hccs_preItem() {
 		c2t_hccs_getEffect($effect[Crunching Leaves]);
 	}
 
-	//if familiar test is ever less than 19 turns, feel lost will need to be completely removed or the test order changed
-	c2t_hccs_getEffect($effect[feeling lost]);
+// 	//if familiar test is ever less than 19 turns, feel lost will need to be completely removed or the test order changed
+// 	c2t_hccs_getEffect($effect[feeling lost]);
 
 	//Libram
 	if (available_amount($item[lavender candy heart]) > 0 && have_effect($effect[Heart of Lavender]) == 0) {
