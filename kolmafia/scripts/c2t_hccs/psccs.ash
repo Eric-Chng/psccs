@@ -111,9 +111,10 @@ void main() {
 		//NC before familiar for the reward to save 4 turns
 		c2t_hccs_testHandler(TEST_NONCOMBAT);
 
-		//item before familiar to burn turns of feeling lost
+		//feeling lost removed
 		//item after NC/before familiar to burn autumn leaf +5% combat chance
 		c2t_hccs_testHandler(TEST_ITEM);
+		//ungulith fought here
 		c2t_hccs_testHandler(TEST_FAMILIAR);
 		//hot before weapon/spell to keep crush what i crush effect
 		c2t_hccs_testHandler(TEST_HOT_RES);
@@ -2266,8 +2267,8 @@ void c2t_hccs_fights() {
 	set_property('mpAutoRecoveryItems','');
 
 	//get crimbo ghost buff from dudes at NEP
-	if ((have_familiar($familiar[ghost of crimbo carols]) && have_effect($effect[holiday yoked]) == 0)
-		|| (my_primestat() == $stat[moxie] && have_effect($effect[unrunnable face]) == 0 && item_amount($item[runproof mascara]) == 0)//to nostalgia runproof mascara
+	//(have_familiar($familiar[ghost of crimbo carols]) && have_effect($effect[holiday yoked]) == 0) ||
+	if ((my_primestat() == $stat[moxie] && have_effect($effect[unrunnable face]) == 0 && item_amount($item[runproof mascara]) == 0)//to nostalgia runproof mascara
 		) {
 
 		if (get_property('_latteDrinkUsed').to_boolean())
