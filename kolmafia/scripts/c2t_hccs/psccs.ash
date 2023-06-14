@@ -2080,6 +2080,12 @@ boolean c2t_hccs_preMus() {
 		cli_execute("use philter of phorce");
 	}
 
+	if (c2t_hccs_thresholdMet(TEST_MUS)) return true;
+
+	//beach comb weapon buff
+	if (available_amount($item[beach comb]) > 0)
+	 	c2t_hccs_getEffect($effect[lack of body-building]);
+
 	return c2t_hccs_thresholdMet(TEST_MUS);
 }
 
