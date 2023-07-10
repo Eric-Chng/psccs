@@ -685,7 +685,7 @@ boolean c2t_hccs_preCoil() {
 		if (c2t_hccs_pizzaCube())
 			autosell(5,$item[porquoise]);
 	}
-	if (my_meat() < 1000)
+	if (my_meat() < 1500)
 		autosell(1,$item[porquoise]);
 
 	//buy toy accordion
